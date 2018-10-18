@@ -2,7 +2,7 @@ package Terminal;
 
 import DB.RaceDB;
 import DB.RaceDB.Behavior;
-public class Race {
+public class Race implements WithName{
 
     private String _name;
     private long _amount;

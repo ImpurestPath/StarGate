@@ -1,6 +1,6 @@
 package Terminal;
 
-public class User {
+public class User implements WithName {
     private String name;
     public Planet planet;
 
@@ -8,7 +8,7 @@ public class User {
         this.name = name;
         this.planet = planet;
     }
-
+    public String getName(){ return name;}
     public Planet getPlanet() {
         return planet;
     }

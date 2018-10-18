@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Country {
+public class Country implements WithName{
     private String _name;
     private long _area;
     private long _amountAlive;

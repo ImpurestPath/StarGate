@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Planet{
+public class Planet implements WithName{
     private static final double AREAANGRYPERSENT = 0.4;
     private static final double AMOUNTANGRYPERSENT = 0.5;
     private final Behavior _behavior;
@@ -63,7 +63,7 @@ public class Planet{
     }
 
     private Behavior calculateBehavior() {
-        if (_amountAlive == 0) return Behavior.NEUTRAL;
+        if (_amountAlive == 0 || _area == 0) return Behavior.NEUTRAL;
         long areaAngry = 0,
                 amountAngry = 0;
         for (Country country :

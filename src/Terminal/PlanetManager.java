@@ -16,9 +16,9 @@ public class PlanetManager {
     public PlanetManager(String file) throws ExceptionDAO {
         this._db = new XMLPlanetManager(file);
         this._planets = new ArrayList<>();
-        getAllPlanetsFromDB();
+        getAllFromDB();
     }
-    private void getAllPlanetsFromDB() throws ExceptionDAO {
+    private void getAllFromDB() throws ExceptionDAO {
         _planets.clear();
         for (PlanetDB planetDB :
                 _db.getAll()) {
@@ -59,9 +59,14 @@ public class PlanetManager {
     public boolean update(int id, Planet planet) throws ExceptionDAO {
         boolean successful = _db.update(id,new PlanetDB(planet));
         if (successful) {
+            int count = 0;
             for (Planet planetItem :
                     _planets) {
-                if (planetItem.getId() == id) planetItem = planet;
+                if (planetItem.getId() == id) {
+                    _planets.set(count,planet);
+                    break;
+                }
+                count++;
             }
         }
         return successful;

@@ -5,8 +5,8 @@ import DB.LanguageDB;
 import Terminal.*;
 
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -68,7 +68,7 @@ public class Console {
     }
 
     private void viewPlanet(Planet planet) {
-        System.out.printf("ID: %d\n",planet.getId());
+        System.out.printf("ID: %d\n", planet.getId());
         System.out.printf("Name: %s\n", planet.getName());
         System.out.printf("Behavior: %s\n", planet.getBehavior().toString());
         System.out.printf("Temperature: %d\n", planet.getTemperature());
@@ -89,7 +89,7 @@ public class Console {
         while (true) {
             System.out.printf("Page %d\n", page);
             List<Planet> planets = planetManager.getAll();
-            for (int i = 5 * (page - 1) + 1 ; i <= 5 * page && i <= planetManager.amountPlanets(); i++) {
+            for (int i = 5 * (page - 1) + 1; i <= 5 * page && i <= planetManager.amountPlanets(); i++) {
                 int count = 1;
                 for (Planet planet :
                         planets) {
@@ -218,7 +218,7 @@ public class Console {
             System.out.println("2.Add country");
             switch (scanner.nextInt()) {
                 case 0:
-                    return new Planet(name,temperature,pressure,languages,countries);
+                    return new Planet(name, temperature, pressure, languages, countries);
                 case 1:
                     languages.add(addLanguage());
                     break;
@@ -292,6 +292,162 @@ public class Console {
         }
     }
 
+    private <T extends WithName> int findT(List<T> tList, String name) {
+        int count = 0;
+        for (T t :
+                tList) {
+            if (t.getName().equals(name)) return count;
+            count++;
+        }
+        return -1;
+    }
+    private <T extends WithName> void deleteT(List<T> tList, String name){
+        //Maybe print name
+        int i = findT(tList,name);
+        if (i != -1) tList.remove(i);
+        else System.out.println("No such object");
+    }
+    private void updateRace(List<Race> races){
+        viewRaces(races);
+        System.out.println("Type name of race");
+        int i = findT(races, scanner.next());
+        if (i == -1) {
+            System.out.println("No such race");
+            return;
+        }
+        Race oldRace = races.get(i);
+        System.out.println("Name:(0 for origin)");
+        String name = scanner.next();
+        System.out.println("Amount:(0 for origin) ");
+        long amount = scanner.nextLong();
+        System.out.println("Behavior: ");
+        System.out.println("0.Origin");
+        System.out.println("1.Angry");
+        System.out.println("2.Neutral");
+        boolean behavior;
+        while (true) {
+            switch (scanner.nextInt()) {
+                case 0:
+                    behavior = oldRace.getBoolBehavior();
+                    break;
+                case 1:
+                    behavior = true;
+                    break;
+                case 2:
+                    behavior = false;
+                    break;
+                default:
+                    continue;
+            }
+            break;
+        }
+        races.set(i,new Race(name.equals("0")?oldRace.getName():name,amount == 0 ? oldRace.getAmount():amount,behavior));
+
+    }
+    private void updateCountry(List<Country> countries) {
+        viewCountries(countries);
+        System.out.println("Type name of country");
+        int i = findT(countries, scanner.next());
+        if (i == -1) {
+            System.out.println("No such country");
+            return;
+        }
+        Country oldCountry = countries.get(i);
+        System.out.println("Name:(0 for origin)");
+        String name = scanner.next();
+        System.out.println("Area:(0 for origin) ");
+        long area = scanner.nextLong();
+        List<Race> races = new ArrayList<>(oldCountry.getRaces());
+        while (true) {
+            System.out.println("Choose: ");
+            System.out.println("0.Finish");
+            System.out.println("1.Add race");
+            System.out.println("2.Update race");
+            System.out.println("3.Delete race");
+            switch (scanner.nextInt()) {
+                case 0:
+                    System.out.println("Successful");
+                    countries.set(i, new Country(name.equals("0") ? oldCountry.getName() : name, area == 0 ? oldCountry.getArea() : area, races));
+                    return;
+                case 1:
+                    races.add(addRace());
+                    break;
+                case 2:
+                    updateRace(races);
+                    break;
+                case 3:
+                    viewRaces(races);
+                    System.out.println("Type name of race:");
+                    deleteT(races,scanner.next());
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    private void updateLanguage(List<Language> languages) {
+        viewLanguages(languages);
+        System.out.println("Name of language:");
+        int i = findT(languages, scanner.next());
+        if (i == -1) {
+            System.out.println("No planet with this name");
+            return;
+        }
+        Language oldLanguage = languages.get(i);
+        viewLanguage(oldLanguage);
+        System.out.println("Name:(0 for origin)");
+        String name = scanner.next();
+        System.out.println("Type: ");
+        System.out.println("0.Origin");
+        System.out.println("1.Voice");
+        System.out.println("2.Visual");
+        System.out.println("3.Vibration");
+        LanguageDB.Type type;
+        while (true) {
+            switch (scanner.nextInt()) {
+                case 0:
+                    type = oldLanguage.getType();
+                    break;
+                case 1:
+                    type = LanguageDB.Type.VOICE;
+                    break;
+                case 2:
+                    type = LanguageDB.Type.VISUAL;
+                    break;
+                case 3:
+                    type = LanguageDB.Type.VIBRATION;
+                    break;
+                default:
+                    continue;
+            }
+            break;
+        }
+        System.out.println("Dictionary:");
+        System.out.println("0. Origin");
+        System.out.println("1. Available");
+        System.out.println("2. Unavailable");
+        boolean available;
+        while (true) {
+            switch (scanner.nextInt()) {
+                case 0:
+                    available = oldLanguage.isAvailableDictionary();
+                    break;
+                case 1:
+                    available = true;
+                    break;
+                case 2:
+                    available = false;
+                    break;
+                default:
+                    continue;
+            }
+            break;
+        }
+        System.out.println("Successful");
+        languages.set(i, new Language(name.equals("0") ? oldLanguage.getName() : name, type, available));
+    }
+
     private void updatePlanet() throws ExceptionDAO {
         System.out.println("Enter id of planet (0 to see available planets, -1 for exit)");
         int choose = scanner.nextInt();
@@ -300,8 +456,54 @@ public class Console {
             updatePlanet();
         } else if (choose > 0) {
             if (planetManager.hasPlanet(choose)) {
-                viewPlanet(planetManager.get(choose));
-                planetManager.update(choose, buildPlanet());
+                Planet oldPlanet = planetManager.get(choose);
+                viewPlanet(oldPlanet);
+                System.out.println("Name:(0 for origin) ");
+                String name = scanner.next();
+                System.out.println("Temperature:(0 for origin) ");
+                int temperature = scanner.nextInt();
+                System.out.println("Pressure:(0 for origin) ");
+                long pressure = scanner.nextLong();
+                List<Language> languages = new ArrayList<>(oldPlanet.getLanguages());
+                List<Country> countries = new ArrayList<>(oldPlanet.getCountries());
+                while (true) {
+                    System.out.println("0.Finish");
+                    System.out.println("1.Add language");
+                    System.out.println("2.Add country");
+                    System.out.println("3.Delete language");
+                    System.out.println("4.Delete country");
+                    System.out.println("5.Update language");
+                    System.out.println("6.Update country");
+                    switch (scanner.nextInt()) {
+                        case 0:
+                            planetManager.update(choose, new Planet(name.equals("0") ? oldPlanet.getName() : name, temperature == 0 ? oldPlanet.getTemperature() : temperature, pressure == 0 ? oldPlanet.getPressure() : pressure, languages, countries));
+                            return;
+                        case 1:
+                            languages.add(addLanguage());
+                            break;
+                        case 2:
+                            countries.add(addCountry());
+                            break;
+                        case 3:
+                            viewLanguages(languages);
+                            System.out.println("Type name of language");
+                            deleteT(languages,scanner.next());
+                            break;
+                        case 4:
+                            viewCountries(countries);
+                            System.out.println("Type name of language");
+                            deleteT(countries,scanner.next());
+                            break;
+                        case 5:
+                            updateLanguage(languages);
+                            break;
+                        case 6:
+                            updateCountry(countries);
+                            break;
+                        default:
+                            break;
+                    }
+                }
             } else {
                 System.out.println("No planet with this id");
                 updatePlanet();

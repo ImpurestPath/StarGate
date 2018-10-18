@@ -20,7 +20,7 @@ public class RaceDB {
     public RaceDB(Race race){
         this._name = race.getName();
         this._amount = race.getAmount();
-        this._behavior = getBehavior();
+        this._behavior = race.getBehavior();
     }
 
     public long getAmount() {

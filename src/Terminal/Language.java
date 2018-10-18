@@ -3,7 +3,7 @@ package Terminal;
 import DB.LanguageDB;
 import DB.LanguageDB.Type;
 
-public class Language {
+public class Language implements WithName{
 
 
     private final String _name;
