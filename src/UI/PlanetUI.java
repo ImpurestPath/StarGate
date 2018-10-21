@@ -7,12 +7,18 @@ import Terminal.Race;
 
 import java.util.List;
 
-public class PlanetUI {
+class PlanetUI {
     private final Planet planet;
-    PlanetUI(Planet planet){
+
+    PlanetUI(Planet planet) {
         this.planet = planet;
     }
-    void view(){
+
+    Planet getPlanet() {
+        return planet;
+    }
+
+    void view() {
         System.out.println("FromUI");
         System.out.printf("ID: %d\n", planet.getId());
         System.out.printf("Name: %s\n", planet.getName());
@@ -27,9 +33,7 @@ public class PlanetUI {
         }
         System.out.println();
     }
-    Planet getPlanet(){
-        return planet;
-    }
+
     static void viewCountries(List<Country> countries) {
         System.out.println("\tCountries:");
         for (Country country :
@@ -37,6 +41,7 @@ public class PlanetUI {
             viewCountry(country);
         }
     }
+
     static void viewLanguage(Language language) {
         System.out.printf("\t\tName: %s\n", language.getName());
         System.out.printf("\t\tType: %s\n", language.getType().toString());
@@ -51,7 +56,8 @@ public class PlanetUI {
             viewLanguage(language);
         }
     }
-    static void viewRace(Race race) {
+
+    private static void viewRace(Race race) {
         System.out.printf("\t\t\t\tName: %s\n", race.getName());
         System.out.printf("\t\t\t\tBehavior: %s\n", race.getBehavior().toString());
         System.out.printf("\t\t\t\tAmount: %d\n", race.getAmount());
@@ -66,7 +72,7 @@ public class PlanetUI {
         }
     }
 
-    static void viewCountry(Country country) {
+    private static void viewCountry(Country country) {
         System.out.printf("\t\tName: %s\n", country.getName());
         System.out.printf("\t\tBehavior: %s\n", country.getBehavior().toString());
         System.out.printf("\t\tArea: %d\n", country.getArea());

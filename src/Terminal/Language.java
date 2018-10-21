@@ -3,19 +3,20 @@ package Terminal;
 import DB.LanguageDB;
 import DB.LanguageDB.Type;
 
-public class Language implements WithName{
+public class Language implements WithName {
 
 
     private final String _name;
     private final boolean _availableDictionary;
-    private Type _type;
+    private final Type _type;
 
     public Language(String name, Type type, boolean availableDictionary) {
         this._name = name;
         this._type = type;
         this._availableDictionary = availableDictionary;
     }
-    public Language(LanguageDB languageDB){
+
+    Language(LanguageDB languageDB) {
         this._name = languageDB.getName();
         this._type = languageDB.getType();
         this._availableDictionary = languageDB.isAvailableDictionary();

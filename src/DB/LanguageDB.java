@@ -13,17 +13,19 @@ public class LanguageDB {
     private final boolean _availableDictionary;
     private final Type _type;
 
-    public LanguageDB(String name, Type type, boolean availableDictionary) {
+    LanguageDB(String name, Type type, boolean availableDictionary) {
         this._name = name;
         this._type = type;
         this._availableDictionary = availableDictionary;
     }
-    public LanguageDB(String name, String type, int availableDictionary) {
+
+    LanguageDB(String name, String type, int availableDictionary) {
         this._name = name;
-        this._type = type.equals("VISUAL") ? Type.VISUAL : type.equals("VOICE")? Type.VOICE : Type.VIBRATION;
+        this._type = type.equals("VISUAL") ? Type.VISUAL : type.equals("VOICE") ? Type.VOICE : Type.VIBRATION;
         this._availableDictionary = availableDictionary == 1;
     }
-    LanguageDB(Language language){
+
+    LanguageDB(Language language) {
         this._name = language.getName();
         this._type = language.getType();
         this._availableDictionary = language.isAvailableDictionary();

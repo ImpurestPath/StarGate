@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Country implements WithName{
-    private String _name;
-    private long _area;
-    private long _amountAlive;
-    private List<Race> _races;
-    private Behavior _behavior;
+public class Country implements WithName {
+    private final String _name;
+    private final long _area;
+    private final long _amountAlive;
+    private final List<Race> _races;
+    private final Behavior _behavior;
 
     public Country(String name, long area, List<Race> races) {
         this._name = name;
@@ -22,7 +22,8 @@ public class Country implements WithName{
         _amountAlive = calculateAmountAlive();
         this._behavior = calculateBehavior();
     }
-    public Country(CountryDB countryDB){
+
+    Country(CountryDB countryDB) {
         this._name = countryDB.getName();
         this._area = countryDB.getArea();
         this._races = new ArrayList<>();

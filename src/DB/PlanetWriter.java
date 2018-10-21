@@ -14,10 +14,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-//import java.io.FileOutputStream;
 
 class PlanetWriter {
     private String file;
@@ -111,17 +109,16 @@ class PlanetWriter {
         return count + 1;
     }
 
-    boolean deletePlanet(int id) {
+    void deletePlanet(int id) {
         Node root = document.getDocumentElement();
         NodeList rootChildren = root.getChildNodes();
         for (int i = 0; i < rootChildren.getLength(); i++) {
             if (rootChildren.item(i).getAttributes().getNamedItem("id").getTextContent().equals(Long.toString(id))) {
                 root.removeChild(rootChildren.item(i));
                 writeDocument();
-                return true;
+                return;
             }
         }
-        return false;
     }
 
     private void writeDocument() throws TransformerFactoryConfigurationError {
@@ -138,12 +135,7 @@ class PlanetWriter {
         }
     }
 
-    /*public void writeDocumentAll(ArrayList<Planet> planets) throws TransformerFactoryConfigurationError {
-        for (Planet planet : planets) {
-            addNewPlanet(planet);
-        }
-    }*/
-    boolean updatePlanet(int id, PlanetDB planet) {
+    void updatePlanet(int id, PlanetDB planet) {
         Node root = document.getDocumentElement();
         NodeList rootChildren = root.getChildNodes();
         for (int i = 0; i < rootChildren.getLength(); i++) {
@@ -153,10 +145,9 @@ class PlanetWriter {
                 newPlanet.setAttribute("id", Integer.toString(id));
                 root.replaceChild(newPlanet, rootChildren.item(i));
                 writeDocument();
-                return true;
+                return;
             }
         }
-        return false;
     }
 
 }

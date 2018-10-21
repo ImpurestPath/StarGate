@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Planet implements WithName{
+public class Planet implements WithName {
     private static final double AREAANGRYPERSENT = 0.4;
     private static final double AMOUNTANGRYPERSENT = 0.5;
     private final Behavior _behavior;
@@ -45,16 +45,17 @@ public class Planet implements WithName{
         this._behavior = calculateBehavior();
         this._id = -1;
     }
-    public Planet(PlanetDB planetDB){
+
+    public Planet(PlanetDB planetDB) {
         this._name = planetDB.getName();
         this._temperature = planetDB.getTemperature();
         this._pressure = planetDB.getPressure();
         this._languages = new ArrayList<>();
-        for (LanguageDB languageDB: planetDB.getLanguages()) {
+        for (LanguageDB languageDB : planetDB.getLanguages()) {
             _languages.add(new Language(languageDB));
         }
         this._countries = new ArrayList<>();
-        for (CountryDB countryDB: planetDB.getCountries()) {
+        for (CountryDB countryDB : planetDB.getCountries()) {
             _countries.add(new Country(countryDB));
         }
         calculateAreaAndAmount();
@@ -73,7 +74,8 @@ public class Planet implements WithName{
                 amountAngry += country.getAmountAlive();
             }
         }
-        if ((double) areaAngry / _area >= AREAANGRYPERSENT || (double) amountAngry / _amountAlive >= AMOUNTANGRYPERSENT) return Behavior.ANGRY;
+        if ((double) areaAngry / _area >= AREAANGRYPERSENT || (double) amountAngry / _amountAlive >= AMOUNTANGRYPERSENT)
+            return Behavior.ANGRY;
         else return Behavior.NEUTRAL;
     }
 

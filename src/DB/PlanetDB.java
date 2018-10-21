@@ -17,8 +17,8 @@ public class PlanetDB {
     private final List<LanguageDB> _languages;
     private final List<CountryDB> _countries;
 
-    public PlanetDB(String name, int temperature, long pressure,
-                    List<LanguageDB> languages, List<CountryDB> countries, int id) {
+    PlanetDB(String name, int temperature, long pressure,
+             List<LanguageDB> languages, List<CountryDB> countries, int id) {
         this._name = name;
         this._temperature = temperature;
         this._pressure = pressure;
@@ -27,7 +27,7 @@ public class PlanetDB {
         this._id = id;
     }
 
-    public PlanetDB(Planet planet){
+    public PlanetDB(Planet planet) {
         this._name = planet.getName();
         this._temperature = planet.getTemperature();
         this._pressure = planet.getPressure();
@@ -43,15 +43,6 @@ public class PlanetDB {
         }
         this._id = planet.getId();
     }
-
-    public boolean hasLanguages() {
-        return !_languages.isEmpty();
-    }
-
-    public boolean hasCountries() {
-        return !_countries.isEmpty();
-    }
-
 
     public List<LanguageDB> getLanguages() {
         return Collections.unmodifiableList(_languages);

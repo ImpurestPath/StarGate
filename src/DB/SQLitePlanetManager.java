@@ -6,33 +6,32 @@ import java.sql.*;
 import java.util.*;
 import java.util.List;
 
-public class SQLitePlanetManager implements PlanetDAO{
+public class SQLitePlanetManager implements PlanetDAO {
 
     // Константа, в которой хранится адрес подключения
-    private static final String CON_STR = "jdbc:sqlite:C:\\Users\\ImpurestPath\\IdeaProjects\\StarGate\\PlanetRepository.db";
+    private static final String CON_STR = "jdbc:sqlite:";
 
     // Используем шаблон одиночка, чтобы не плодить множество
     // экземпляров класса DbHandler
     private static SQLitePlanetManager instance = null;
 
-    public static synchronized SQLitePlanetManager getInstance() throws  ExceptionDAO {
+    public static synchronized SQLitePlanetManager getInstance(String name) throws ExceptionDAO {
         if (instance == null)
-            instance = new SQLitePlanetManager();
+            instance = new SQLitePlanetManager(name);
         return instance;
     }
 
     // Объект, в котором будет храниться соединение с БД
     private Connection connection;
 
-    public SQLitePlanetManager() throws ExceptionDAO {
+    public SQLitePlanetManager(String file) throws ExceptionDAO {
         try {
             // Регистрируем драйвер, с которым будем работать
-        // в нашем случае Sqlite
-        DriverManager.registerDriver(new JDBC());
-        // Выполняем подключение к базе данных
-        this.connection = DriverManager.getConnection(CON_STR);
-        }
-        catch (SQLException e){
+            // в нашем случае Sqlite
+            DriverManager.registerDriver(new JDBC());
+            // Выполняем подключение к базе данных
+            this.connection = DriverManager.getConnection(CON_STR + file);
+        } catch (SQLException e) {
             throw new ExceptionDAO(e);
         }
 
@@ -134,7 +133,7 @@ public class SQLitePlanetManager implements PlanetDAO{
             PreparedStatement preparedStatementPlanet = this.connection.prepareStatement(
                     "INSERT INTO Planet('idPlanet',`name`, `temperature`, `pressure`) " +
                             "VALUES(?,?, ?, ?)");
-            preparedStatementPlanet.setInt(1,id);
+            preparedStatementPlanet.setInt(1, id);
             preparedStatementPlanet.setString(2, planet.getName());
             preparedStatementPlanet.setInt(3, planet.getTemperature());
             preparedStatementPlanet.setLong(4, planet.getPressure());
@@ -162,23 +161,22 @@ public class SQLitePlanetManager implements PlanetDAO{
         }
     }
 
-    public boolean delete(int id) throws ExceptionDAO {
+    public void delete(int id) throws ExceptionDAO {
         try (PreparedStatement statement = this.connection.prepareStatement(
                 "DELETE FROM Planet WHERE idPlanet = ?")) {
             statement.setObject(1, id);
             // Выполняем запрос
             statement.execute();
-            return true;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new ExceptionDAO(e);
         }
     }
-    public boolean update(int id, PlanetDB planet) throws ExceptionDAO {
+
+    public void update(int id, PlanetDB planet) throws ExceptionDAO {
         planet.setId(id);
         delete(id);
-        add(id,planet);
-        return true;
+        add(id, planet);
     }
 
 

@@ -16,6 +16,7 @@ import java.util.List;
 class PlanetReader {
     private Document document;
     private String file;
+
     PlanetReader(String file) throws IOException, ParserConfigurationException, SAXException {
         // Создается построитель документа
         this.file = file;
@@ -24,7 +25,7 @@ class PlanetReader {
         document = documentBuilder.parse(file);
     }
 
-    List<PlanetDB> getPlanets(){
+    List<PlanetDB> getPlanets() {
 
         // Получаем корневой элемент
         Node root = document.getDocumentElement();

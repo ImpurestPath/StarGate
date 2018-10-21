@@ -1,4 +1,5 @@
 package DB;
+
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -7,8 +8,8 @@ import java.util.List;
 
 
 public class XMLPlanetManager implements PlanetDAO {
-    private PlanetWriter writer;
-    private PlanetReader reader;
+    private final PlanetWriter writer;
+    private final PlanetReader reader;
 
     public XMLPlanetManager(String fileWay) throws ExceptionDAO {
         try {
@@ -37,22 +38,20 @@ public class XMLPlanetManager implements PlanetDAO {
         }
     }
 
-    public boolean delete(int id) throws ExceptionDAO {
+    public void delete(int id) throws ExceptionDAO {
         try {
-            boolean successful = writer.deletePlanet(id);
+            writer.deletePlanet(id);
             reader.updateDocument();
-            return successful;
         } catch (IOException | SAXException | ParserConfigurationException e) {
             throw new ExceptionDAO(e);
         }
     }
 
-    public boolean update(int id, PlanetDB planet) throws ExceptionDAO {
+    public void update(int id, PlanetDB planet) throws ExceptionDAO {
         try {
-            boolean successful = writer.updatePlanet(id, planet);
+            writer.updatePlanet(id, planet);
             reader.updateDocument();
-            return successful;
-        }catch (IOException | SAXException | ParserConfigurationException e) {
+        } catch (IOException | SAXException | ParserConfigurationException e) {
             throw new ExceptionDAO(e);
         }
     }

@@ -8,16 +8,17 @@ import java.util.List;
 import java.util.Collections;
 
 public class CountryDB {
-    private String _name;
-    private long _area;
-    private List<RaceDB> _races;
+    private final String _name;
+    private final long _area;
+    private final List<RaceDB> _races;
 
-    public CountryDB(String name, long area, List<RaceDB> races) {
+    CountryDB(String name, long area, List<RaceDB> races) {
         this._name = name;
         this._area = area;
         this._races = races;
     }
-    CountryDB(Country country){
+
+    CountryDB(Country country) {
         this._name = country.getName();
         this._area = country.getArea();
         this._races = new ArrayList<>();
@@ -40,7 +41,4 @@ public class CountryDB {
         return _name;
     }
 
-    public boolean hasRaces() {
-        return !_races.isEmpty();
-    }
 }

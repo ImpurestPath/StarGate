@@ -3,18 +3,15 @@ package UI;
 import DB.ExceptionDAO;
 import DB.LanguageDB;
 import Terminal.*;
-//import Terminal.*;
-
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
 public class Console {
-    private Scanner scanner;
-    private PlanetManager planetManager;
-    private User user;
+    private final Scanner scanner;
+    private final PlanetManager planetManager;
+    private final User user;
     private List<PlanetUI> planetUIList;
 
     public Console(PlanetManager planetManager, User user) {
@@ -28,7 +25,8 @@ public class Console {
         }
 
     }
-    private int findPlanet(Planet planet){
+
+    private int findPlanet(Planet planet) {
         int count = 0;
         for (PlanetUI planetUI :
                 planetUIList) {
@@ -37,6 +35,24 @@ public class Console {
         }
         return -1;
     }
+
+    private <T extends WithName> int findT(List<T> tList, String name) {
+        int count = 0;
+        for (T t :
+                tList) {
+            if (t.getName().equals(name)) return count;
+            count++;
+        }
+        return -1;
+    }
+
+    private <T extends WithName> void deleteT(List<T> tList, String name) {
+        //Maybe print name
+        int i = findT(tList, name);
+        if (i != -1) tList.remove(i);
+        else System.out.println("No such object");
+    }
+
     private void viewPlanets() {
         int page = 1;
         System.out.printf("Available pages: %d\n", (planetUIList.size() + 4) / 5);
@@ -156,6 +172,13 @@ public class Console {
         return new Language(name, type, available);
     }
 
+    private void addPlanet() throws ExceptionDAO {
+        Planet newPlanet = buildPlanet();
+        planetManager.add(newPlanet);
+        planetUIList.add(new PlanetUI(newPlanet));
+        System.out.println("Successful");
+    }
+
     private Planet buildPlanet() {
         System.out.println("Name: ");
         String name = scanner.next();
@@ -184,13 +207,6 @@ public class Console {
         }
     }
 
-    private void addPlanet() throws ExceptionDAO {
-        Planet newPlanet = buildPlanet();
-        planetManager.add(newPlanet);
-        planetUIList.add(new PlanetUI(newPlanet));
-        System.out.println("Successful");
-    }
-
     private void deletePlanet() throws ExceptionDAO {
         System.out.println("Enter id of planet (0 to see available planets, -1 for exit)");
         int choose = scanner.nextInt();
@@ -205,10 +221,9 @@ public class Console {
                 switch (scanner.next().charAt(0)) {
                     case 'y':
                     case 'Y':
-                        if (planetManager.delete(choose)) {
-                            System.out.println("Successful");
-                            planetUIList.remove(count);
-                        } else System.out.println("Can't do this");
+                        planetManager.delete(choose);
+                        System.out.println("Successful");
+                        planetUIList.remove(count);
                         break;
                     default:
                         System.out.println("Cancelled");
@@ -221,53 +236,7 @@ public class Console {
         }
     }
 
-    private void moveUser() {
-        System.out.println("Enter id of planet (0 to see available planets, -1 for exit)");
-        int choose = scanner.nextInt();
-        if (choose == 0) {
-            viewPlanets();
-            moveUser();
-        } else if (choose > 0) {
-            if (planetManager.hasPlanet(choose)) {
-                PlanetUI userPlanetUI = planetUIList.get(findPlanet(planetManager.get(choose)));
-                userPlanetUI.view();
-                if (userPlanetUI.getPlanet().isAngry()) {
-                    System.out.println("Angry planet. Are you sure?(y/n)");
-                    switch (scanner.next().charAt(0)) {
-                        case 'y':
-                        case 'Y':
-                            UserManager.moveUser(userPlanetUI.getPlanet(), user);
-                            System.out.println("Successful");
-                            break;
-                        default:
-                            System.out.println("Good choose");
-                    }
-                } else {
-                    UserManager.moveUser(userPlanetUI.getPlanet(), user);
-                }
-            } else {
-                System.out.println("No planet with this id");
-                moveUser();
-            }
-        }
-    }
-
-    private <T extends WithName> int findT(List<T> tList, String name) {
-        int count = 0;
-        for (T t :
-                tList) {
-            if (t.getName().equals(name)) return count;
-            count++;
-        }
-        return -1;
-    }
-    private <T extends WithName> void deleteT(List<T> tList, String name){
-        //Maybe print name
-        int i = findT(tList,name);
-        if (i != -1) tList.remove(i);
-        else System.out.println("No such object");
-    }
-    private void updateRace(List<Race> races){
+    private void updateRace(List<Race> races) {
         PlanetUI.viewRaces(races);
         System.out.println("Type name of race");
         int i = findT(races, scanner.next());
@@ -301,9 +270,10 @@ public class Console {
             }
             break;
         }
-        races.set(i,new Race(name.equals("0")?oldRace.getName():name,amount == 0 ? oldRace.getAmount():amount,behavior));
+        races.set(i, new Race(name.equals("0") ? oldRace.getName() : name, amount == 0 ? oldRace.getAmount() : amount, behavior));
 
     }
+
     private void updateCountry(List<Country> countries) {
         PlanetUI.viewCountries(countries);
         System.out.println("Type name of country");
@@ -338,7 +308,7 @@ public class Console {
                 case 3:
                     PlanetUI.viewRaces(races);
                     System.out.println("Type name of race:");
-                    deleteT(races,scanner.next());
+                    deleteT(races, scanner.next());
                     break;
                 default:
                     break;
@@ -438,7 +408,7 @@ public class Console {
                     switch (scanner.nextInt()) {
                         case 0:
                             planetManager.update(choose, new Planet(name.equals("0") ? oldPlanet.getName() : name, temperature == 0 ? oldPlanet.getTemperature() : temperature, pressure == 0 ? oldPlanet.getPressure() : pressure, languages, countries));
-                            planetUIList.set(UIitem,new PlanetUI(planetManager.get(choose)));
+                            planetUIList.set(UIitem, new PlanetUI(planetManager.get(choose)));
                             return;
                         case 1:
                             languages.add(addLanguage());
@@ -449,12 +419,12 @@ public class Console {
                         case 3:
                             PlanetUI.viewLanguages(languages);
                             System.out.println("Type name of language");
-                            deleteT(languages,scanner.next());
+                            deleteT(languages, scanner.next());
                             break;
                         case 4:
                             PlanetUI.viewCountries(countries);
-                            System.out.println("Type name of language");
-                            deleteT(countries,scanner.next());
+                            System.out.println("Type name of country");
+                            deleteT(countries, scanner.next());
                             break;
                         case 5:
                             updateLanguage(languages);
@@ -469,6 +439,37 @@ public class Console {
             } else {
                 System.out.println("No planet with this id");
                 updatePlanet();
+            }
+        }
+    }
+
+    private void moveUser() {
+        System.out.println("Enter id of planet (0 to see available planets, -1 for exit)");
+        int choose = scanner.nextInt();
+        if (choose == 0) {
+            viewPlanets();
+            moveUser();
+        } else if (choose > 0) {
+            if (planetManager.hasPlanet(choose)) {
+                PlanetUI userPlanetUI = planetUIList.get(findPlanet(planetManager.get(choose)));
+                userPlanetUI.view();
+                if (userPlanetUI.getPlanet().isAngry()) {
+                    System.out.println("Angry planet. Are you sure?(y/n)");
+                    switch (scanner.next().charAt(0)) {
+                        case 'y':
+                        case 'Y':
+                            UserManager.moveUser(userPlanetUI.getPlanet(), user);
+                            System.out.println("Successful");
+                            break;
+                        default:
+                            System.out.println("Good choose");
+                    }
+                } else {
+                    UserManager.moveUser(userPlanetUI.getPlanet(), user);
+                }
+            } else {
+                System.out.println("No planet with this id");
+                moveUser();
             }
         }
     }
