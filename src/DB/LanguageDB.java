@@ -18,7 +18,12 @@ public class LanguageDB {
         this._type = type;
         this._availableDictionary = availableDictionary;
     }
-    public LanguageDB(Language language){
+    public LanguageDB(String name, String type, int availableDictionary) {
+        this._name = name;
+        this._type = type.equals("VISUAL") ? Type.VISUAL : type.equals("VOICE")? Type.VOICE : Type.VIBRATION;
+        this._availableDictionary = availableDictionary == 1;
+    }
+    LanguageDB(Language language){
         this._name = language.getName();
         this._type = language.getType();
         this._availableDictionary = language.isAvailableDictionary();

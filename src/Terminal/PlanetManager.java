@@ -1,9 +1,6 @@
 package Terminal;
 
-import DB.ExceptionDAO;
-import DB.PlanetDAO;
-import DB.PlanetDB;
-import DB.XMLPlanetManager;
+import DB.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,7 +11,7 @@ public class PlanetManager {
     private PlanetDAO _db;
 
     public PlanetManager(String file) throws ExceptionDAO {
-        this._db = new XMLPlanetManager(file);
+        this._db = new SQLitePlanetManager();
         this._planets = new ArrayList<>();
         getAllFromDB();
     }
@@ -58,6 +55,7 @@ public class PlanetManager {
     }
     public boolean update(int id, Planet planet) throws ExceptionDAO {
         boolean successful = _db.update(id,new PlanetDB(planet));
+        planet.setId(id);
         if (successful) {
             int count = 0;
             for (Planet planetItem :

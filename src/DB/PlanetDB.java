@@ -27,15 +27,6 @@ public class PlanetDB {
         this._id = id;
     }
 
-    public PlanetDB(String name, int temperature, long pressure,
-                    List<LanguageDB> languages, List<CountryDB> countries) {
-        this._name = name;
-        this._temperature = temperature;
-        this._pressure = pressure;
-        this._languages = languages;
-        this._countries = countries;
-        this._id = -1;
-    }
     public PlanetDB(Planet planet){
         this._name = planet.getName();
         this._temperature = planet.getTemperature();
@@ -86,7 +77,7 @@ public class PlanetDB {
         return _id;
     }
 
-    public void setId(int id) {
+    void setId(int id) {
         this._id = id;
     }
 

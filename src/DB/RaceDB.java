@@ -17,6 +17,12 @@ public class RaceDB {
         if (angry) _behavior = Behavior.ANGRY;
         else _behavior = Behavior.NEUTRAL;
     }
+    public RaceDB(String name, long amount, String behavior) {
+        this._name = name;
+        this._amount = amount;
+        if (behavior.equals("ANGRY")) _behavior = Behavior.ANGRY;
+        else _behavior = Behavior.NEUTRAL;
+    }
     public RaceDB(Race race){
         this._name = race.getName();
         this._amount = race.getAmount();

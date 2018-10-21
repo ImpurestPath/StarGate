@@ -1,6 +1,4 @@
 package DB;
-
-import Terminal.Planet;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;

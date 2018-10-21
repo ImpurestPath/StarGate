@@ -17,7 +17,7 @@ public class CountryDB {
         this._area = area;
         this._races = races;
     }
-    public CountryDB(Country country){
+    CountryDB(Country country){
         this._name = country.getName();
         this._area = country.getArea();
         this._races = new ArrayList<>();

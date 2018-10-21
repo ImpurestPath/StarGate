@@ -3,6 +3,7 @@ package UI;
 import DB.ExceptionDAO;
 import DB.LanguageDB;
 import Terminal.*;
+//import Terminal.*;
 
 
 import java.util.ArrayList;
@@ -14,94 +15,46 @@ public class Console {
     private Scanner scanner;
     private PlanetManager planetManager;
     private User user;
+    private List<PlanetUI> planetUIList;
 
     public Console(PlanetManager planetManager, User user) {
         this.scanner = new Scanner(System.in);
         this.planetManager = planetManager;
         this.user = user;
-    }
-
-    private void viewRace(Race race) {
-        System.out.printf("\t\t\t\tName: %s\n", race.getName());
-        System.out.printf("\t\t\t\tBehavior: %s\n", race.getBehavior().toString());
-        System.out.printf("\t\t\t\tAmount: %d\n", race.getAmount());
-        System.out.println();
-    }
-
-    private void viewRaces(List<Race> races) {
-        System.out.println("\t\t\tRaces:");
-        for (Race race :
-                races) {
-            viewRace(race);
+        planetUIList = new ArrayList<>();
+        for (Planet planet :
+                planetManager.getAll()) {
+            planetUIList.add(new PlanetUI(planet));
         }
-    }
 
-    private void viewCountry(Country country) {
-        System.out.printf("\t\tName: %s\n", country.getName());
-        System.out.printf("\t\tBehavior: %s\n", country.getBehavior().toString());
-        System.out.printf("\t\tArea: %d\n", country.getArea());
-        System.out.printf("\t\tAmountAlive: %d\n", country.getAmountAlive());
-        if (country.hasRaces()) viewRaces(country.getRaces());
     }
-
-    private void viewCountries(List<Country> countries) {
-        System.out.println("\tCountries:");
-        for (Country country :
-                countries) {
-            viewCountry(country);
+    private int findPlanet(Planet planet){
+        int count = 0;
+        for (PlanetUI planetUI :
+                planetUIList) {
+            if (planetUI.getPlanet() == planet) return count;
+            count++;
         }
+        return -1;
     }
-
-    private void viewLanguage(Language language) {
-        System.out.printf("\t\tName: %s\n", language.getName());
-        System.out.printf("\t\tType: %s\n", language.getType().toString());
-        System.out.printf("\t\tAvailable dictionary: %s\n", language.isAvailableDictionary() ? "yes" : "no");
-        System.out.println();
-    }
-
-    private void viewLanguages(List<Language> languages) {
-        System.out.println("\tLanguages:");
-        for (Language language :
-                languages) {
-            viewLanguage(language);
-        }
-    }
-
-    private void viewPlanet(Planet planet) {
-        System.out.printf("ID: %d\n", planet.getId());
-        System.out.printf("Name: %s\n", planet.getName());
-        System.out.printf("Behavior: %s\n", planet.getBehavior().toString());
-        System.out.printf("Temperature: %d\n", planet.getTemperature());
-        System.out.printf("Pressure: %d\n", planet.getPressure());
-        if (planet.hasCountries()) {
-            viewCountries(planet.getCountries());
-        }
-        if (planet.hasLanguages()) {
-            viewLanguages(planet.getLanguages());
-        }
-        System.out.println();
-    }
-
-    //rewrite
     private void viewPlanets() {
         int page = 1;
-        System.out.printf("Available pages: %d\n", (planetManager.amountPlanets() + 4) / 5);
+        System.out.printf("Available pages: %d\n", (planetUIList.size() + 4) / 5);
         while (true) {
             System.out.printf("Page %d\n", page);
-            List<Planet> planets = planetManager.getAll();
-            for (int i = 5 * (page - 1) + 1; i <= 5 * page && i <= planetManager.amountPlanets(); i++) {
+            for (int i = 5 * (page - 1) + 1; i <= 5 * page && i <= planetUIList.size(); i++) {
                 int count = 1;
-                for (Planet planet :
-                        planets) {
+                for (PlanetUI planet :
+                        planetUIList) {
                     if (count > i) break;
-                    else if (i == count) viewPlanet(planet);
+                    else if (i == count) planet.view();
                     count++;
                 }
             }
             System.out.println("Choose page: (0 for exit)");
             page = scanner.nextInt();
             if (page == 0) return;
-            if (page > (planetManager.amountPlanets() + 4) / 5 || page < 1) {
+            if (page > (planetUIList.size() + 4) / 5 || page < 1) {
                 System.out.println("Wrong page!");
                 page = 1;
             }
@@ -232,7 +185,9 @@ public class Console {
     }
 
     private void addPlanet() throws ExceptionDAO {
-        planetManager.add(buildPlanet());
+        Planet newPlanet = buildPlanet();
+        planetManager.add(newPlanet);
+        planetUIList.add(new PlanetUI(newPlanet));
         System.out.println("Successful");
     }
 
@@ -244,16 +199,20 @@ public class Console {
             deletePlanet();
         } else if (choose > 0) {
             if (planetManager.hasPlanet(choose)) {
-                viewPlanet(planetManager.get(choose));
+                int count = findPlanet(planetManager.get(choose));
+                planetUIList.get(count).view();
                 System.out.println("Are you sure?(y/n)");
                 switch (scanner.next().charAt(0)) {
                     case 'y':
                     case 'Y':
                         if (planetManager.delete(choose)) {
                             System.out.println("Successful");
+                            planetUIList.remove(count);
                         } else System.out.println("Can't do this");
+                        break;
                     default:
                         System.out.println("Cancelled");
+                        break;
                 }
             } else {
                 System.out.println("No planet with this id");
@@ -270,20 +229,21 @@ public class Console {
             moveUser();
         } else if (choose > 0) {
             if (planetManager.hasPlanet(choose)) {
-                viewPlanet(planetManager.get(choose));
-                if (planetManager.isAngry(planetManager.get(choose))) {
+                PlanetUI userPlanetUI = planetUIList.get(findPlanet(planetManager.get(choose)));
+                userPlanetUI.view();
+                if (userPlanetUI.getPlanet().isAngry()) {
                     System.out.println("Angry planet. Are you sure?(y/n)");
                     switch (scanner.next().charAt(0)) {
                         case 'y':
                         case 'Y':
-                            UserManager.moveUser(planetManager.get(choose), user);
+                            UserManager.moveUser(userPlanetUI.getPlanet(), user);
                             System.out.println("Successful");
                             break;
                         default:
                             System.out.println("Good choose");
                     }
                 } else {
-                    UserManager.moveUser(planetManager.get(choose), user);
+                    UserManager.moveUser(userPlanetUI.getPlanet(), user);
                 }
             } else {
                 System.out.println("No planet with this id");
@@ -308,7 +268,7 @@ public class Console {
         else System.out.println("No such object");
     }
     private void updateRace(List<Race> races){
-        viewRaces(races);
+        PlanetUI.viewRaces(races);
         System.out.println("Type name of race");
         int i = findT(races, scanner.next());
         if (i == -1) {
@@ -345,7 +305,7 @@ public class Console {
 
     }
     private void updateCountry(List<Country> countries) {
-        viewCountries(countries);
+        PlanetUI.viewCountries(countries);
         System.out.println("Type name of country");
         int i = findT(countries, scanner.next());
         if (i == -1) {
@@ -376,7 +336,7 @@ public class Console {
                     updateRace(races);
                     break;
                 case 3:
-                    viewRaces(races);
+                    PlanetUI.viewRaces(races);
                     System.out.println("Type name of race:");
                     deleteT(races,scanner.next());
                     break;
@@ -387,7 +347,7 @@ public class Console {
     }
 
     private void updateLanguage(List<Language> languages) {
-        viewLanguages(languages);
+        PlanetUI.viewLanguages(languages);
         System.out.println("Name of language:");
         int i = findT(languages, scanner.next());
         if (i == -1) {
@@ -395,7 +355,7 @@ public class Console {
             return;
         }
         Language oldLanguage = languages.get(i);
-        viewLanguage(oldLanguage);
+        PlanetUI.viewLanguage(oldLanguage);
         System.out.println("Name:(0 for origin)");
         String name = scanner.next();
         System.out.println("Type: ");
@@ -457,7 +417,8 @@ public class Console {
         } else if (choose > 0) {
             if (planetManager.hasPlanet(choose)) {
                 Planet oldPlanet = planetManager.get(choose);
-                viewPlanet(oldPlanet);
+                int UIitem = findPlanet(oldPlanet);
+                planetUIList.get(UIitem).view();
                 System.out.println("Name:(0 for origin) ");
                 String name = scanner.next();
                 System.out.println("Temperature:(0 for origin) ");
@@ -477,6 +438,7 @@ public class Console {
                     switch (scanner.nextInt()) {
                         case 0:
                             planetManager.update(choose, new Planet(name.equals("0") ? oldPlanet.getName() : name, temperature == 0 ? oldPlanet.getTemperature() : temperature, pressure == 0 ? oldPlanet.getPressure() : pressure, languages, countries));
+                            planetUIList.set(UIitem,new PlanetUI(planetManager.get(choose)));
                             return;
                         case 1:
                             languages.add(addLanguage());
@@ -485,12 +447,12 @@ public class Console {
                             countries.add(addCountry());
                             break;
                         case 3:
-                            viewLanguages(languages);
+                            PlanetUI.viewLanguages(languages);
                             System.out.println("Type name of language");
                             deleteT(languages,scanner.next());
                             break;
                         case 4:
-                            viewCountries(countries);
+                            PlanetUI.viewCountries(countries);
                             System.out.println("Type name of language");
                             deleteT(countries,scanner.next());
                             break;
@@ -549,7 +511,7 @@ public class Console {
                     moveUser();
                     break;
                 case 2:
-                    viewPlanet(user.getPlanet());
+                    planetUIList.get(findPlanet(user.getPlanet())).view();
                     break;
                 case 3:
                     viewPlanets();
