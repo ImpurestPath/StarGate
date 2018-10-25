@@ -1,7 +1,7 @@
-package DB;
+package db;
 
 
-import Terminal.Planet;
+import terminal.Planet;
 
 
 public class PlanetDB {
@@ -10,19 +10,25 @@ public class PlanetDB {
     private int _id;
     private final String _name;
 
-    PlanetDB(String name, int temperature, long pressure, int id) {
+    PlanetDB(int id, String name, int temperature, long pressure) {
         this._name = name;
         this._temperature = temperature;
         this._pressure = pressure;
         this._id = id;
     }
+    PlanetDB(String name, int temperature, long pressure) {
+        this._name = name;
+        this._temperature = temperature;
+        this._pressure = pressure;
+        this._id = -1;
+    }
 
-    public PlanetDB(Planet planet) {
+    /*public PlanetDB(Planet planet) {
         this._name = planet.getName();
         this._temperature = planet.getTemperature();
         this._pressure = planet.getPressure();
         this._id = planet.getId();
-    }
+    }*/
 
     public int getTemperature() {
         return _temperature;

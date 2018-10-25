@@ -1,8 +1,8 @@
-package UI;
+package ui;
 
-import DB.ExceptionDAO;
-import DB.LanguageDB;
-import Terminal.*;
+import db.ExceptionDAO;
+import db.LanguageDB;
+import terminal.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,21 +11,35 @@ import java.util.Scanner;
 public class Console {
     private final Scanner scanner;
     private final PlanetManager planetManager;
-    private final User user;
+    private final UserManager userManager;
+    private User user;
     private List<PlanetUI> planetUIList;
 
-    public Console(PlanetManager planetManager, User user) {
+    public Console(PlanetManager planetManager,UserManager userManager) throws ExceptionDAO {
         this.scanner = new Scanner(System.in);
         this.planetManager = planetManager;
-        this.user = user;
+        this.userManager = userManager;
         planetUIList = new ArrayList<>();
         for (Planet planet :
                 planetManager.getAll()) {
             planetUIList.add(new PlanetUI(planet));
         }
-
+        changeUser();
     }
-
+    private void changeUser() throws ExceptionDAO {
+        System.out.println("Login:");
+        String login = scanner.next();
+        User tempUser = userManager.get(login);
+        if (tempUser != null)
+        this.user = tempUser; //Do when not found and registration
+        else {
+            System.out.println("No such user, register please");
+            System.out.println("Login:");
+            User newUser = new User(scanner.next(),1);
+            userManager.add(newUser); //Maybe constant
+            this.user = newUser;
+        }
+    }
     private <T extends Searchable,P> int findT(List<T> tList, P id) {
         int count = 0;
         for (T t :
@@ -204,14 +218,14 @@ public class Console {
             viewPlanets();
             deletePlanet();
         } else if (choose > 0) {
-            if (planetManager.hasPlanet(choose)) {
+            if (findT(planetUIList,choose) != -1) {
                 int count = findT(this.planetUIList,choose);
                 planetUIList.get(count).view();
                 System.out.println("Are you sure?(y/n)");
                 switch (scanner.next().charAt(0)) {
                     case 'y':
                     case 'Y':
-                        planetManager.delete(choose);
+                        planetManager.delete(planetUIList.get(choose).getPlanet());
                         System.out.println("Successful");
                         planetUIList.remove(count);
                         break;
@@ -397,8 +411,13 @@ public class Console {
                     System.out.println("6.Update country");
                     switch (scanner.nextInt()) {
                         case 0:
-                            planetManager.update(choose, new Planet(name.equals("0") ? oldPlanet.getName() : name, temperature == 0 ? oldPlanet.getTemperature() : temperature, pressure == 0 ? oldPlanet.getPressure() : pressure, languages, countries));
-                            planetUIList.set(UIitem, new PlanetUI(planetManager.get(choose)));
+                            Planet newPlanet = new Planet(name.equals("0") ? oldPlanet.getName() : name,
+                                    temperature == 0 ? oldPlanet.getTemperature() : temperature,
+                                    pressure == 0 ? oldPlanet.getPressure() : pressure,
+                                    languages,
+                                    countries);
+                            planetManager.update(choose, newPlanet);
+                            planetUIList.set(UIitem, new PlanetUI(newPlanet));
                             return;
                         case 1:
                             languages.add(addLanguage());
@@ -503,7 +522,7 @@ public class Console {
                     moveUser();
                     break;
                 case 2:
-                    planetUIList.get(findT(planetUIList,user.getCurrentPlanet().getId())).view();
+                    planetUIList.get(findT(planetUIList,user.getIdCurrentPlanet())).view();
                     break;
                 case 3:
                     viewPlanets();

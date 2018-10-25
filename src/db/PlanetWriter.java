@@ -1,4 +1,5 @@
-package DB;
+/*
+package db;
 
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
@@ -6,7 +7,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerToEntity;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
@@ -124,7 +125,7 @@ class PlanetWriter {
     private void writeDocument() throws TransformerFactoryConfigurationError {
         try {
 
-            Transformer tr = TransformerFactory.newInstance().newTransformer();
+            TransformerToEntity tr = TransformerFactory.newInstance().newTransformer();
             DOMSource source = new DOMSource(document);
             FileWriter writer = new FileWriter(file, false);
             //FileOutputStream fos = new FileOutputStream(file, false);
@@ -152,3 +153,4 @@ class PlanetWriter {
 
 }
 
+*/

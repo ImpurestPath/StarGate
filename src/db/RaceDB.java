@@ -1,6 +1,6 @@
-package DB;
+package db;
 
-import Terminal.Race;
+import terminal.Race;
 
 public class RaceDB {
     public enum Behavior {
@@ -43,11 +43,23 @@ public class RaceDB {
         if (behavior.equals("ANGRY")) this.behavior = Behavior.ANGRY;
         else this.behavior = Behavior.NEUTRAL;
     }
-    RaceDB(Race race) {
+    public RaceDB(int id, String name, long amount, Behavior behavior) {
+        this.id = id;
+        this.name = name;
+        this.amount = amount;
+        this.behavior = behavior;
+    }
+    RaceDB(String name, long amount, Behavior behavior) {
+        this.id = -1;
+        this.name = name;
+        this.amount = amount;
+        this.behavior = behavior;
+    }
+    /*RaceDB(Race race) {
         this.name = race.getName();
         this.amount = race.getAmount();
         this.behavior = race.getBehavior();
-    }
+    }*/
 
     public long getAmount() {
         return amount;

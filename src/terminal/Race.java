@@ -1,7 +1,7 @@
-package Terminal;
+package terminal;
 
-import DB.RaceDB;
-import DB.RaceDB.Behavior;
+import db.RaceDB;
+import db.RaceDB.Behavior;
 
 public class Race implements Searchable {
     private int id;
@@ -9,26 +9,37 @@ public class Race implements Searchable {
     private final long amount;
     private final Behavior behavior;
 
-    public Race(String name, long amount, boolean angry) {
+    public Race(String name, long amount, boolean behavior) {
         this.name = name;
         this.amount = amount;
-        if (angry) behavior = Behavior.ANGRY;
-        else behavior = Behavior.NEUTRAL;
+        if (behavior) this.behavior = Behavior.ANGRY;
+        else this.behavior = Behavior.NEUTRAL;
     }
-    public Race(int id, String name, long amount, boolean angry) {
+    public Race(int id, String name, long amount, boolean behavior) {
         this.id = id;
         this.name = name;
         this.amount = amount;
-        if (angry) behavior = Behavior.ANGRY;
-        else behavior = Behavior.NEUTRAL;
+        if (behavior) this.behavior = Behavior.ANGRY;
+        else this.behavior = Behavior.NEUTRAL;
     }
-
-    Race(RaceDB raceDB) {
+    public Race(String name, long amount, Behavior behavior) {
+        this.id = -1;
+        this.name = name;
+        this.amount = amount;
+        this.behavior = behavior;
+    }
+    public Race(int id, String name, long amount, Behavior behavior) {
+        this.id = id;
+        this.name = name;
+        this.amount = amount;
+        this.behavior = behavior;
+    }
+    /*Race(RaceDB raceDB) {
         this.name = raceDB.getName();
         this.amount = raceDB.getAmount();
         if (raceDB.getBoolBehavior()) behavior = Behavior.ANGRY;
         else behavior = Behavior.NEUTRAL;
-    }
+    }*/
 
     public long getAmount() {
         return amount;

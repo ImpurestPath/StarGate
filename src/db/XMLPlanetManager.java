@@ -1,4 +1,5 @@
-package DB;
+/*
+package db;
 
 import org.xml.sax.SAXException;
 
@@ -56,3 +57,4 @@ public class XMLPlanetManager implements PlanetDAO {
         }
     }
 }
+*/

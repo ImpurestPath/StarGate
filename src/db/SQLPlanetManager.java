@@ -1,6 +1,4 @@
-package DB;
-
-import org.sqlite.JDBC;
+package db;
 
 import java.sql.*;
 import java.util.*;
@@ -49,7 +47,7 @@ public class SQLPlanetManager implements PlanetDAO {
                     }
                     countries.add(new CountryDB(countriesResult.getString(2), countriesResult.getLong(3), races));
                 }*/
-                planets.add(new PlanetDB(resultSet.getString(2), resultSet.getInt(3), resultSet.getLong(4), resultSet.getInt(1)));
+                planets.add(new PlanetDB(resultSet.getInt(1), resultSet.getString(2), resultSet.getInt(3), resultSet.getLong(4)));
             }
             // Возвращаем наш список
             return planets;
@@ -150,10 +148,18 @@ public class SQLPlanetManager implements PlanetDAO {
         }
     }
 
-    public void update(int id, PlanetDB planet) throws ExceptionDAO {
-        planet.setId(id);
-        delete(id);
-        add(id, planet);
+    public void update(int idPlanet, PlanetDB planet) throws ExceptionDAO {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE Planet SET name = ?, temperature = ?, pressure = ? WHERE idPlanet = ?");
+            preparedStatement.setString(1, planet.getName());
+            preparedStatement.setInt(2, planet.getTemperature());
+            preparedStatement.setLong(3,planet.getPressure());
+            preparedStatement.setInt(4,idPlanet);
+            preparedStatement.execute();
+        }
+        catch (SQLException e) {
+            throw new ExceptionDAO(e);
+        }
     }
 
 

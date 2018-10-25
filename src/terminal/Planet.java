@@ -1,9 +1,9 @@
-package Terminal;
+package terminal;
 
-import DB.CountryDB;
-import DB.LanguageDB;
-import DB.PlanetDB;
-import DB.RaceDB.Behavior;
+import db.CountryDB;
+import db.LanguageDB;
+import db.PlanetDB;
+import db.RaceDB.Behavior;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,8 +22,9 @@ public class Planet implements Searchable {
     private final List<Language> _languages;
     private final List<Country> _countries;
 
-    public Planet(String name, int temperature, long pressure,
-                  List<Language> languages, List<Country> countries, int id) {
+    public Planet(int id, String name, int temperature, long pressure,
+                  List<Language> languages, List<Country> countries) {
+        this._id = id;
         this._name = name;
         this._temperature = temperature;
         this._pressure = pressure;
@@ -31,7 +32,6 @@ public class Planet implements Searchable {
         this._countries = countries;
         calculateAreaAndAmount();
         this._behavior = calculateBehavior();
-        this._id = id;
     }
 
     public Planet(String name, int temperature, long pressure,
@@ -46,7 +46,7 @@ public class Planet implements Searchable {
         this._id = -1;
     }
 
-    public Planet(PlanetDB planetDB) {
+    /*public Planet(PlanetDB planetDB) {
         this._name = planetDB.getName();
         this._temperature = planetDB.getTemperature();
         this._pressure = planetDB.getPressure();
@@ -61,7 +61,7 @@ public class Planet implements Searchable {
         calculateAreaAndAmount();
         this._behavior = calculateBehavior();
         this._id = planetDB.getId();
-    }
+    }*/
 
     private Behavior calculateBehavior() {
         if (_amountAlive == 0 || _area == 0) return Behavior.NEUTRAL;

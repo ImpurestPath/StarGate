@@ -1,8 +1,8 @@
-package Terminal;
+package terminal;
 
-import DB.CountryDB;
-import DB.RaceDB;
-import DB.RaceDB.Behavior;
+import db.CountryDB;
+import db.RaceDB;
+import db.RaceDB.Behavior;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,8 +24,15 @@ public class Country implements Searchable {
         amountAlive = calculateAmountAlive();
         this.behavior = calculateBehavior();
     }
-
-    Country(CountryDB countryDB) {
+    public Country(String name, long area, List<Race> races) {
+        this.id = -1;
+        this.name = name;
+        this.area = area;
+        this.races = races;
+        amountAlive = calculateAmountAlive();
+        this.behavior = calculateBehavior();
+    }
+    /*Country(CountryDB countryDB) {
         this.name = countryDB.getName();
         this.area = countryDB.getArea();
         this.races = new ArrayList<>();
@@ -35,7 +42,7 @@ public class Country implements Searchable {
         }
         this.amountAlive = calculateAmountAlive();
         this.behavior = calculateBehavior();
-    }
+    }*/
 
     private Behavior calculateBehavior() {
         if (amountAlive == 0) return Behavior.NEUTRAL;
@@ -92,5 +99,9 @@ public class Country implements Searchable {
             return Integer.toString(this.id).equals(id.toString());
         }
         return false;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

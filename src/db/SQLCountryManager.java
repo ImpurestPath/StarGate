@@ -1,6 +1,4 @@
-package DB;
-
-import Terminal.Country;
+package db;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,7 +14,7 @@ public class SQLCountryManager implements CountryDAO {
         this.connection = sqlConnection.connection;
     }
 
-    public int insert(CountryDB country, int idPlanet) throws ExceptionDAO {
+    public int insert( int idPlanet, CountryDB country) throws ExceptionDAO {
         try {
             PreparedStatement preparedStatementCountry = connection.prepareStatement("INSERT INTO" +
                     " Country('idPlanet','name','area') " + "VALUES (?,?,?)");
@@ -53,9 +51,10 @@ public class SQLCountryManager implements CountryDAO {
     }
     public void update(int idCountry, CountryDB country) throws ExceptionDAO {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE Country SET name = ?, area = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE Country SET name = ?, area = ? WHERE idCountry = ?");
             preparedStatement.setString(1,country.getName());
             preparedStatement.setLong(2,country.getArea());
+            preparedStatement.setInt(3,idCountry);
             preparedStatement.execute();
         }
         catch (SQLException e) {
@@ -64,8 +63,9 @@ public class SQLCountryManager implements CountryDAO {
     }
     @Override
     public List<CountryDB> getPlanetCountries(int id) throws ExceptionDAO {
-        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT idCountry,name,area FROM Country")) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT idCountry,name,area FROM Country WHERE idPlanet = ?")) {
             List<CountryDB> countries = new ArrayList<>();
+            preparedStatement.setInt(1,id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 countries.add(new CountryDB(resultSet.getInt(1), resultSet.getString(2), resultSet.getLong(3)));

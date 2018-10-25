@@ -1,4 +1,4 @@
-package DB;
+package db;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -28,7 +28,8 @@ public class SQLRaceManager implements RaceDAO {
     @Override
     public List<RaceDB> getCountryRaces(int idCountry) throws ExceptionDAO {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT Race.name,amount,B.name FROM Race INNER JOIN Behavior B on Race.idBehavior = B.idBehavior");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT Race.name,amount,B.name FROM Race INNER JOIN Behavior B on Race.idBehavior = B.idBehavior WHERE idCountry = ?");
+            preparedStatement.setInt(1,idCountry);
             ResultSet resultSet = preparedStatement.executeQuery();
             List<RaceDB> races = new ArrayList<>();
             while (resultSet.next()) {
@@ -41,12 +42,12 @@ public class SQLRaceManager implements RaceDAO {
     }
 
     @Override
-    public int insert(int idRace, RaceDB race) throws ExceptionDAO {
+    public int insert(int idCountry, RaceDB race) throws ExceptionDAO {
         try {
             PreparedStatement preparedStatementRace = connection.prepareStatement("INSERT INTO" +
                     " Race('idCountry','name','amount','idBehavior') " + "VALUES (?,?,?,?)");
 
-            preparedStatementRace.setInt(1, idRace);
+            preparedStatementRace.setInt(1, idCountry);
             preparedStatementRace.setString(2, race.getName());
             preparedStatementRace.setLong(3, race.getAmount());
             preparedStatementRace.setInt(4, race.getBoolBehavior() ? 2 : 1);
@@ -74,10 +75,11 @@ public class SQLRaceManager implements RaceDAO {
     @Override
     public void update(int idRace, RaceDB race) throws ExceptionDAO {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE Race SET name = ?, amount = ?, idBehavior = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE Race SET name = ?, amount = ?, idBehavior = ? WHERE idRace = ?");
             preparedStatement.setString(1, race.getName());
             preparedStatement.setLong(2, race.getAmount());
             preparedStatement.setInt(3,getIdBehavior(race.getBehavior()));
+            preparedStatement.setInt(4,idRace);
             preparedStatement.execute();
         }
         catch (SQLException e) {

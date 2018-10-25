@@ -1,11 +1,6 @@
-package DB;
+package db;
 
-import Terminal.Country;
-import Terminal.Race;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Collections;
+import terminal.Country;
 
 public class CountryDB {
 
@@ -25,11 +20,11 @@ public class CountryDB {
         this._area = area;
     }
 
-    CountryDB(Country country) {
+   /* CountryDB(Country country) {
         this.id = country.getId();
         this._name = country.getName();
         this._area = country.getArea();
-    }
+    }*/
 
     public long getArea() {
         return _area;

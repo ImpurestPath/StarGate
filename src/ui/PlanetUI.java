@@ -1,6 +1,6 @@
-package UI;
+package ui;
 
-import Terminal.*;
+import terminal.*;
 
 import java.util.List;
 
