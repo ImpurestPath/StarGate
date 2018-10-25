@@ -3,7 +3,7 @@ package Terminal;
 import DB.LanguageDB;
 import DB.LanguageDB.Type;
 
-public class Language implements WithName {
+public class Language implements Searchable {
 
 
     private final String _name;
@@ -22,7 +22,7 @@ public class Language implements WithName {
         this._availableDictionary = languageDB.isAvailableDictionary();
     }
 
-    public String getName() {
+    public String merge() {
         return _name;
     }
 
@@ -41,5 +41,15 @@ public class Language implements WithName {
                 ", _availableDictionary=" + _availableDictionary +
                 ", _type=" + _type +
                 '}';
+    }
+    public String getName(){
+        return this._name;
+    }
+    @Override
+    public <T> boolean merge(T id) {
+        if (id.getClass() == String.class){
+            return this._name.equals(id.toString());
+        }
+        return false;
     }
 }

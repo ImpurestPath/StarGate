@@ -7,44 +7,69 @@ public class RaceDB {
         ANGRY,
         NEUTRAL
     }
-
-    private final String _name;
-    private final long _amount;
-    private final Behavior _behavior;
+    private int id;
+    private final String name;
+    private final long amount;
+    private final Behavior behavior;
 
     RaceDB(String name, long amount, boolean angry) {
-        this._name = name;
-        this._amount = amount;
-        if (angry) _behavior = Behavior.ANGRY;
-        else _behavior = Behavior.NEUTRAL;
+        this.id = -1;
+        this.name = name;
+        this.amount = amount;
+        if (angry) behavior = Behavior.ANGRY;
+        else behavior = Behavior.NEUTRAL;
     }
 
     RaceDB(String name, long amount, String behavior) {
-        this._name = name;
-        this._amount = amount;
-        if (behavior.equals("ANGRY")) _behavior = Behavior.ANGRY;
-        else _behavior = Behavior.NEUTRAL;
+        this.id = -1;
+        this.name = name;
+        this.amount = amount;
+        if (behavior.equals("ANGRY")) this.behavior = Behavior.ANGRY;
+        else this.behavior = Behavior.NEUTRAL;
     }
 
+    RaceDB(int id, String name, long amount, boolean angry) {
+        this.id = id;
+        this.name = name;
+        this.amount = amount;
+        if (angry) behavior = Behavior.ANGRY;
+        else behavior = Behavior.NEUTRAL;
+    }
+
+    RaceDB(int id, String name, long amount, String behavior) {
+        this.id = id;
+        this.name = name;
+        this.amount = amount;
+        if (behavior.equals("ANGRY")) this.behavior = Behavior.ANGRY;
+        else this.behavior = Behavior.NEUTRAL;
+    }
     RaceDB(Race race) {
-        this._name = race.getName();
-        this._amount = race.getAmount();
-        this._behavior = race.getBehavior();
+        this.name = race.getName();
+        this.amount = race.getAmount();
+        this.behavior = race.getBehavior();
     }
 
     public long getAmount() {
-        return _amount;
+        return amount;
     }
 
     public Behavior getBehavior() {
-        return _behavior;
+        return behavior;
     }
 
     public boolean getBoolBehavior() {
-        return (_behavior == Behavior.ANGRY);
+        return (behavior == Behavior.ANGRY);
     }
 
     public String getName() {
-        return _name;
+        return name;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

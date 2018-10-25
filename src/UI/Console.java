@@ -26,27 +26,17 @@ public class Console {
 
     }
 
-    private int findPlanet(Planet planet) {
-        int count = 0;
-        for (PlanetUI planetUI :
-                planetUIList) {
-            if (planetUI.getPlanet() == planet) return count;
-            count++;
-        }
-        return -1;
-    }
-
-    private <T extends WithName> int findT(List<T> tList, String name) {
+    private <T extends Searchable,P> int findT(List<T> tList, P id) {
         int count = 0;
         for (T t :
                 tList) {
-            if (t.getName().equals(name)) return count;
+            if (t.merge(id)) return count;
             count++;
         }
         return -1;
     }
 
-    private <T extends WithName> void deleteT(List<T> tList, String name) {
+    private <T extends Searchable> void deleteT(List<T> tList, String name) {
         //Maybe print name
         int i = findT(tList, name);
         if (i != -1) tList.remove(i);
@@ -208,14 +198,14 @@ public class Console {
     }
 
     private void deletePlanet() throws ExceptionDAO {
-        System.out.println("Enter id of planet (0 to see available planets, -1 for exit)");
+        System.out.println("Enter id of currentPlanet (0 to see available planets, -1 for exit)");
         int choose = scanner.nextInt();
         if (choose == 0) {
             viewPlanets();
             deletePlanet();
         } else if (choose > 0) {
             if (planetManager.hasPlanet(choose)) {
-                int count = findPlanet(planetManager.get(choose));
+                int count = findT(this.planetUIList,choose);
                 planetUIList.get(count).view();
                 System.out.println("Are you sure?(y/n)");
                 switch (scanner.next().charAt(0)) {
@@ -230,7 +220,7 @@ public class Console {
                         break;
                 }
             } else {
-                System.out.println("No planet with this id");
+                System.out.println("No currentPlanet with this id");
                 deletePlanet();
             }
         }
@@ -321,7 +311,7 @@ public class Console {
         System.out.println("Name of language:");
         int i = findT(languages, scanner.next());
         if (i == -1) {
-            System.out.println("No planet with this name");
+            System.out.println("No currentPlanet with this name");
             return;
         }
         Language oldLanguage = languages.get(i);
@@ -375,19 +365,19 @@ public class Console {
             break;
         }
         System.out.println("Successful");
-        languages.set(i, new Language(name.equals("0") ? oldLanguage.getName() : name, type, available));
+        languages.set(i, new Language(name.equals("0") ? oldLanguage.merge() : name, type, available));
     }
 
     private void updatePlanet() throws ExceptionDAO {
-        System.out.println("Enter id of planet (0 to see available planets, -1 for exit)");
+        System.out.println("Enter id of currentPlanet (0 to see available planets, -1 for exit)");
         int choose = scanner.nextInt();
         if (choose == 0) {
             viewPlanets();
             updatePlanet();
         } else if (choose > 0) {
-            if (planetManager.hasPlanet(choose)) {
-                Planet oldPlanet = planetManager.get(choose);
-                int UIitem = findPlanet(oldPlanet);
+            int UIitem = findT(planetUIList,choose);
+            if (UIitem != -1) {
+                Planet oldPlanet = planetUIList.get(UIitem).getPlanet();
                 planetUIList.get(UIitem).view();
                 System.out.println("Name:(0 for origin) ");
                 String name = scanner.next();
@@ -437,24 +427,25 @@ public class Console {
                     }
                 }
             } else {
-                System.out.println("No planet with this id");
+                System.out.println("No currentPlanet with this id");
                 updatePlanet();
             }
         }
     }
 
     private void moveUser() {
-        System.out.println("Enter id of planet (0 to see available planets, -1 for exit)");
+        System.out.println("Enter id of currentPlanet (0 to see available planets, -1 for exit)");
         int choose = scanner.nextInt();
         if (choose == 0) {
             viewPlanets();
             moveUser();
         } else if (choose > 0) {
-            if (planetManager.hasPlanet(choose)) {
-                PlanetUI userPlanetUI = planetUIList.get(findPlanet(planetManager.get(choose)));
+            int UIitem = findT(planetUIList,choose);
+            if (UIitem != -1) {
+                PlanetUI userPlanetUI = planetUIList.get(UIitem);
                 userPlanetUI.view();
                 if (userPlanetUI.getPlanet().isAngry()) {
-                    System.out.println("Angry planet. Are you sure?(y/n)");
+                    System.out.println("Angry currentPlanet. Are you sure?(y/n)");
                     switch (scanner.next().charAt(0)) {
                         case 'y':
                         case 'Y':
@@ -468,7 +459,7 @@ public class Console {
                     UserManager.moveUser(userPlanetUI.getPlanet(), user);
                 }
             } else {
-                System.out.println("No planet with this id");
+                System.out.println("No currentPlanet with this id");
                 moveUser();
             }
         }
@@ -476,9 +467,9 @@ public class Console {
 
     private void changeData() throws ExceptionDAO {
         while (true) {
-            System.out.print("1.Add planet\n" +
-                    "2.Change existing planet\n" +
-                    "3.Delete planet\n" +
+            System.out.print("1.Add currentPlanet\n" +
+                    "2.Change existing currentPlanet\n" +
+                    "3.Delete currentPlanet\n" +
                     "4.Back\n");
             int choice = scanner.nextInt();
             switch (choice) {
@@ -501,10 +492,10 @@ public class Console {
         int choice;
         while (true) {
             System.out.print("What you want to do?\n" +
-                    "1.Move to another planet\n" +
+                    "1.Move to another currentPlanet\n" +
                     "2.Planet info\n" +
                     "3.Available planets\n" +
-                    "4.Change planet info\n" +
+                    "4.Change currentPlanet info\n" +
                     "5.Exit\n");
             choice = scanner.nextInt();
             switch (choice) {
@@ -512,7 +503,7 @@ public class Console {
                     moveUser();
                     break;
                 case 2:
-                    planetUIList.get(findPlanet(user.getPlanet())).view();
+                    planetUIList.get(findT(planetUIList,user.getCurrentPlanet().getId())).view();
                     break;
                 case 3:
                     viewPlanets();

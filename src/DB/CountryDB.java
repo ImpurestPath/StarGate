@@ -8,37 +8,41 @@ import java.util.List;
 import java.util.Collections;
 
 public class CountryDB {
+
+
+    private int id;
     private final String _name;
     private final long _area;
-    private final List<RaceDB> _races;
 
-    CountryDB(String name, long area, List<RaceDB> races) {
+    CountryDB(int id, String name, long area) {
+        this.id = id;
         this._name = name;
         this._area = area;
-        this._races = races;
+    }
+    CountryDB(String name, long area) {
+        this.id = -1;
+        this._name = name;
+        this._area = area;
     }
 
     CountryDB(Country country) {
+        this.id = country.getId();
         this._name = country.getName();
         this._area = country.getArea();
-        this._races = new ArrayList<>();
-        for (Race race :
-                country.getRaces()) {
-            _races.add(new RaceDB(race));
-        }
     }
 
     public long getArea() {
         return _area;
     }
 
-    public List<RaceDB> getRaces() {
-        // unmodifiable collection
-        return Collections.unmodifiableList(_races);
-    }
-
     public String getName() {
         return _name;
     }
 
+    public int getId() {
+        return id;
+    }
+    public void setId(int id){
+        this.id = id;
+    }
 }

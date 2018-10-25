@@ -6,35 +6,13 @@ import java.sql.*;
 import java.util.*;
 import java.util.List;
 
-public class SQLitePlanetManager implements PlanetDAO {
-
-    // Константа, в которой хранится адрес подключения
-    private static final String CON_STR = "jdbc:sqlite:";
-
-    // Используем шаблон одиночка, чтобы не плодить множество
-    // экземпляров класса DbHandler
-    private static SQLitePlanetManager instance = null;
-
-    public static synchronized SQLitePlanetManager getInstance(String name) throws ExceptionDAO {
-        if (instance == null)
-            instance = new SQLitePlanetManager(name);
-        return instance;
-    }
+public class SQLPlanetManager implements PlanetDAO {
 
     // Объект, в котором будет храниться соединение с БД
-    private Connection connection;
+    Connection connection;
 
-    public SQLitePlanetManager(String file) throws ExceptionDAO {
-        try {
-            // Регистрируем драйвер, с которым будем работать
-            // в нашем случае Sqlite
-            DriverManager.registerDriver(new JDBC());
-            // Выполняем подключение к базе данных
-            this.connection = DriverManager.getConnection(CON_STR + file);
-        } catch (SQLException e) {
-            throw new ExceptionDAO(e);
-        }
-
+    public SQLPlanetManager(SQLConnection sqlConnection) throws ExceptionDAO {
+        this.connection = sqlConnection.connection;
     }
 
     public List<PlanetDB> getAll() {
@@ -48,12 +26,12 @@ public class SQLitePlanetManager implements PlanetDAO {
             // В resultSet будет храниться результат нашего запроса,
             // который выполняется командой statement.executeQuery()
             ResultSet resultSet = statement.executeQuery("SELECT idPlanet, name, temperature, pressure FROM Planet");
-            PreparedStatement preparedStatementLanguage = connection.prepareStatement("SELECT Language.name,availableDictionary,TypeLanguage.name FROM Language LEFT JOIN TypeLanguage ON Language.idType = TypeLanguage.idType WHERE idPlanet = ?");
+            /*PreparedStatement preparedStatementLanguage = connection.prepareStatement("SELECT Language.name,availableDictionary,TypeLanguage.name FROM Language LEFT JOIN TypeLanguage ON Language.idType = TypeLanguage.idType WHERE idPlanet = ?");
             PreparedStatement preparedStatementRace = connection.prepareStatement("SELECT Race.name,amount,Behavior.name from Race LEFT JOIN Behavior ON Race.idBehavior = Behavior.idBehavior WHERE idCountry = ?");
-            PreparedStatement preparedStatementCountry = connection.prepareStatement("SELECT idCountry, Country.name,area FROM Country where idPlanet = ?");
+            PreparedStatement preparedStatementCountry = connection.prepareStatement("SELECT idCountry, Country.name,area FROM Country where idPlanet = ?");*/
             // Проходимся по нашему resultSet и заносим данные в products
             while (resultSet.next()) {
-                List<LanguageDB> languages = new ArrayList<>();
+                /*List<LanguageDB> languages = new ArrayList<>();
                 preparedStatementLanguage.setInt(1, resultSet.getInt(1));
                 ResultSet languagesResult = preparedStatementLanguage.executeQuery();
                 while (languagesResult.next()) {
@@ -70,8 +48,8 @@ public class SQLitePlanetManager implements PlanetDAO {
                         races.add(new RaceDB(racesResult.getString(1), racesResult.getLong(2), racesResult.getString(3)));
                     }
                     countries.add(new CountryDB(countriesResult.getString(2), countriesResult.getLong(3), races));
-                }
-                planets.add(new PlanetDB(resultSet.getString(2), resultSet.getInt(3), resultSet.getLong(4), languages, countries, resultSet.getInt(1)));
+                }*/
+                planets.add(new PlanetDB(resultSet.getString(2), resultSet.getInt(3), resultSet.getLong(4), resultSet.getInt(1)));
             }
             // Возвращаем наш список
             return planets;
@@ -95,8 +73,8 @@ public class SQLitePlanetManager implements PlanetDAO {
             ResultSet lastId = statement.executeQuery("SELECT last_insert_rowid()");
             int id = lastId.getInt(1);
             planet.setId(id);
-            insertLanguages(planet, id);
-            insertCountries(planet, statement, id);
+            //insertLanguages(planet, id);
+            //insertCountries(planet, statement, id);
             return id;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -104,7 +82,7 @@ public class SQLitePlanetManager implements PlanetDAO {
         }
     }
 
-    private void insertCountries(PlanetDB planet, Statement statement, int id) throws SQLException {
+    /*private void insertCountries(PlanetDB planet, Statement statement, int id) throws SQLException {
         for (CountryDB country :
                 planet.getCountries()) {
             PreparedStatement preparedStatementCountry = connection.prepareStatement("INSERT INTO" +
@@ -125,7 +103,7 @@ public class SQLitePlanetManager implements PlanetDAO {
                 preparedStatementRace.execute();
             }
         }
-    }
+    }*/
 
     private void add(int id, PlanetDB planet) throws ExceptionDAO {
 
@@ -138,16 +116,15 @@ public class SQLitePlanetManager implements PlanetDAO {
             preparedStatementPlanet.setInt(3, planet.getTemperature());
             preparedStatementPlanet.setLong(4, planet.getPressure());
             preparedStatementPlanet.execute();
-            insertLanguages(planet, id);
-            insertCountries(planet, statement, id);
-
+            //insertLanguages(planet, id);
+            //insertCountries(planet, statement, id);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new ExceptionDAO(e);
         }
     }
 
-    private void insertLanguages(PlanetDB planet, int id) throws SQLException {
+    /*private void insertLanguages(PlanetDB planet, int id) throws SQLException {
         for (LanguageDB language :
                 planet.getLanguages()) {
             PreparedStatement preparedStatementLanguage = connection.prepareStatement("INSERT INTO " +
@@ -159,7 +136,7 @@ public class SQLitePlanetManager implements PlanetDAO {
                     1 : language.getType() == LanguageDB.Type.VISUAL ? 2 : 3);
             preparedStatementLanguage.execute();
         }
-    }
+    }*/
 
     public void delete(int id) throws ExceptionDAO {
         try (PreparedStatement statement = this.connection.prepareStatement(

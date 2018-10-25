@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Planet implements WithName {
+public class Planet implements Searchable {
     private static final double AREAANGRYPERSENT = 0.4;
     private static final double AMOUNTANGRYPERSENT = 0.5;
     private final Behavior _behavior;
@@ -124,9 +124,6 @@ public class Planet implements WithName {
         return _pressure;
     }
 
-    public String getName() {
-        return _name;
-    }
 
     public int getId() {
         return _id;
@@ -148,5 +145,18 @@ public class Planet implements WithName {
                 ", _languages=" + _languages +
                 ", _countries=" + _countries +
                 '}';
+    }
+    public String getName() {
+        return _name;
+    }
+    @Override
+    public <T> boolean merge(T id) {
+        if (id.getClass() == Integer.class){
+            return Integer.toString(this._id).equals(id.toString());
+        }
+        else if (id.getClass() == String.class){
+            return this._name.equals(id.toString());
+        }
+        else return false;
     }
 }

@@ -1,13 +1,10 @@
 package UI;
 
-import Terminal.Country;
-import Terminal.Language;
-import Terminal.Planet;
-import Terminal.Race;
+import Terminal.*;
 
 import java.util.List;
 
-class PlanetUI {
+class PlanetUI implements Searchable {
     private final Planet planet;
 
     PlanetUI(Planet planet) {
@@ -43,7 +40,7 @@ class PlanetUI {
     }
 
     static void viewLanguage(Language language) {
-        System.out.printf("\t\tName: %s\n", language.getName());
+        System.out.printf("\t\tName: %s\n", language.merge());
         System.out.printf("\t\tType: %s\n", language.getType().toString());
         System.out.printf("\t\tAvailable dictionary: %s\n", language.isAvailableDictionary() ? "yes" : "no");
         System.out.println();
@@ -80,4 +77,14 @@ class PlanetUI {
         if (country.hasRaces()) viewRaces(country.getRaces());
     }
 
+    @Override
+    public <T> boolean merge(T id) {
+        if (id.getClass() == Integer.class){
+            return Integer.toString(this.planet.getId()).equals(id.toString());
+        }
+        else if (id.getClass() == String.class){
+            return this.planet.getName().equals(id.toString());
+        }
+        return false;
+    }
 }

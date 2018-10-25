@@ -26,7 +26,7 @@ public class LanguageDB {
     }
 
     LanguageDB(Language language) {
-        this._name = language.getName();
+        this._name = language.merge();
         this._type = language.getType();
         this._availableDictionary = language.isAvailableDictionary();
     }

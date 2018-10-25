@@ -3,39 +3,61 @@ package Terminal;
 import DB.RaceDB;
 import DB.RaceDB.Behavior;
 
-public class Race implements WithName {
-
-    private final String _name;
-    private final long _amount;
-    private final Behavior _behavior;
+public class Race implements Searchable {
+    private int id;
+    private final String name;
+    private final long amount;
+    private final Behavior behavior;
 
     public Race(String name, long amount, boolean angry) {
-        this._name = name;
-        this._amount = amount;
-        if (angry) _behavior = Behavior.ANGRY;
-        else _behavior = Behavior.NEUTRAL;
+        this.name = name;
+        this.amount = amount;
+        if (angry) behavior = Behavior.ANGRY;
+        else behavior = Behavior.NEUTRAL;
+    }
+    public Race(int id, String name, long amount, boolean angry) {
+        this.id = id;
+        this.name = name;
+        this.amount = amount;
+        if (angry) behavior = Behavior.ANGRY;
+        else behavior = Behavior.NEUTRAL;
     }
 
     Race(RaceDB raceDB) {
-        this._name = raceDB.getName();
-        this._amount = raceDB.getAmount();
-        if (raceDB.getBoolBehavior()) _behavior = Behavior.ANGRY;
-        else _behavior = Behavior.NEUTRAL;
+        this.name = raceDB.getName();
+        this.amount = raceDB.getAmount();
+        if (raceDB.getBoolBehavior()) behavior = Behavior.ANGRY;
+        else behavior = Behavior.NEUTRAL;
     }
 
     public long getAmount() {
-        return _amount;
+        return amount;
     }
 
     public Behavior getBehavior() {
-        return _behavior;
+        return behavior;
     }
 
     public boolean getBoolBehavior() {
-        return (_behavior == Behavior.ANGRY);
+        return (behavior == Behavior.ANGRY);
+    }
+    public String getName(){
+        return this.name;
     }
 
-    public String getName() {
-        return _name;
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public <T> boolean merge(T id) {
+        if (id.getClass() == String.class){
+            return this.name.equals(id.toString());
+        }
+        return false;
     }
 }

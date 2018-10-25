@@ -8,73 +8,89 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Country implements WithName {
-    private final String _name;
-    private final long _area;
-    private final long _amountAlive;
-    private final List<Race> _races;
-    private final Behavior _behavior;
+public class Country implements Searchable {
+    private int id;
+    private final String name;
+    private final long area;
+    private final long amountAlive;
+    private final List<Race> races;
+    private final Behavior behavior;
 
-    public Country(String name, long area, List<Race> races) {
-        this._name = name;
-        this._area = area;
-        this._races = races;
-        _amountAlive = calculateAmountAlive();
-        this._behavior = calculateBehavior();
+    public Country(int id, String name, long area, List<Race> races) {
+        this.id = id;
+        this.name = name;
+        this.area = area;
+        this.races = races;
+        amountAlive = calculateAmountAlive();
+        this.behavior = calculateBehavior();
     }
 
     Country(CountryDB countryDB) {
-        this._name = countryDB.getName();
-        this._area = countryDB.getArea();
-        this._races = new ArrayList<>();
+        this.name = countryDB.getName();
+        this.area = countryDB.getArea();
+        this.races = new ArrayList<>();
         for (RaceDB raceDB :
                 countryDB.getRaces()) {
-            _races.add(new Race(raceDB));
+            races.add(new Race(raceDB));
         }
-        this._amountAlive = calculateAmountAlive();
-        this._behavior = calculateBehavior();
+        this.amountAlive = calculateAmountAlive();
+        this.behavior = calculateBehavior();
     }
 
     private Behavior calculateBehavior() {
-        if (_amountAlive == 0) return Behavior.NEUTRAL;
+        if (amountAlive == 0) return Behavior.NEUTRAL;
         long amountAngry = 0;
-        for (Race race : _races) {
+        for (Race race : races) {
             if (race.getBoolBehavior()) amountAngry += race.getAmount();
         }
-        if ((double) amountAngry / _amountAlive > 0.5) return Behavior.ANGRY;
+        if ((double) amountAngry / amountAlive > 0.5) return Behavior.ANGRY;
         else return Behavior.NEUTRAL;
     }
 
     private long calculateAmountAlive() {
         long amount = 0;
-        for (Race race : _races) {
+        for (Race race : races) {
             amount += race.getAmount();
         }
         return amount;
     }
 
     public Behavior getBehavior() {
-        return _behavior;
+        return behavior;
     }
 
     public long getArea() {
-        return _area;
+        return area;
     }
 
     public long getAmountAlive() {
-        return _amountAlive;
+        return amountAlive;
     }
 
     public List<Race> getRaces() {
         // unmodifiable collection
-        return Collections.unmodifiableList(_races);
+        return Collections.unmodifiableList(races);
     }
 
-    public String getName() {
-        return _name;
+    public String getName(){
+        return this.name;
+    }
+
+    public int getId() {
+        return this.id;
     }
 
     public boolean hasRaces() {
-        return !_races.isEmpty();
+        return !races.isEmpty();
+    }
+    @Override
+    public <T> boolean merge(T id) {
+        if (id.getClass() == String.class){
+            return this.name.equals(id.toString());
+        }
+        if (id.getClass() == Integer.class){
+            return Integer.toString(this.id).equals(id.toString());
+        }
+        return false;
     }
 }

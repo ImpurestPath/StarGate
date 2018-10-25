@@ -28,7 +28,7 @@ class PlanetWriter {
     }
 
     private Element createPlanet(PlanetDB planet) {
-        Element pl = document.createElement("planet");
+        Element pl = document.createElement("currentPlanet");
 
         Element name = document.createElement("name");
 
