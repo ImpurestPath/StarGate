@@ -1,12 +1,7 @@
 package db;
 
-import db.CountryDB;
-import db.LanguageDB;
-import db.PlanetDB;
-import db.RaceDB;
 import terminal.*;
 
-import java.util.List;
 
 public class TransformerToDTO {
     public static PlanetDB toPlanet(Planet planet){

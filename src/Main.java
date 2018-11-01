@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) throws ExceptionDAO {
         PlanetManager manager = new PlanetManager("C:\\Users\\ImpurestPath\\IdeaProjects\\StarGate\\PlanetRepository.db");
         UserManager userManager = new UserManager("C:\\Users\\ImpurestPath\\IdeaProjects\\StarGate\\PlanetRepository.db");
-        Console console = new Console(manager,userManager);
+        Console console = new Console(manager,userManager,1);
         console.mainMenu();
     }
 }

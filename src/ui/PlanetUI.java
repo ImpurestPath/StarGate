@@ -16,7 +16,6 @@ class PlanetUI implements Searchable {
     }
 
     void view() {
-        System.out.println("FromUI");
         System.out.printf("ID: %d\n", planet.getId());
         System.out.printf("Name: %s\n", planet.getName());
         System.out.printf("Behavior: %s\n", planet.getBehavior().toString());

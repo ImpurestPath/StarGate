@@ -66,7 +66,7 @@ public class PlanetManager {
 
     public void delete(Planet planet) throws ExceptionDAO {
         planetDAO.delete(planet.getId());
-        /*for (Language language :
+        for (Language language :
                 planet.getLanguages()) {
             languageDAO.delete(language.getId());
         }
@@ -76,7 +76,7 @@ public class PlanetManager {
                     country.getRaces()) {
                 raceDAO.delete(race.getId());
             }
-        }*/
+        }
     }
 
     public void update(int id, Planet planet) throws ExceptionDAO {

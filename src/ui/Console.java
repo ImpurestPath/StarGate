@@ -13,12 +13,14 @@ public class Console {
     private final PlanetManager planetManager;
     private final UserManager userManager;
     private User user;
+    private final int idGatePlanet;
     private List<PlanetUI> planetUIList;
 
-    public Console(PlanetManager planetManager,UserManager userManager) throws ExceptionDAO {
+    public Console(PlanetManager planetManager,UserManager userManager, int idGatePlanet) throws ExceptionDAO {
         this.scanner = new Scanner(System.in);
         this.planetManager = planetManager;
         this.userManager = userManager;
+        this.idGatePlanet = idGatePlanet;
         planetUIList = new ArrayList<>();
         for (Planet planet :
                 planetManager.getAll()) {
@@ -31,11 +33,11 @@ public class Console {
         String login = scanner.next();
         User tempUser = userManager.get(login);
         if (tempUser != null)
-        this.user = tempUser; //Do when not found and registration
+            this.user = tempUser; //Do when not found and registration
         else {
             System.out.println("No such user, register please");
             System.out.println("Login:");
-            User newUser = new User(scanner.next(),1);
+            User newUser = new User(scanner.next(),"",idGatePlanet);
             userManager.add(newUser); //Maybe constant
             this.user = newUser;
         }
@@ -225,7 +227,7 @@ public class Console {
                 switch (scanner.next().charAt(0)) {
                     case 'y':
                     case 'Y':
-                        planetManager.delete(planetUIList.get(choose).getPlanet());
+                        planetManager.delete(planetUIList.get(count).getPlanet());
                         System.out.println("Successful");
                         planetUIList.remove(count);
                         break;
@@ -274,7 +276,9 @@ public class Console {
             }
             break;
         }
-        races.set(i, new Race(name.equals("0") ? oldRace.getName() : name, amount == 0 ? oldRace.getAmount() : amount, behavior));
+        races.set(i, new Race(name.equals("0") ? oldRace.getName() : name,
+                amount == 0 ? oldRace.getAmount() : amount,
+                behavior));
 
     }
 
@@ -301,7 +305,9 @@ public class Console {
             switch (scanner.nextInt()) {
                 case 0:
                     System.out.println("Successful");
-                    countries.set(i, new Country(name.equals("0") ? oldCountry.getName() : name, area == 0 ? oldCountry.getArea() : area, races));
+                    countries.set(i, new Country(name.equals("0") ? oldCountry.getName() : name,
+                            area == 0 ? oldCountry.getArea() : area,
+                            races));
                     return;
                 case 1:
                     races.add(addRace());
@@ -446,14 +452,14 @@ public class Console {
                     }
                 }
             } else {
-                System.out.println("No currentPlanet with this id");
+                System.out.println("No planet with this id");
                 updatePlanet();
             }
         }
     }
 
     private void moveUser() {
-        System.out.println("Enter id of currentPlanet (0 to see available planets, -1 for exit)");
+        System.out.println("Enter id of planet (0 to see available planets, -1 for exit)");
         int choose = scanner.nextInt();
         if (choose == 0) {
             viewPlanets();
@@ -464,32 +470,88 @@ public class Console {
                 PlanetUI userPlanetUI = planetUIList.get(UIitem);
                 userPlanetUI.view();
                 if (userPlanetUI.getPlanet().isAngry()) {
-                    System.out.println("Angry currentPlanet. Are you sure?(y/n)");
+                    System.out.println("Angry planet. Are you sure?(y/n)");
                     switch (scanner.next().charAt(0)) {
                         case 'y':
                         case 'Y':
-                            UserManager.moveUser(userPlanetUI.getPlanet(), user);
+                            StarGate.moveUser(userPlanetUI.getPlanet().getId(), user);
                             System.out.println("Successful");
                             break;
                         default:
                             System.out.println("Good choose");
                     }
                 } else {
-                    UserManager.moveUser(userPlanetUI.getPlanet(), user);
+                    StarGate.moveUser(userPlanetUI.getPlanet().getId(), user);
                 }
             } else {
-                System.out.println("No currentPlanet with this id");
+                System.out.println("No planet with this id");
                 moveUser();
             }
         }
     }
-
-    private void changeData() throws ExceptionDAO {
+    private void addUser() throws ExceptionDAO {
+        System.out.println("Login:");
+        String name = scanner.next();
+        System.out.println("Permissions:");
+        String perm = scanner.next();
+        userManager.add(new User(name,perm,1));
+    }
+    private void updateUser() throws ExceptionDAO {
+        System.out.println("User login:");
+        String login = scanner.next();
+        User user = userManager.get(login);
+        System.out.println("Login:(0 for origin)");
+        String temp = scanner.next();
+        String newLogin;
+        if (temp.equals("0")) newLogin = login;
+        else newLogin = temp;
+        System.out.println("Permissions:(0 for origin)");
+        temp = scanner.next();
+        String newPermissions;
+        if (temp.equals("0")) newPermissions = user.getPermission();
+        else newPermissions = temp;
+        System.out.println("Id of current planet:(0 for origin)");
+        int tempInt = scanner.nextInt();
+        int newIdPlanet;
+        if (tempInt == 0) newIdPlanet = user.getIdCurrentPlanet();
+        else newIdPlanet = tempInt;
+        userManager.update(user.getId(),new User(user.getId(),newLogin,newPermissions,newIdPlanet));
+    }
+    private void deleteUser() throws ExceptionDAO {
+        System.out.println("User login:");
+        String login = scanner.next();
+        userManager.delete(userManager.get(login).getId());
+    }
+    private void changeUserMenu() throws ExceptionDAO {
         while (true) {
-            System.out.print("1.Add currentPlanet\n" +
-                    "2.Change existing currentPlanet\n" +
-                    "3.Delete currentPlanet\n" +
+            System.out.print("1.Add user\n" +
+                    "2.Change data\n" +
+                    "3.Delete user\n" +
                     "4.Back\n");
+            int choice = scanner.nextInt();
+            switch (choice) {
+                case 1:
+                    addUser();
+                    break;
+                case 2:
+                    updateUser();
+                    break;
+                case 3:
+                    deleteUser();
+                    break;
+                default:
+                    return;
+            }
+        }
+    }
+
+    private void adminMenu() throws ExceptionDAO {
+        while (true) {
+            System.out.print("1.Add planet\n" +
+                    "2.Change existing planet\n" +
+                    "3.Delete planet\n" +
+                    "4.Change user info\n" +
+                    "5.Back");
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1:
@@ -501,6 +563,11 @@ public class Console {
                 case 3:
                     deletePlanet();
                     break;
+                case 4:
+                    changeUserMenu();
+                    break;
+                case 5:
+                    break;
                 default:
                     return;
             }
@@ -511,11 +578,12 @@ public class Console {
         int choice;
         while (true) {
             System.out.print("What you want to do?\n" +
-                    "1.Move to another currentPlanet\n" +
+                    "1.Move to another planet\n" +
                     "2.Planet info\n" +
                     "3.Available planets\n" +
-                    "4.Change currentPlanet info\n" +
-                    "5.Exit\n");
+                    "4.Admin menu\n" +
+                    "5.Change user\n" +
+                    "6.Exit" );
             choice = scanner.nextInt();
             switch (choice) {
                 case 1:
@@ -528,9 +596,12 @@ public class Console {
                     viewPlanets();
                     break;
                 case 4:
-                    changeData();
+                    adminMenu();
                     break;
                 case 5:
+                    changeUser();
+                    break;
+                case 6:
                     return;
                 default:
                     break;

@@ -1,12 +1,6 @@
 package terminal;
 
 import db.*;
-import terminal.Country;
-import terminal.Language;
-import terminal.Planet;
-import terminal.Race;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class TransformerToEntity {
@@ -24,7 +18,7 @@ public class TransformerToEntity {
     }
     public static User toUser(UserDB userDB){
         if (userDB != null)
-        return new User(userDB.getName(),userDB.getIdCurrentPlanet());
+            return new User(userDB.getName(),userDB.getPermissions(),userDB.getIdCurrentPlanet());
         else return null;
     }
 }
