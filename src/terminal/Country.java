@@ -32,17 +32,6 @@ public class Country implements Searchable {
         amountAlive = calculateAmountAlive();
         this.behavior = calculateBehavior();
     }
-    /*Country(CountryDB countryDB) {
-        this.name = countryDB.getName();
-        this.area = countryDB.getArea();
-        this.races = new ArrayList<>();
-        for (RaceDB raceDB :
-                countryDB.getRaces()) {
-            races.add(new Race(raceDB));
-        }
-        this.amountAlive = calculateAmountAlive();
-        this.behavior = calculateBehavior();
-    }*/
 
     private Behavior calculateBehavior() {
         if (amountAlive == 0) return Behavior.NEUTRAL;
@@ -75,7 +64,6 @@ public class Country implements Searchable {
     }
 
     public List<Race> getRaces() {
-        // unmodifiable collection
         return Collections.unmodifiableList(races);
     }
 

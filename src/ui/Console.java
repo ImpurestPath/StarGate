@@ -16,18 +16,53 @@ public class Console {
     private final int idGatePlanet;
     private List<PlanetUI> planetUIList;
 
-    public Console(PlanetManager planetManager,UserManager userManager, int idGatePlanet) throws ExceptionDAO {
+
+    public Console(PlanetManager planetManager, UserManager userManager, int idGatePlanet) throws ExceptionDAO {
         this.scanner = new Scanner(System.in);
         this.planetManager = planetManager;
         this.userManager = userManager;
         this.idGatePlanet = idGatePlanet;
         planetUIList = new ArrayList<>();
-        for (Planet planet :
-                planetManager.getAll()) {
-            planetUIList.add(new PlanetUI(planet));
-        }
-        changeUser();
+        //planetManager.addManyPlanets();
     }
+
+    public class LoadPlanets implements Runnable { //Move to constructor?
+        public void run() {
+            try {
+                for (Planet planet :
+                        planetManager.getAll()) {
+                    planetUIList.add(new PlanetUI(planet));
+                }
+            } catch (ExceptionDAO e) {
+                System.out.println("Failure of loading");
+            }
+        }
+    }
+
+    public class LoadingScreen implements Runnable {
+        private int numberOfPoints;
+
+        public void run() {
+            numberOfPoints = 0;
+            while (true) {
+                if (!Thread.interrupted()) return;
+                System.out.print("Loading");
+                numberOfPoints = (numberOfPoints + 1) % 5;
+                for (int i = 0; i < numberOfPoints; i++) {
+                    System.out.print(".");
+                }
+                System.out.println();
+                try{
+                    Thread.sleep(1000);
+                }
+                catch (InterruptedException e){
+                    System.out.println("Thread exception");
+                    return;
+                }
+            }
+        }
+    }
+
     private void changeUser() throws ExceptionDAO {
         System.out.println("Login:");
         String login = scanner.next();
@@ -37,12 +72,13 @@ public class Console {
         else {
             System.out.println("No such user, register please");
             System.out.println("Login:");
-            User newUser = new User(scanner.next(),"",idGatePlanet);
+            User newUser = new User(scanner.next(), "", idGatePlanet);
             userManager.add(newUser); //Maybe constant
             this.user = newUser;
         }
     }
-    private <T extends Searchable,P> int findT(List<T> tList, P id) {
+
+    private <T extends Searchable, P> int findT(List<T> tList, P id) {
         int count = 0;
         for (T t :
                 tList) {
@@ -220,8 +256,8 @@ public class Console {
             viewPlanets();
             deletePlanet();
         } else if (choose > 0) {
-            if (findT(planetUIList,choose) != -1) {
-                int count = findT(this.planetUIList,choose);
+            if (findT(planetUIList, choose) != -1) {
+                int count = findT(this.planetUIList, choose);
                 planetUIList.get(count).view();
                 System.out.println("Are you sure?(y/n)");
                 switch (scanner.next().charAt(0)) {
@@ -395,7 +431,7 @@ public class Console {
             viewPlanets();
             updatePlanet();
         } else if (choose > 0) {
-            int UIitem = findT(planetUIList,choose);
+            int UIitem = findT(planetUIList, choose);
             if (UIitem != -1) {
                 Planet oldPlanet = planetUIList.get(UIitem).getPlanet();
                 planetUIList.get(UIitem).view();
@@ -465,7 +501,7 @@ public class Console {
             viewPlanets();
             moveUser();
         } else if (choose > 0) {
-            int UIitem = findT(planetUIList,choose);
+            int UIitem = findT(planetUIList, choose);
             if (UIitem != -1) {
                 PlanetUI userPlanetUI = planetUIList.get(UIitem);
                 userPlanetUI.view();
@@ -489,13 +525,15 @@ public class Console {
             }
         }
     }
+
     private void addUser() throws ExceptionDAO {
         System.out.println("Login:");
         String name = scanner.next();
         System.out.println("Permissions:");
         String perm = scanner.next();
-        userManager.add(new User(name,perm,1));
+        userManager.add(new User(name, perm, 1));
     }
+
     private void updateUser() throws ExceptionDAO {
         System.out.println("User login:");
         String login = scanner.next();
@@ -515,13 +553,15 @@ public class Console {
         int newIdPlanet;
         if (tempInt == 0) newIdPlanet = user.getIdCurrentPlanet();
         else newIdPlanet = tempInt;
-        userManager.update(user.getId(),new User(user.getId(),newLogin,newPermissions,newIdPlanet));
+        userManager.update(user.getId(), new User(user.getId(), newLogin, newPermissions, newIdPlanet));
     }
+
     private void deleteUser() throws ExceptionDAO {
         System.out.println("User login:");
         String login = scanner.next();
         userManager.delete(userManager.get(login).getId());
     }
+
     private void changeUserMenu() throws ExceptionDAO {
         while (true) {
             System.out.print("1.Add user\n" +
@@ -575,6 +615,7 @@ public class Console {
     }
 
     public void mainMenu() throws ExceptionDAO {
+        changeUser();
         int choice;
         while (true) {
             System.out.print("What you want to do?\n" +
@@ -583,14 +624,14 @@ public class Console {
                     "3.Available planets\n" +
                     "4.Admin menu\n" +
                     "5.Change user\n" +
-                    "6.Exit" );
+                    "6.Exit");
             choice = scanner.nextInt();
             switch (choice) {
                 case 1:
                     moveUser();
                     break;
                 case 2:
-                    planetUIList.get(findT(planetUIList,user.getIdCurrentPlanet())).view();
+                    planetUIList.get(findT(planetUIList, user.getIdCurrentPlanet())).view();
                     break;
                 case 3:
                     viewPlanets();

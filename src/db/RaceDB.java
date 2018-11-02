@@ -49,7 +49,7 @@ public class RaceDB {
         this.amount = amount;
         this.behavior = behavior;
     }
-    RaceDB(String name, long amount, Behavior behavior) {
+    public RaceDB(String name, long amount, Behavior behavior) {
         this.id = -1;
         this.name = name;
         this.amount = amount;

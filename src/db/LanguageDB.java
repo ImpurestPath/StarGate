@@ -13,7 +13,7 @@ public class LanguageDB {
     private final boolean _availableDictionary;
     private final Type _type;
 
-    LanguageDB(String name, Type type, boolean availableDictionary) {
+    public LanguageDB(String name, Type type, boolean availableDictionary) {
         this._name = name;
         this._type = type;
         this._availableDictionary = availableDictionary;

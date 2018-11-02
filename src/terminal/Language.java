@@ -23,12 +23,6 @@ public class Language implements Searchable {
         this.availableDictionary = availableDictionary;
     }
 
-    /*   Language(LanguageDB languageDB) {
-           this.name = languageDB.getName();
-           this.type = languageDB.getType();
-           this.availableDictionary = languageDB.isAvailableDictionary();
-       }
-   */
     public String merge() {
         return name;
     }

@@ -1,80 +1,59 @@
 package terminal;
 
-import db.CountryDB;
-import db.LanguageDB;
-import db.PlanetDB;
 import db.RaceDB.Behavior;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Planet implements Searchable {
     private static final double AREAANGRYPERSENT = 0.4;
     private static final double AMOUNTANGRYPERSENT = 0.5;
-    private final Behavior _behavior;
-    private final int _temperature;
-    private final long _pressure;
-    private long _area;
-    private long _amountAlive;
-    private int _id;
-    private final String _name;
-    private final List<Language> _languages;
-    private final List<Country> _countries;
+    private final Behavior behavior;
+    private final int temperature;
+    private final long pressure;
+    private long area;
+    private long amountAlive;
+    private int id;
+    private final String name;
+    private final List<Language> languages;
+    private final List<Country> countries;
 
     public Planet(int id, String name, int temperature, long pressure,
                   List<Language> languages, List<Country> countries) {
-        this._id = id;
-        this._name = name;
-        this._temperature = temperature;
-        this._pressure = pressure;
-        this._languages = languages;
-        this._countries = countries;
+        this.id = id;
+        this.name = name;
+        this.temperature = temperature;
+        this.pressure = pressure;
+        this.languages = languages;
+        this.countries = countries;
         calculateAreaAndAmount();
-        this._behavior = calculateBehavior();
+        this.behavior = calculateBehavior();
     }
 
     public Planet(String name, int temperature, long pressure,
                   List<Language> languages, List<Country> countries) {
-        this._name = name;
-        this._temperature = temperature;
-        this._pressure = pressure;
-        this._languages = languages;
-        this._countries = countries;
+        this.name = name;
+        this.temperature = temperature;
+        this.pressure = pressure;
+        this.languages = languages;
+        this.countries = countries;
         calculateAreaAndAmount();
-        this._behavior = calculateBehavior();
-        this._id = -1;
+        this.behavior = calculateBehavior();
+        this.id = -1;
     }
 
-    /*public Planet(PlanetDB planetDB) {
-        this._name = planetDB.getName();
-        this._temperature = planetDB.getTemperature();
-        this._pressure = planetDB.getPressure();
-        this._languages = new ArrayList<>();
-        for (LanguageDB languageDB : planetDB.getLanguages()) {
-            _languages.add(new Language(languageDB));
-        }
-        this._countries = new ArrayList<>();
-        for (CountryDB countryDB : planetDB.getCountries()) {
-            _countries.add(new Country(countryDB));
-        }
-        calculateAreaAndAmount();
-        this._behavior = calculateBehavior();
-        this._id = planetDB.getId();
-    }*/
-
     private Behavior calculateBehavior() {
-        if (_amountAlive == 0 || _area == 0) return Behavior.NEUTRAL;
+        if (amountAlive == 0 || area == 0) return Behavior.NEUTRAL;
         long areaAngry = 0,
                 amountAngry = 0;
         for (Country country :
-                _countries) {
+                countries) {
             if (country.getBehavior() == Behavior.ANGRY) {
                 areaAngry += country.getArea();
                 amountAngry += country.getAmountAlive();
             }
         }
-        if ((double) areaAngry / _area >= AREAANGRYPERSENT || (double) amountAngry / _amountAlive >= AMOUNTANGRYPERSENT)
+        if ((double) areaAngry / area >= AREAANGRYPERSENT || (double) amountAngry / amountAlive >= AMOUNTANGRYPERSENT)
             return Behavior.ANGRY;
         else return Behavior.NEUTRAL;
     }
@@ -83,79 +62,79 @@ public class Planet implements Searchable {
         long area = 0;
         long amount = 0;
         for (Country country :
-                _countries) {
+                countries) {
             area += country.getArea();
             amount += country.getAmountAlive();
         }
-        _area = area;
-        _amountAlive = amount;
+        this.area = area;
+        this.amountAlive = amount;
     }
 
     public boolean isAngry() {
-        return _behavior == Behavior.ANGRY;
+        return behavior == Behavior.ANGRY;
     }
 
     public boolean hasLanguages() {
-        return !_languages.isEmpty();
+        return !languages.isEmpty();
     }
 
     public boolean hasCountries() {
-        return !_countries.isEmpty();
+        return !countries.isEmpty();
     }
 
 
     public List<Language> getLanguages() {
-        return Collections.unmodifiableList(_languages);
+        return Collections.unmodifiableList(languages);
     }
 
     public List<Country> getCountries() {
-        return Collections.unmodifiableList(_countries);
+        return Collections.unmodifiableList(countries);
     }
 
     public Behavior getBehavior() {
-        return _behavior;
+        return behavior;
     }
 
     public int getTemperature() {
-        return _temperature;
+        return temperature;
     }
 
     public long getPressure() {
-        return _pressure;
+        return pressure;
     }
 
 
     public int getId() {
-        return _id;
+        return id;
     }
 
     public void setId(int id) {
-        this._id = id;
+        this.id = id;
     }
 
     @Override
     public String toString() {
         return "MainLogic.Planet{" +
-                ", _name='" + _name + '\'' +
-                "_behavior=" + _behavior +
-                ", _temperature=" + _temperature +
-                ", _pressure=" + _pressure +
-                ", _area=" + _area +
-                ", _amountAlive=" + _amountAlive +
-                ", _languages=" + _languages +
-                ", _countries=" + _countries +
+                ", name='" + name + '\'' +
+                "behavior=" + behavior +
+                ", temperature=" + temperature +
+                ", pressure=" + pressure +
+                ", area=" + area +
+                ", amountAlive=" + amountAlive +
+                ", languages=" + languages +
+                ", countries=" + countries +
                 '}';
     }
     public String getName() {
-        return _name;
+        return name;
     }
     @Override
     public <T> boolean merge(T id) {
         if (id.getClass() == Integer.class){
-            return Integer.toString(this._id).equals(id.toString());
+            return Integer.toString(this.id).equals(id.toString());
         }
         else if (id.getClass() == String.class){
-            return this._name.equals(id.toString());
+            return this.name.equals(id.toString());
         }
         else return false;
     }

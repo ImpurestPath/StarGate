@@ -9,18 +9,23 @@ public class SQLUserManager implements UserDAO {
     private Connection connection;
 
     public SQLUserManager(SQLConnection sqlConnection) {
-        this.connection = sqlConnection.connection;
+        this.connection = sqlConnection.getConnection();
     }
 
 
     @Override
     public UserDB get(String name) throws ExceptionDAO {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT idUser,Name,idCurrentPlanet FROM User WHERE Name = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT idUser,Name,Permission,idCurrentPlanet FROM User WHERE Name = ?");
             preparedStatement.setString(1,name);
             ResultSet resultSet = preparedStatement.executeQuery();
+            connection.commit();
             if (resultSet.next())
-            return new UserDB(resultSet.getInt(1),resultSet.getString(2),resultSet.getInt(3));
+            return new UserDB(resultSet.getInt(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getInt(4));
             else return null;
         } catch (SQLException e) {
             throw new ExceptionDAO(e);
@@ -31,12 +36,14 @@ public class SQLUserManager implements UserDAO {
     public int insert(UserDB user) throws ExceptionDAO {
         try {
             PreparedStatement preparedStatementRace = connection.prepareStatement("INSERT INTO" +
-                    " User('Name','idCurrentPlanet') " + "VALUES (?,?)");
+                    " User('Name','idCurrentPlanet','Permission') VALUES (?,?,?)");
 
             preparedStatementRace.setString(1, user.getName());
             preparedStatementRace.setInt(2, user.getIdCurrentPlanet());
+            preparedStatementRace.setString(3,user.getPermissions());
             preparedStatementRace.execute();
-            int raceID = this.connection.createStatement().executeQuery("SELECT last_insert_rowid()").getInt(1);
+            int raceID = this.connection.createStatement().executeQuery(
+                    "SELECT last_insert_rowid()").getInt(1);
             user.setId(raceID);
             return raceID;
         } catch (SQLException e) {
@@ -59,10 +66,12 @@ public class SQLUserManager implements UserDAO {
     @Override
     public void update(int idUser, UserDB user) throws ExceptionDAO {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE User SET name = ?, idCurrentPlanet = ? WHERE idUser = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "UPDATE User SET name = ?, idCurrentPlanet = ?,Permission = ? WHERE idUser = ?");
             preparedStatement.setString(1, user.getName());
             preparedStatement.setInt(2, user.getIdCurrentPlanet());
-            preparedStatement.setInt(3,idUser);
+            preparedStatement.setString(3,user.getPermissions());
+            preparedStatement.setInt(4,idUser);
             preparedStatement.execute();
         }
         catch (SQLException e) {

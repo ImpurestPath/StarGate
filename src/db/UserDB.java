@@ -5,7 +5,7 @@ public class UserDB {
     private final String name;
     private final int idCurrentPlanet;
     private final String permissions;
-    UserDB(String name,String permissions, int idCurrentPlanet){
+    public UserDB(String name, String permissions, int idCurrentPlanet){
         this.name = name;
         this.permissions = permissions;
         this.idCurrentPlanet = idCurrentPlanet;

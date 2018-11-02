@@ -11,7 +11,7 @@ public class SQLLanguageManager implements LanguageDAO {
     private Connection connection;
 
     public SQLLanguageManager(SQLConnection sqlConnection) {
-        this.connection = sqlConnection.connection;
+        this.connection = sqlConnection.getConnection();
     }
 
     private int getIdType(LanguageDB.Type type) {
@@ -38,6 +38,7 @@ public class SQLLanguageManager implements LanguageDAO {
             List<LanguageDB> languages = new ArrayList<>();
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
+            connection.commit();
             while (resultSet.next()) {
                 languages.add(new LanguageDB(resultSet.getInt(1),
                         resultSet.getString(2),

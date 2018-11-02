@@ -11,9 +11,10 @@ public class PlanetManager {
     private final LanguageDAO languageDAO;
     private final CountryDAO countryDAO;
     private final RaceDAO raceDAO;
+    private final SQLConnection connection;
 
     public PlanetManager(String file) throws ExceptionDAO {
-        SQLConnection connection = SQLConnection.getInstance(file);
+        this.connection = SQLConnection.getInstance(file);
         this.planetDAO = new SQLPlanetManager(connection);
         this.languageDAO = new SQLLanguageManager(connection);
         this.countryDAO = new SQLCountryManager(connection);
@@ -62,6 +63,8 @@ public class PlanetManager {
                 race.setId(raceDAO.insert(countryID, TransformerToDTO.toRace(race)));
             }
         }
+        connection.commit(); //How place it?
+
     }
 
     public void delete(Planet planet) throws ExceptionDAO {
@@ -77,6 +80,7 @@ public class PlanetManager {
                 raceDAO.delete(race.getId());
             }
         }
+        connection.commit(); //How place it?
     }
 
     public void update(int id, Planet planet) throws ExceptionDAO {
@@ -92,6 +96,12 @@ public class PlanetManager {
                     country.getRaces()) {
                 raceDAO.update(race.getId(),TransformerToDTO.toRace(race));
             }
+        }
+        connection.commit(); //How place it?
+    }
+    public void addManyPlanets() throws ExceptionDAO {
+        for (int i = 0; i < 30000;i++){
+            add(new Planet("abc",1,1,new ArrayList<>(),new ArrayList<>()));
         }
     }
 }

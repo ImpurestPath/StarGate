@@ -8,13 +8,14 @@ public class SQLPlanetManager implements PlanetDAO {
     private Connection connection;
 
     public SQLPlanetManager(SQLConnection sqlConnection){
-        this.connection = sqlConnection.connection;
+        this.connection = sqlConnection.getConnection();
     }
 
     public List<PlanetDB> getAll() {
         try (Statement statement = this.connection.createStatement()) {
             List<PlanetDB> planets = new ArrayList<>();
             ResultSet resultSet = statement.executeQuery("SELECT idPlanet, name, temperature, pressure FROM Planet");
+            connection.commit();
             while (resultSet.next()) {
                 planets.add(new PlanetDB(
                         resultSet.getInt(1),
@@ -47,21 +48,6 @@ public class SQLPlanetManager implements PlanetDAO {
             throw new ExceptionDAO(e);
         }
     }
-
-    /*private void add(int id, PlanetDB planet) throws ExceptionDAO {
-        try (PreparedStatement preparedStatementPlanet = this.connection.prepareStatement(
-                "INSERT INTO Planet('idPlanet',`name`, `temperature`, `pressure`) " +
-                        "VALUES(?,?, ?, ?)")) {
-            preparedStatementPlanet.setInt(1, id);
-            preparedStatementPlanet.setString(2, planet.getName());
-            preparedStatementPlanet.setInt(3, planet.getTemperature());
-            preparedStatementPlanet.setLong(4, planet.getPressure());
-            preparedStatementPlanet.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new ExceptionDAO(e);
-        }
-    }*/
 
     public void delete(int id) throws ExceptionDAO {
         try (PreparedStatement statement = this.connection.prepareStatement(

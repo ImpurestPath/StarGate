@@ -4,7 +4,7 @@ public class User implements Searchable {
     private int id;
     private final String name;
     private final String permission;
-    public int idCurrentPlanet;
+    int idCurrentPlanet;
 
     public User(String name, String permission, int  idPlanet) {
         this.id = -1;

@@ -20,7 +20,7 @@ public class SQLRaceManager implements RaceDAO {
         }
     }
     public SQLRaceManager(SQLConnection sqlConnection) {
-        this.connection = sqlConnection.connection;
+        this.connection = sqlConnection.getConnection();
     }
 
     @Override
@@ -33,6 +33,7 @@ public class SQLRaceManager implements RaceDAO {
                             "WHERE idCountry = ?");
             preparedStatement.setInt(1,idCountry);
             ResultSet resultSet = preparedStatement.executeQuery();
+            connection.commit();
             List<RaceDB> races = new ArrayList<>();
             while (resultSet.next()) {
                 races.add(new RaceDB(resultSet.getString(1),

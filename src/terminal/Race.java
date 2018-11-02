@@ -34,12 +34,6 @@ public class Race implements Searchable {
         this.amount = amount;
         this.behavior = behavior;
     }
-    /*Race(RaceDB raceDB) {
-        this.name = raceDB.getName();
-        this.amount = raceDB.getAmount();
-        if (raceDB.getBoolBehavior()) behavior = Behavior.ANGRY;
-        else behavior = Behavior.NEUTRAL;
-    }*/
 
     public long getAmount() {
         return amount;
