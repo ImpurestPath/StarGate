@@ -32,9 +32,12 @@ public class Console {
                 for (Planet planet :
                         planetManager.getAll()) {
                     planetUIList.add(new PlanetUI(planet));
+                    Thread.sleep(10);
                 }
             } catch (ExceptionDAO e) {
                 System.out.println("Failure of loading");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -45,7 +48,7 @@ public class Console {
         public void run() {
             numberOfPoints = 0;
             while (true) {
-                if (!Thread.interrupted()) return;
+                if (Thread.interrupted()) return;
                 System.out.print("Loading");
                 numberOfPoints = (numberOfPoints + 1) % 5;
                 for (int i = 0; i < numberOfPoints; i++) {
@@ -56,7 +59,7 @@ public class Console {
                     Thread.sleep(1000);
                 }
                 catch (InterruptedException e){
-                    System.out.println("Thread exception");
+                    //System.out.println("Thread exception");
                     return;
                 }
             }

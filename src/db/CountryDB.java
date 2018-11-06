@@ -1,7 +1,5 @@
 package db;
 
-import terminal.Country;
-
 public class CountryDB {
 
 
