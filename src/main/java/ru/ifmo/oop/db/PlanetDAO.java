@@ -1,6 +1,6 @@
 package ru.ifmo.oop.db;
 
-import ru.ifmo.oop.db.DTO.PlanetDB;
+import ru.ifmo.oop.db.DTO.PlanetDTO;
 import ru.ifmo.oop.db.Exception.ExceptionDAO;
 
 import java.util.List;
@@ -10,11 +10,13 @@ public interface PlanetDAO {
 
     // Entity getById(int id);
 
-    List<PlanetDB> getAll() throws ExceptionDAO;
+    List<PlanetDTO> getAll() throws ExceptionDAO;
 
-    int add(PlanetDB planetDB) throws ExceptionDAO;
+    PlanetDTO get(int idPlanet) throws ExceptionDAO;
 
-    void update(int id, PlanetDB planet) throws ExceptionDAO;
+    int add(PlanetDTO planetDTO) throws ExceptionDAO;
 
-    void delete(int id) throws ExceptionDAO;
+    void update(int idPlanet, PlanetDTO planet) throws ExceptionDAO;
+
+    void delete(int idPlanet) throws ExceptionDAO;
 }

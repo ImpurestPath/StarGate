@@ -2,7 +2,7 @@ package ru.ifmo.oop.db.SQL;
 
 import ru.ifmo.oop.db.Exception.ExceptionDAO;
 import ru.ifmo.oop.db.UserDAO;
-import ru.ifmo.oop.db.DTO.UserDB;
+import ru.ifmo.oop.db.DTO.UserDTO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,13 +13,13 @@ import java.sql.SQLException;
 public class SQLUserDAO implements UserDAO {
     private Connection connection;
 
-    public SQLUserDAO(SQLConnection sqlConnection) {
-        this.connection = sqlConnection.getConnection();
+    public SQLUserDAO(Connection connection) {
+        this.connection = connection;
     }
 
 
     @Override
-    public UserDB get(String name) throws ExceptionDAO {
+    public UserDTO get(String name) throws ExceptionDAO {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT idUser,Name,Permission,idCurrentPlanet FROM User WHERE Name = ?");
@@ -27,7 +27,7 @@ public class SQLUserDAO implements UserDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             connection.commit();
             if (resultSet.next())
-            return new UserDB(resultSet.getInt(1),
+            return new UserDTO(resultSet.getInt(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
                     resultSet.getInt(4));
@@ -38,7 +38,7 @@ public class SQLUserDAO implements UserDAO {
     }
 
     @Override
-    public int insert(UserDB user) throws ExceptionDAO {
+    public int insert(UserDTO user) throws ExceptionDAO {
         try {
             PreparedStatement preparedStatementRace = connection.prepareStatement("INSERT INTO" +
                     " User('Name','idCurrentPlanet','Permission') VALUES (?,?,?)");
@@ -70,7 +70,7 @@ public class SQLUserDAO implements UserDAO {
     }
 
     @Override
-    public void update(int idUser, UserDB user) throws ExceptionDAO {
+    public void update(int idUser, UserDTO user) throws ExceptionDAO {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "UPDATE User SET name = ?, idCurrentPlanet = ?,Permission = ? WHERE idUser = ?");

@@ -7,7 +7,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import ru.ifmo.oop.db.DTO.LanguageDB;
+import ru.ifmo.oop.db.DTO.LanguageDTO;
 import ru.ifmo.oop.domain.Language;
 
 import java.io.IOException;
@@ -46,13 +46,13 @@ public class LanguageListCell extends ListCell<Language> {
             }
 
             lblName.setText(language.getName());
-            if (language.getType() == LanguageDB.Type.VOICE){
+            if (language.getType() == LanguageDTO.Type.VOICE){
                 if (imgVoice == null){
                     imgVoice = new Image("/images/voice.png");
                 }
                 imageViewType.setImage(imgVoice);
             }
-            else if (language.getType() == LanguageDB.Type.VISUAL){
+            else if (language.getType() == LanguageDTO.Type.VISUAL){
                 if (imgVisual == null){
                     imgVisual = new Image("/images/visual.png");
                 }

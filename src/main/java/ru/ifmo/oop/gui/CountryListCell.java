@@ -7,7 +7,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import ru.ifmo.oop.db.DTO.RaceDB.Behavior;
+import ru.ifmo.oop.db.DTO.RaceDTO.Behavior;
 import ru.ifmo.oop.domain.Country;
 
 import java.io.IOException;

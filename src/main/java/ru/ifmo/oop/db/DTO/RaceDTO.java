@@ -1,6 +1,6 @@
 package ru.ifmo.oop.db.DTO;
 
-public class RaceDB {
+public class RaceDTO {
     public enum Behavior {
         ANGRY,
         NEUTRAL
@@ -10,7 +10,7 @@ public class RaceDB {
     private final long amount;
     private final Behavior behavior;
 
-    RaceDB(String name, long amount, boolean angry) {
+    RaceDTO(String name, long amount, boolean angry) {
         this.id = -1;
         this.name = name;
         this.amount = amount;
@@ -18,7 +18,7 @@ public class RaceDB {
         else behavior = Behavior.NEUTRAL;
     }
 
-    public RaceDB(String name, long amount, String behavior) {
+    public RaceDTO(String name, long amount, String behavior) {
         this.id = -1;
         this.name = name;
         this.amount = amount;
@@ -26,7 +26,7 @@ public class RaceDB {
         else this.behavior = Behavior.NEUTRAL;
     }
 
-    RaceDB(int id, String name, long amount, boolean angry) {
+    RaceDTO(int id, String name, long amount, boolean angry) {
         this.id = id;
         this.name = name;
         this.amount = amount;
@@ -34,20 +34,20 @@ public class RaceDB {
         else behavior = Behavior.NEUTRAL;
     }
 
-    RaceDB(int id, String name, long amount, String behavior) {
+    RaceDTO(int id, String name, long amount, String behavior) {
         this.id = id;
         this.name = name;
         this.amount = amount;
         if (behavior.equals("ANGRY")) this.behavior = Behavior.ANGRY;
         else this.behavior = Behavior.NEUTRAL;
     }
-    public RaceDB(int id, String name, long amount, Behavior behavior) {
+    public RaceDTO(int id, String name, long amount, Behavior behavior) {
         this.id = id;
         this.name = name;
         this.amount = amount;
         this.behavior = behavior;
     }
-    public RaceDB(String name, long amount, Behavior behavior) {
+    public RaceDTO(String name, long amount, Behavior behavior) {
         this.id = -1;
         this.name = name;
         this.amount = amount;

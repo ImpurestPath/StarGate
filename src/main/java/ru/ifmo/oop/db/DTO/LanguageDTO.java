@@ -1,6 +1,6 @@
 package ru.ifmo.oop.db.DTO;
 
-public class LanguageDB {
+public class LanguageDTO {
     public enum Type {
         VISUAL,
         VOICE,
@@ -11,36 +11,36 @@ public class LanguageDB {
     private final boolean availableDictionary;
     private final Type type;
 
-    public LanguageDB(String name, Type type, boolean availableDictionary) {
+    public LanguageDTO(String name, Type type, boolean availableDictionary) {
         this.name = name;
         this.type = type;
         this.availableDictionary = availableDictionary;
     }
-    LanguageDB(String name, String type, boolean availableDictionary) {
+    LanguageDTO(String name, String type, boolean availableDictionary) {
         this.name = name;
         this.type = type.equals("VISUAL") ? Type.VISUAL : type.equals("VOICE") ? Type.VOICE : Type.VIBRATION;
         this.availableDictionary = availableDictionary;
     }
 
-    LanguageDB(String name, String type, int availableDictionary) {
+    LanguageDTO(String name, String type, int availableDictionary) {
         this.name = name;
         this.type = type.equals("VISUAL") ? Type.VISUAL : type.equals("VOICE") ? Type.VOICE : Type.VIBRATION;
         this.availableDictionary = availableDictionary == 1;
     }
-    LanguageDB(int id, String name, String type, boolean availableDictionary) {
+    LanguageDTO(int id, String name, String type, boolean availableDictionary) {
         this.name = name;
         this.type = type.equals("VISUAL") ? Type.VISUAL : type.equals("VOICE") ? Type.VOICE : Type.VIBRATION;
         this.availableDictionary = availableDictionary;
         this.id = id;
     }
-    LanguageDB(int id, String name, Type type, boolean availableDictionary) {
+    LanguageDTO(int id, String name, Type type, boolean availableDictionary) {
         this.name = name;
         this.type = type;
         this.availableDictionary = availableDictionary;
         this.id = id;
     }
 
-    public LanguageDB(int id, String name, String type, int availableDictionary) {
+    public LanguageDTO(int id, String name, String type, int availableDictionary) {
         this.name = name;
         this.type = type.equals("VISUAL") ? Type.VISUAL : type.equals("VOICE") ? Type.VOICE : Type.VIBRATION;
         this.availableDictionary = availableDictionary == 1;

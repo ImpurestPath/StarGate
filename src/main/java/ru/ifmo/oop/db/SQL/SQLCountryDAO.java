@@ -1,7 +1,7 @@
 package ru.ifmo.oop.db.SQL;
 
 import ru.ifmo.oop.db.CountryDAO;
-import ru.ifmo.oop.db.DTO.CountryDB;
+import ru.ifmo.oop.db.DTO.CountryDTO;
 import ru.ifmo.oop.db.Exception.ExceptionDAO;
 
 import java.sql.Connection;
@@ -14,11 +14,11 @@ import java.util.List;
 public class SQLCountryDAO implements CountryDAO {
     private Connection connection;
 
-    public SQLCountryDAO(SQLConnection sqlConnection) {
-        this.connection = sqlConnection.getConnection();
+    public SQLCountryDAO(Connection connection) {
+        this.connection = connection;
     }
 
-    public int insert( int idPlanet, CountryDB country) throws ExceptionDAO {
+    public int insert( int idPlanet, CountryDTO country) throws ExceptionDAO {
         try {
             PreparedStatement preparedStatementCountry = connection.prepareStatement("INSERT INTO" +
                     " Country('idPlanet','name','area') VALUES (?,?,?)");
@@ -45,7 +45,7 @@ public class SQLCountryDAO implements CountryDAO {
             throw new ExceptionDAO(e);
         }
     }
-    public void update(int idCountry, CountryDB country) throws ExceptionDAO {
+    public void update(int idCountry, CountryDTO country) throws ExceptionDAO {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "UPDATE Country SET name = ?, area = ? WHERE idCountry = ?");
@@ -59,15 +59,15 @@ public class SQLCountryDAO implements CountryDAO {
         }
     }
     @Override
-    public List<CountryDB> getPlanetCountries(int id) throws ExceptionDAO {
+    public List<CountryDTO> getPlanetCountries(int idCountry) throws ExceptionDAO {
         try (PreparedStatement preparedStatement = connection.prepareStatement(
                 "SELECT idCountry,name,area FROM Country WHERE idPlanet = ?")) {
-            List<CountryDB> countries = new ArrayList<>();
-            preparedStatement.setInt(1,id);
+            List<CountryDTO> countries = new ArrayList<>();
+            preparedStatement.setInt(1,idCountry);
             ResultSet resultSet = preparedStatement.executeQuery();
             connection.commit();
             while (resultSet.next()) {
-                countries.add(new CountryDB(resultSet.getInt(1),
+                countries.add(new CountryDTO(resultSet.getInt(1),
                         resultSet.getString(2),
                         resultSet.getLong(3)));
             }

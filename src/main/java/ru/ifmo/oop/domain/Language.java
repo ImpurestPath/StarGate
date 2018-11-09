@@ -1,6 +1,6 @@
 package ru.ifmo.oop.domain;
 
-import ru.ifmo.oop.db.DTO.LanguageDB.Type;
+import ru.ifmo.oop.db.DTO.LanguageDTO.Type;
 
 public class Language implements Searchable {
 

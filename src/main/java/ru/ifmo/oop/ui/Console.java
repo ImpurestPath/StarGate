@@ -1,6 +1,6 @@
 package ru.ifmo.oop.ui;
 
-import ru.ifmo.oop.db.DTO.LanguageDB;
+import ru.ifmo.oop.db.DTO.LanguageDTO;
 import ru.ifmo.oop.db.Exception.ExceptionDAO;
 import ru.ifmo.oop.domain.*;
 
@@ -182,17 +182,17 @@ public class Console {
         System.out.println("1.Voice");
         System.out.println("2.Visual");
         System.out.println("3.Vibration");
-        LanguageDB.Type type;
+        LanguageDTO.Type type;
         while (true) {
             switch (scanner.nextInt()) {
                 case 1:
-                    type = LanguageDB.Type.VOICE;
+                    type = LanguageDTO.Type.VOICE;
                     break;
                 case 2:
-                    type = LanguageDB.Type.VISUAL;
+                    type = LanguageDTO.Type.VISUAL;
                     break;
                 case 3:
-                    type = LanguageDB.Type.VIBRATION;
+                    type = LanguageDTO.Type.VIBRATION;
                     break;
                 default:
                     continue;
@@ -385,20 +385,20 @@ public class Console {
         System.out.println("1.Voice");
         System.out.println("2.Visual");
         System.out.println("3.Vibration");
-        LanguageDB.Type type;
+        LanguageDTO.Type type;
         while (true) {
             switch (scanner.nextInt()) {
                 case 0:
                     type = oldLanguage.getType();
                     break;
                 case 1:
-                    type = LanguageDB.Type.VOICE;
+                    type = LanguageDTO.Type.VOICE;
                     break;
                 case 2:
-                    type = LanguageDB.Type.VISUAL;
+                    type = LanguageDTO.Type.VISUAL;
                     break;
                 case 3:
-                    type = LanguageDB.Type.VIBRATION;
+                    type = LanguageDTO.Type.VIBRATION;
                     break;
                 default:
                     continue;

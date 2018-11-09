@@ -7,7 +7,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import ru.ifmo.oop.db.DTO.RaceDB;
+import ru.ifmo.oop.db.DTO.RaceDTO;
 import ru.ifmo.oop.domain.Race;
 
 import java.io.IOException;
@@ -45,13 +45,13 @@ public class RaceListCell extends ListCell<Race> {
 
             lblName.setText(race.getName());
             lblInfo.setText(String.format("Amount: %d",race.getAmount()));
-            if (race.getBehavior() == RaceDB.Behavior.ANGRY){
+            if (race.getBehavior() == RaceDTO.Behavior.ANGRY){
                 if (imgAngry == null){
                     imgAngry = new Image("/images/angry.png");
                 }
                 imageView.setImage(imgAngry);
             }
-            else if (race.getBehavior() == RaceDB.Behavior.NEUTRAL){
+            else if (race.getBehavior() == RaceDTO.Behavior.NEUTRAL){
                 if (imgNeutral == null){
                     imgNeutral = new Image("/images/neutral.png");
                 }

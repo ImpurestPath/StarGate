@@ -7,25 +7,25 @@ import ru.ifmo.oop.domain.*;
 import java.util.List;
 
 public class TransformerToEntity {
-    public static Planet toPlanet(PlanetDB planetDB, List<Language> languages, List<Country> countries) {
-        return new Planet(planetDB.getId(), planetDB.getName(), planetDB.getTemperature(), planetDB.getPressure(), languages, countries);
+    public static Planet toPlanet(PlanetDTO planetDTO, List<Language> languages, List<Country> countries) {
+        return new Planet(planetDTO.getId(), planetDTO.getName(), planetDTO.getTemperature(), planetDTO.getPressure(), languages, countries);
     }
 
-    public static Language toLanguage(LanguageDB languageDB) {
-        return new Language(languageDB.getId(), languageDB.getName(), languageDB.getType(), languageDB.isAvailableDictionary());
+    public static Language toLanguage(LanguageDTO languageDTO) {
+        return new Language(languageDTO.getId(), languageDTO.getName(), languageDTO.getType(), languageDTO.isAvailableDictionary());
     }
 
-    public static Country toCountry(CountryDB countryDB, List<Race> races) {
-        return new Country(countryDB.getId(), countryDB.getName(), countryDB.getArea(), races);
+    public static Country toCountry(CountryDTO countryDTO, List<Race> races) {
+        return new Country(countryDTO.getId(), countryDTO.getName(), countryDTO.getArea(), races);
     }
 
-    public static Race toRace(RaceDB raceDB) {
-        return new Race(raceDB.getId(), raceDB.getName(), raceDB.getAmount(), raceDB.getBehavior());
+    public static Race toRace(RaceDTO raceDTO) {
+        return new Race(raceDTO.getId(), raceDTO.getName(), raceDTO.getAmount(), raceDTO.getBehavior());
     }
 
-    public static User toUser(UserDB userDB) {
-        if (userDB != null)
-            return new User(userDB.getName(), userDB.getPermissions(), userDB.getIdCurrentPlanet());
+    public static User toUser(UserDTO userDTO) {
+        if (userDTO != null)
+            return new User(userDTO.getName(), userDTO.getPermissions(), userDTO.getIdCurrentPlanet());
         else return null;
     }
 }

@@ -1,7 +1,7 @@
 package ru.ifmo.oop.domain;
 
 
-import ru.ifmo.oop.db.DTO.RaceDB.Behavior;
+import ru.ifmo.oop.db.DTO.RaceDTO.Behavior;
 
 import java.util.Collections;
 import java.util.List;

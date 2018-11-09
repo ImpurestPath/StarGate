@@ -1,19 +1,19 @@
 package ru.ifmo.oop.db.DTO;
 
 
-public class PlanetDB {
+public class PlanetDTO {
     private final int _temperature;
     private final long _pressure;
     private int _id;
     private final String _name;
 
-    public PlanetDB(int id, String name, int temperature, long pressure) {
+    public PlanetDTO(int id, String name, int temperature, long pressure) {
         this._name = name;
         this._temperature = temperature;
         this._pressure = pressure;
         this._id = id;
     }
-    public PlanetDB(String name, int temperature, long pressure) {
+    public PlanetDTO(String name, int temperature, long pressure) {
         this._name = name;
         this._temperature = temperature;
         this._pressure = pressure;

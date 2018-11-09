@@ -1,15 +1,15 @@
 package ru.ifmo.oop.db.DTO;
-public class UserDB {
+public class UserDTO {
     private int id;
     private final String name;
     private final int idCurrentPlanet;
     private final String permissions;
-    public UserDB(String name, String permissions, int idCurrentPlanet){
+    public UserDTO(String name, String permissions, int idCurrentPlanet){
         this.name = name;
         this.permissions = permissions;
         this.idCurrentPlanet = idCurrentPlanet;
     }
-    public UserDB(int id, String name, String permissions, int idCurrentPlanet){
+    public UserDTO(int id, String name, String permissions, int idCurrentPlanet){
         this.id = id;
         this.name = name;
         this.idCurrentPlanet = idCurrentPlanet;
