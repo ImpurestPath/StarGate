@@ -17,7 +17,9 @@ public class Console {
     private List<PlanetUI> planetUIList;
 
 
-    public Console(PlanetManager planetManager, UserManager userManager, int idGatePlanet) throws ExceptionDAO {
+
+
+    public Console(PlanetManager planetManager, UserManager userManager, int idGatePlanet){
         this.scanner = new Scanner(System.in);
         this.planetManager = planetManager;
         this.userManager = userManager;

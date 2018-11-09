@@ -3,7 +3,7 @@ package ru.ifmo.oop.domain;
 
 import ru.ifmo.oop.db.Exception.ExceptionDAO;
 import ru.ifmo.oop.db.SQL.SQLConnection;
-import ru.ifmo.oop.db.SQL.SQLUserManager;
+import ru.ifmo.oop.db.SQL.SQLUserDAO;
 import ru.ifmo.oop.db.UserDAO;
 import ru.ifmo.oop.domain.Mappers.TransformerToDTO;
 import ru.ifmo.oop.domain.Mappers.TransformerToEntity;
@@ -15,7 +15,7 @@ public class UserManager {
 
     public UserManager(String file) throws ExceptionDAO {
         this.connection = SQLConnection.getInstance(file);
-        this.userDAO = new SQLUserManager(connection);
+        this.userDAO = new SQLUserDAO(connection);
     }
 
     public User get(String name) throws ExceptionDAO {

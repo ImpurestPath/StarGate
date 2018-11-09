@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SQLRaceManager implements RaceDAO {
+public class SQLRaceDAO implements RaceDAO {
     private Connection connection;
     private int getIdBehavior(RaceDB.Behavior behavior){
         switch (behavior){
@@ -23,7 +23,7 @@ public class SQLRaceManager implements RaceDAO {
                     return 2;
         }
     }
-    public SQLRaceManager(SQLConnection sqlConnection) {
+    public SQLRaceDAO(SQLConnection sqlConnection) {
         this.connection = sqlConnection.getConnection();
     }
 

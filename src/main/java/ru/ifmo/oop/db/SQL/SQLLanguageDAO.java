@@ -11,10 +11,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SQLLanguageManager implements LanguageDAO {
+public class SQLLanguageDAO implements LanguageDAO {
     private Connection connection;
 
-    public SQLLanguageManager(SQLConnection sqlConnection) {
+    public SQLLanguageDAO(SQLConnection sqlConnection) {
         this.connection = sqlConnection.getConnection();
     }
 

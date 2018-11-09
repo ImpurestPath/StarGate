@@ -8,11 +8,10 @@ import java.sql.*;
 import java.util.*;
 import java.util.List;
 
-// TODO: rename to SqlPlanetDao
-public class SQLPlanetManager implements PlanetDAO {
+public class SQLPlanDAO implements PlanetDAO {
     private Connection connection;
 
-    public SQLPlanetManager(SQLConnection sqlConnection){
+    public SQLPlanDAO(SQLConnection sqlConnection){
         this.connection = sqlConnection.getConnection();
     }
 

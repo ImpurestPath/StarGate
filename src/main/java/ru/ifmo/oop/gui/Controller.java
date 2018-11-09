@@ -43,7 +43,7 @@ public class Controller {
                     planetUIList.add(new PlanetGUI(planet));
                     i++;
                     this.updateProgress(i,amount);
-                    Thread.sleep(1);
+                    //Thread.sleep(1);
                 }
 
                 Platform.runLater(new Runnable() {

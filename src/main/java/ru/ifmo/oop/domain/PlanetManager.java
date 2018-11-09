@@ -24,10 +24,10 @@ public class PlanetManager {
 
     public PlanetManager(String filename) throws ExceptionDAO {
         this.connection = SQLConnection.getInstance(filename);
-        this.planetDAO = new SQLPlanetManager(connection);
-        this.languageDAO = new SQLLanguageManager(connection);
-        this.countryDAO = new SQLCountryManager(connection);
-        this.raceDAO = new SQLRaceManager(connection);
+        this.planetDAO = new SQLPlanDAO(connection);
+        this.languageDAO = new SQLLanguageDAO(connection);
+        this.countryDAO = new SQLCountryDAO(connection);
+        this.raceDAO = new SQLRaceDAO(connection);
     }
 
     public List<Planet> getAll() throws ExceptionDAO {

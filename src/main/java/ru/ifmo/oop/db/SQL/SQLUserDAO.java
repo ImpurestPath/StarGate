@@ -10,10 +10,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class SQLUserManager implements UserDAO {
+public class SQLUserDAO implements UserDAO {
     private Connection connection;
 
-    public SQLUserManager(SQLConnection sqlConnection) {
+    public SQLUserDAO(SQLConnection sqlConnection) {
         this.connection = sqlConnection.getConnection();
     }
 

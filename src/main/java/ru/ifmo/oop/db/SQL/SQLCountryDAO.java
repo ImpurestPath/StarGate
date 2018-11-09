@@ -11,10 +11,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SQLCountryManager implements CountryDAO {
+public class SQLCountryDAO implements CountryDAO {
     private Connection connection;
 
-    public SQLCountryManager(SQLConnection sqlConnection) {
+    public SQLCountryDAO(SQLConnection sqlConnection) {
         this.connection = sqlConnection.getConnection();
     }
 

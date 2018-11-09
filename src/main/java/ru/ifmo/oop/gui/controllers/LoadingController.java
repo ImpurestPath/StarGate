@@ -12,7 +12,6 @@ public class LoadingController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         progBarLoad.setProgress(0);
-
     }
     public ProgressBar getProgressBar(){
         return progBarLoad;
