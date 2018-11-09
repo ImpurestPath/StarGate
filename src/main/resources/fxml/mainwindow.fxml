@@ -69,7 +69,7 @@
                         <ToolBar prefHeight="40.0" prefWidth="200.0">
                           <items>
                             <Button fx:id="infobutton" mnemonicParsing="false" onAction="#btnInfoClicked" prefHeight="25.0" prefWidth="71.0" text="Info" />
-                              <Button mnemonicParsing="false" text="Open gate" />
+                              <Button onAction="#btnOpenGateClicked" mnemonicParsing="false" text="Open gate" />
                           </items>
                         </ToolBar>
                      </children>

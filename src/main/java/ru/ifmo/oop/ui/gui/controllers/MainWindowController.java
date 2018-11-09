@@ -80,4 +80,23 @@ public class MainWindowController implements Initializable {
 
 
     }
+
+    public void btnOpenGateClicked(ActionEvent actionEvent) {
+        PlanetGUI item = listView1.getSelectionModel().getSelectedItem();
+        if (item == null) return;
+        Stage stage = new Stage();
+        stage.initOwner(mainPane.getScene().getWindow());
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/gate.fxml"));
+            Parent parent = loader.load();
+            stage.setScene(new Scene(parent));
+            GateController gateController = loader.getController();
+            gateController.setPlanetName(item.getPlanet().getName());
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
