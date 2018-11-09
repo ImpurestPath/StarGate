@@ -1,7 +1,7 @@
 package ru.ifmo.oop.ui;
 
-import ru.ifmo.oop.db.DTO.LanguageDTO;
-import ru.ifmo.oop.db.Exception.ExceptionDAO;
+import ru.ifmo.oop.dataAccess.DTO.LanguageDTO;
+import ru.ifmo.oop.dataAccess.Exception.ExceptionDAO;
 import ru.ifmo.oop.domain.*;
 
 import java.util.ArrayList;

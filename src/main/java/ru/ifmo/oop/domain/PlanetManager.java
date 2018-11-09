@@ -1,13 +1,13 @@
 package ru.ifmo.oop.domain;
 
 
-import ru.ifmo.oop.db.ConnectionDAO;
-import ru.ifmo.oop.db.DTO.CountryDTO;
-import ru.ifmo.oop.db.DTO.LanguageDTO;
-import ru.ifmo.oop.db.DTO.PlanetDTO;
-import ru.ifmo.oop.db.DTO.RaceDTO;
-import ru.ifmo.oop.db.Exception.ExceptionDAO;
-import ru.ifmo.oop.db.SQL.SQLConnection;
+import ru.ifmo.oop.dataAccess.ConnectionDAO;
+import ru.ifmo.oop.dataAccess.DTO.CountryDTO;
+import ru.ifmo.oop.dataAccess.DTO.LanguageDTO;
+import ru.ifmo.oop.dataAccess.DTO.PlanetDTO;
+import ru.ifmo.oop.dataAccess.DTO.RaceDTO;
+import ru.ifmo.oop.dataAccess.Exception.ExceptionDAO;
+import ru.ifmo.oop.dataAccess.SQL.SQLConnection;
 import ru.ifmo.oop.domain.Mappers.TransformerToDTO;
 import ru.ifmo.oop.domain.Mappers.TransformerToEntity;
 

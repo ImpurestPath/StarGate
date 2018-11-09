@@ -1,10 +1,8 @@
 package ru.ifmo.oop.domain;
 
 
-import ru.ifmo.oop.db.Exception.ExceptionDAO;
-import ru.ifmo.oop.db.SQL.SQLConnection;
-import ru.ifmo.oop.db.SQL.SQLUserDAO;
-import ru.ifmo.oop.db.UserDAO;
+import ru.ifmo.oop.dataAccess.Exception.ExceptionDAO;
+import ru.ifmo.oop.dataAccess.SQL.SQLConnection;
 import ru.ifmo.oop.domain.Mappers.TransformerToDTO;
 import ru.ifmo.oop.domain.Mappers.TransformerToEntity;
 

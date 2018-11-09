@@ -1,6 +1,6 @@
 package ru.ifmo.oop;
 
-import ru.ifmo.oop.db.Exception.ExceptionDAO;
+import ru.ifmo.oop.dataAccess.Exception.ExceptionDAO;
 import ru.ifmo.oop.domain.PlanetManager;
 import ru.ifmo.oop.domain.UserManager;
 import ru.ifmo.oop.ui.Console;

@@ -6,16 +6,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import ru.ifmo.oop.db.Exception.ExceptionDAO;
+import ru.ifmo.oop.dataAccess.Exception.ExceptionDAO;
 import ru.ifmo.oop.domain.PlanetManager;
 import ru.ifmo.oop.domain.UserManager;
-import ru.ifmo.oop.gui.Controller;
-import ru.ifmo.oop.gui.controllers.LoadingController;
+import ru.ifmo.oop.ui.gui.Controller;
+import ru.ifmo.oop.ui.gui.controllers.LoadingController;
 
 public class MainGUI extends Application {
     public static Stage stage;
-    public static Scene nextScene;
-    public static boolean ready;
     @Override
     public void start(Stage stage) throws Exception {
         MainGUI.stage = stage;

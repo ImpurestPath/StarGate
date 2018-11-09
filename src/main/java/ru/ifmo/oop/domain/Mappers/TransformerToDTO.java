@@ -1,7 +1,7 @@
 package ru.ifmo.oop.domain.Mappers;
 
 
-import ru.ifmo.oop.db.DTO.*;
+import ru.ifmo.oop.dataAccess.DTO.*;
 import ru.ifmo.oop.domain.*;
 
 public class TransformerToDTO {
