@@ -3,8 +3,8 @@ package ru.ifmo.oop.domain;
 
 import ru.ifmo.oop.dataAccess.Exception.ExceptionDAO;
 import ru.ifmo.oop.dataAccess.SQL.SQLConnection;
-import ru.ifmo.oop.domain.Mappers.TransformerToDTO;
-import ru.ifmo.oop.domain.Mappers.TransformerToEntity;
+import ru.ifmo.oop.domain.mappers.TransformerToDTO;
+import ru.ifmo.oop.domain.mappers.TransformerToEntity;
 
 public class UserManager {
 

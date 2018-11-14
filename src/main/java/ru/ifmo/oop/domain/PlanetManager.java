@@ -8,8 +8,8 @@ import ru.ifmo.oop.dataAccess.DTO.PlanetDTO;
 import ru.ifmo.oop.dataAccess.DTO.RaceDTO;
 import ru.ifmo.oop.dataAccess.Exception.ExceptionDAO;
 import ru.ifmo.oop.dataAccess.SQL.SQLConnection;
-import ru.ifmo.oop.domain.Mappers.TransformerToDTO;
-import ru.ifmo.oop.domain.Mappers.TransformerToEntity;
+import ru.ifmo.oop.domain.mappers.TransformerToDTO;
+import ru.ifmo.oop.domain.mappers.TransformerToEntity;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,4 +1,4 @@
-package ru.ifmo.oop.domain.Mappers;
+package ru.ifmo.oop.domain.mappers;
 
 
 import ru.ifmo.oop.dataAccess.DTO.*;

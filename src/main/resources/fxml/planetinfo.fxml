@@ -6,6 +6,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -43,7 +44,7 @@
             </GridPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Button onAction="#btnBaskClicked" layoutX="67.0" layoutY="51.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="64.0" text="Back" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0" />
+                  <Button layoutX="67.0" layoutY="51.0" mnemonicParsing="false" onAction="#btnBaskClicked" prefHeight="37.0" prefWidth="64.0" text="Back" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0" />
                </children>
             </AnchorPane>
          </children>
@@ -92,7 +93,14 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="227.0" prefWidth="418.0">
                            <children>
-                              <ListView fx:id="listViewLanguages" layoutX="53.0" layoutY="34.0" prefHeight="268.6666666666667" prefWidth="450.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <ListView fx:id="listViewLanguages" layoutX="53.0" layoutY="34.0" prefHeight="268.6666666666667" prefWidth="450.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <ToolBar layoutY="229.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                <items>
+                                  <Button mnemonicParsing="false" text="Add" />
+                                    <Button mnemonicParsing="false" text="Edit" />
+                                    <Button mnemonicParsing="false" text="Delete" />
+                                </items>
+                              </ToolBar>
                            </children>
                         </AnchorPane>
                   </content>
@@ -101,7 +109,14 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <ListView fx:id="listViewCountries" layoutX="60.0" layoutY="14.0" prefHeight="268.6666666666667" prefWidth="450.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <ListView fx:id="listViewCountries" layoutX="60.0" layoutY="14.0" prefHeight="268.6666666666667" prefWidth="450.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <ToolBar layoutY="229.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                <items>
+                                  <Button mnemonicParsing="false" text="Add" />
+                                    <Button mnemonicParsing="false" text="Edit" />
+                                    <Button mnemonicParsing="false" text="Delete" />
+                                </items>
+                              </ToolBar>
                            </children>
                         </AnchorPane>
                     </content>
@@ -110,7 +125,14 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <ListView fx:id="listViewRaces" layoutX="125.0" layoutY="55.0" prefHeight="268.6666666666667" prefWidth="450.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <ListView fx:id="listViewRaces" layoutX="125.0" layoutY="55.0" prefHeight="268.6666666666667" prefWidth="450.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <ToolBar layoutY="229.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                <items>
+                                  <Button mnemonicParsing="false" text="Add" />
+                                    <Button mnemonicParsing="false" text="Edit" />
+                                    <Button mnemonicParsing="false" text="Delete" />
+                                </items>
+                              </ToolBar>
                            </children>
                         </AnchorPane>
                   </content>

@@ -21,7 +21,6 @@ public class GateController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //TODO: make controller
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
                 new KeyFrame(Duration.seconds(30), e-> ((Stage)progressBar.getScene().getWindow()).close(),
