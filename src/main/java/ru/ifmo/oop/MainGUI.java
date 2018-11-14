@@ -9,11 +9,11 @@ import javafx.stage.Stage;
 import ru.ifmo.oop.dataAccess.Exception.ExceptionDAO;
 import ru.ifmo.oop.domain.PlanetManager;
 import ru.ifmo.oop.domain.UserManager;
-import ru.ifmo.oop.ui.gui.Controller;
+import ru.ifmo.oop.ui.gui.PlanetGraphicsManager;
 import ru.ifmo.oop.ui.gui.controllers.LoadingController;
 
 public class MainGUI extends Application {
-    public static Stage stage;
+    private static Stage stage;
     @Override
     public void start(Stage stage) throws Exception {
         MainGUI.stage = stage;
@@ -25,7 +25,7 @@ public class MainGUI extends Application {
             stage.setMinWidth(1080);
             stage.setScene(scene);
             stage.show();
-            Task load = Controller.getInstance().new Loader();
+            Task load = PlanetGraphicsManager.getInstance().new Loader();
             LoadingController loadingController = loader.getController();
             loadingController.getProgressBar().progressProperty().bind(load.progressProperty());
             Thread t = new Thread(load);
@@ -62,11 +62,8 @@ public class MainGUI extends Application {
             e.printStackTrace();
         }
     }
-    public static void stageShow(){
-        stage.show();
-    }
     public static void main(String[] args) throws ExceptionDAO {
-        new Controller(1,
+        new PlanetGraphicsManager(1,
                 new PlanetManager("PlanetRepository.db"),
                 new UserManager("PlanetRepository.db"));
         launch(args);

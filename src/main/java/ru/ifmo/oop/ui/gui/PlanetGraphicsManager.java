@@ -11,19 +11,19 @@ import ru.ifmo.oop.domain.UserManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Controller {
+public class PlanetGraphicsManager {
     private final PlanetManager planetManager;
     private final UserManager userManager;
     private User user;
     private final int idGatePlanet;
     private List<PlanetGUI> planetUIList;
-    private static Controller instance = null;
-    public static synchronized Controller getInstance() {
+    private static PlanetGraphicsManager instance = null;
+    public static synchronized PlanetGraphicsManager getInstance() {
         //if (instance == null) throw new Exception("No controller");
         //else
             return instance;
     }
-    public Controller(int idGatePlanet, PlanetManager planetManager, UserManager userManager) {
+    public PlanetGraphicsManager(int idGatePlanet, PlanetManager planetManager, UserManager userManager) {
         this.idGatePlanet = idGatePlanet;
         this.planetUIList = new ArrayList<>();
         this.planetManager = planetManager;
@@ -46,12 +46,7 @@ public class Controller {
                     //Thread.sleep(1);
                 }
 
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        MainGUI.loadMain();
-                    }
-                });
+                Platform.runLater(MainGUI::loadMain);
             } catch (Exception e) {
                 System.out.println("Failure of loading");
                 e.printStackTrace();

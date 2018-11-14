@@ -15,7 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import ru.ifmo.oop.ui.gui.Controller;
+import ru.ifmo.oop.ui.gui.PlanetGraphicsManager;
 import ru.ifmo.oop.ui.gui.PlanetGUI;
 import ru.ifmo.oop.ui.gui.listCells.PlanetListCell;
 
@@ -37,7 +37,7 @@ public class MainWindowController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.observableList = FXCollections.observableArrayList(Controller.getInstance().getPlanetUIList());
+        this.observableList = FXCollections.observableArrayList(PlanetGraphicsManager.getInstance().getPlanetUIList());
         listView1.setItems(observableList);
         listView1.setCellFactory(param -> {
                     PlanetListCell listCell = new PlanetListCell();

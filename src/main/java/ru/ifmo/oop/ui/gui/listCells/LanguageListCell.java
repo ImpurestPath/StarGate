@@ -19,6 +19,7 @@ public class LanguageListCell extends ListCell<Language> {
     private Label lblName;
     @FXML
     private ImageView imageViewType;
+    @FXML
     private ImageView imageViewDictionary;
     private FXMLLoader fxmlLoader;
     private Image imgVoice;
@@ -65,6 +66,18 @@ public class LanguageListCell extends ListCell<Language> {
                 imageViewType.setImage(imgVibration);
             }
             // TODO: make dictionary language
+            if (language.isAvailableDictionary()){
+                if (imgAvailableDictionary == null){
+                    imgAvailableDictionary = new Image("/images/dictionary.png");
+                }
+                imageViewDictionary.setImage(imgAvailableDictionary);
+            }
+            else{
+                if (imgUnvailableDictionary == null){
+                    imgUnvailableDictionary = new Image("/images/nodictionary.png");
+                }
+                imageViewDictionary.setImage(imgUnvailableDictionary);
+            }
             setText(null);
             setGraphic(anchorPane);
         }
