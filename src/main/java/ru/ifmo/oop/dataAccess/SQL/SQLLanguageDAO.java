@@ -47,7 +47,8 @@ public class SQLLanguageDAO implements LanguageDAO {
                 languages.add(new LanguageDTO(resultSet.getInt(1),
                         resultSet.getString(2),
                         resultSet.getString(4),
-                        resultSet.getInt(3)));
+                        resultSet.getInt(3),
+                        id));
             }
             return languages;
         } catch (SQLException e) {

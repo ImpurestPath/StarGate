@@ -40,8 +40,8 @@ public class PlanetListCell extends ListCell<PlanetGUI> {
 
             }
 
-            name.setText(planet.getPlanet().getName());
-            info.setText(planet.getPlanet().getBehavior().toString());
+            name.setText(planet.getName());
+            info.setText(planet.getBehavior().toString());
 
             setText(null);
             setGraphic(anchorPane);

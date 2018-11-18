@@ -10,11 +10,13 @@ public class LanguageDTO {
     private final String name;
     private final boolean availableDictionary;
     private final Type type;
+    private int idPlanet;
 
-    public LanguageDTO(String name, Type type, boolean availableDictionary) {
+    public LanguageDTO(String name, Type type, boolean availableDictionary, int idPlanet) {
         this.name = name;
         this.type = type;
         this.availableDictionary = availableDictionary;
+        this.idPlanet = idPlanet;
     }
     LanguageDTO(String name, String type, boolean availableDictionary) {
         this.name = name;
@@ -40,11 +42,12 @@ public class LanguageDTO {
         this.id = id;
     }
 
-    public LanguageDTO(int id, String name, String type, int availableDictionary) {
+    public LanguageDTO(int id, String name, String type, int availableDictionary, int idPlanet) {
         this.name = name;
         this.type = type.equals("VISUAL") ? Type.VISUAL : type.equals("VOICE") ? Type.VOICE : Type.VIBRATION;
         this.availableDictionary = availableDictionary == 1;
         this.id = id;
+        this.idPlanet = idPlanet;
     }
 
     /*public LanguageDB(Language language) {
@@ -72,4 +75,9 @@ public class LanguageDTO {
     public void setId(int id) {
         this.id = id;
     }
+
+    public int getIdPlanet() {
+        return idPlanet;
+    }
+
 }

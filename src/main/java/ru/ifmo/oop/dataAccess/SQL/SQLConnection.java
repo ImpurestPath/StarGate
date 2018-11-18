@@ -60,7 +60,7 @@ public class SQLConnection implements ConnectionDAO {
 
     @Override
     public PlanetDTO getPlanet(int idPlanet) throws ExceptionDAO {
-        return null;
+        return sqlPlanetDAO.get(idPlanet);
     }
 
     @Override

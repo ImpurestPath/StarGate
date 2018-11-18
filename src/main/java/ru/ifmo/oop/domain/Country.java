@@ -13,22 +13,26 @@ public class Country implements Searchable {
     private final long amountAlive;
     private final List<Race> races;
     private final Behavior behavior;
+    private int idPlanet;
 
-    public Country(int id, String name, long area, List<Race> races) {
+
+    public Country(int id, String name, long area, List<Race> races, int idPlanet) {
         this.id = id;
         this.name = name;
         this.area = area;
         this.races = races;
         amountAlive = calculateAmountAlive();
         this.behavior = calculateBehavior();
+        this.idPlanet = idPlanet;
     }
-    public Country(String name, long area, List<Race> races) {
+    public Country(String name, long area, List<Race> races, int idPlanet) {
         this.id = -1;
         this.name = name;
         this.area = area;
         this.races = races;
         amountAlive = calculateAmountAlive();
         this.behavior = calculateBehavior();
+        this.idPlanet = idPlanet;
     }
 
     private Behavior calculateBehavior() {
@@ -89,5 +93,13 @@ public class Country implements Searchable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getIdPlanet() {
+        return idPlanet;
+    }
+
+    public void setIdPlanet(int idPlanet) {
+        this.idPlanet = idPlanet;
     }
 }

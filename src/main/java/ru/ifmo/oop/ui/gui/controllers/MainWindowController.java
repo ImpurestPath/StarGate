@@ -45,12 +45,12 @@ public class MainWindowController implements Initializable {
                         if (event.getButton() == MouseButton.PRIMARY && (!listCell.isEmpty())) {
                             PlanetGUI item = listCell.getItem();
                             System.out.println("clicked " + item.toString());
-                            lblName.setText(item.getPlanet().getName());
-                            lblAmount.setText(Long.toString(item.getPlanet().getAmountAlive()));
-                            lblArea.setText(Long.toString(item.getPlanet().getArea()));
-                            lblBehavior.setText(item.getPlanet().getBehavior().toString());
-                            lblPressure.setText(Long.toString(item.getPlanet().getPressure()));
-                            lblTemperature.setText(Integer.toString(item.getPlanet().getTemperature()));
+                            lblName.setText(item.getName());
+                            lblAmount.setText(Long.toString(item.getAmountAlive()));
+                            lblArea.setText(Long.toString(item.getArea()));
+                            lblBehavior.setText(item.getBehavior().toString());
+                            lblPressure.setText(Long.toString(item.getPressure()));
+                            lblTemperature.setText(Integer.toString(item.getTemperature()));
                         }
                     });
                     return listCell;
@@ -93,7 +93,7 @@ public class MainWindowController implements Initializable {
             Parent parent = loader.load();
             stage.setScene(new Scene(parent));
             GateController gateController = loader.getController();
-            gateController.setPlanetName(item.getPlanet().getName());
+            gateController.setPlanetName(item.getName());
             stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();

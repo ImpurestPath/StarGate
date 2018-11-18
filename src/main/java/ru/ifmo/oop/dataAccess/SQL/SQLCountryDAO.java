@@ -59,17 +59,18 @@ public class SQLCountryDAO implements CountryDAO {
         }
     }
     @Override
-    public List<CountryDTO> getPlanetCountries(int idCountry) throws ExceptionDAO {
+    public List<CountryDTO> getPlanetCountries(int idPlanet) throws ExceptionDAO {
         try (PreparedStatement preparedStatement = connection.prepareStatement(
                 "SELECT idCountry,name,area FROM Country WHERE idPlanet = ?")) {
             List<CountryDTO> countries = new ArrayList<>();
-            preparedStatement.setInt(1,idCountry);
+            preparedStatement.setInt(1,idPlanet);
             ResultSet resultSet = preparedStatement.executeQuery();
             connection.commit();
             while (resultSet.next()) {
                 countries.add(new CountryDTO(resultSet.getInt(1),
                         resultSet.getString(2),
-                        resultSet.getLong(3)));
+                        resultSet.getLong(3),
+                        idPlanet));
             }
             return countries;
         } catch (SQLException e) {

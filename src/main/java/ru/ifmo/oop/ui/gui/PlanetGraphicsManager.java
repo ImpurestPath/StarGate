@@ -3,10 +3,10 @@ package ru.ifmo.oop.ui.gui;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import ru.ifmo.oop.MainGUI;
-import ru.ifmo.oop.domain.Planet;
-import ru.ifmo.oop.domain.PlanetManager;
-import ru.ifmo.oop.domain.User;
-import ru.ifmo.oop.domain.UserManager;
+import ru.ifmo.oop.dataAccess.Exception.ExceptionDAO;
+import ru.ifmo.oop.domain.*;
+import ru.ifmo.oop.domain.mappers.TransformerToEntity;
+import ru.ifmo.oop.domain.mappers.TransformerToGUI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ public class PlanetGraphicsManager {
                 int i = 0;
                 for (Planet planet :
                         planets) {
-                    planetUIList.add(new PlanetGUI(planet));
+                    planetUIList.add(TransformerToGUI.toPlanet(planet));
                     i++;
                     this.updateProgress(i,amount);
                     //Thread.sleep(1);
@@ -55,23 +55,77 @@ public class PlanetGraphicsManager {
         }
     }
 
-    public PlanetManager getPlanetManager() {
-        return planetManager;
+    public void updatePlanet(int idPlanet) throws ExceptionDAO {
+        int item = -1;
+        int count = 0;
+        for (PlanetGUI planetGUI : planetUIList){
+            if (planetGUI.getId() == idPlanet){
+                item = count;
+                break;
+            }
+            count++;
+        }
+        if (item != -1){
+            planetUIList.set(item, TransformerToGUI.toPlanet(planetManager.get(idPlanet)));
+        }
     }
-
-    public UserManager getUserManager() {
-        return userManager;
+    public void changeLanguageToPlanet(int idPlanet, int idLanguage, Language language) throws ExceptionDAO {
+        PlanetGUI item = getPlanet(idPlanet);
+        item.getLanguages().set(findIndex(item.getLanguages(),idLanguage),language);
+        planetManager.update(idPlanet, TransformerToEntity.toPlanet(item));
     }
-
-    public User getUser() {
-        return user;
+    public void addLanguageToPlanet(int idPlanet, Language language) throws ExceptionDAO {
+        PlanetGUI item = getPlanet(idPlanet);
+        item.getLanguages().add(language);
+        planetManager.update(idPlanet, TransformerToEntity.toPlanet(item));
     }
-
-    public int getIdGatePlanet() {
-        return idGatePlanet;
+    public void deleteLanguageFromPlanet(int idPlanet,int idLanguage) throws ExceptionDAO {
+        PlanetGUI item = getPlanet(idPlanet);
+        item.getLanguages().remove(findIndex(item.getLanguages(),idLanguage));
+        planetManager.update(idPlanet,TransformerToEntity.toPlanet(item));
     }
-
     public List<PlanetGUI> getPlanetUIList() {
         return planetUIList;
+    }
+    private <T extends Searchable,P> T find(List<T> tList, P id){
+        int item = -1;
+        int count = 0;
+        for (T t: tList){
+            if (t.merge(id)){
+                item = count;
+            }
+            count++;
+        }
+        if (item != -1){
+            return tList.get(item);
+        }
+        else return null;
+    }
+    private <T extends Searchable, P> int findIndex(List<T> tList, P id){
+        int item = -1;
+        int count = 0;
+        for (T t: tList){
+            if (t.merge(id)){
+                item = count;
+                break;
+            }
+            count++;
+        }
+        return item;
+    }
+    public PlanetGUI getPlanet(int idPlanet){
+        int item = -1;
+        int count = 0;
+        for (PlanetGUI planetGUI : planetUIList){
+            if (planetGUI.getId() == idPlanet){
+                item = count;
+                break;
+            }
+            count++;
+        }
+        if (item != -1){
+            return planetUIList.get(item);
+        }
+        else return null;
     }
 }

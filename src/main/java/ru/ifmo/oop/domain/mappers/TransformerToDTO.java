@@ -10,15 +10,15 @@ public class TransformerToDTO {
     }
 
     public static LanguageDTO toLanguage(Language language) {
-        return new LanguageDTO(language.getName(), language.getType(), language.isAvailableDictionary());
+        return new LanguageDTO(language.getName(), language.getType(), language.isAvailableDictionary(),language.getIdPlanet());
     }
 
     public static CountryDTO toCountry(Country country) {
-        return new CountryDTO(country.getName(), country.getArea());
+        return new CountryDTO(country.getName(), country.getArea(),country.getIdPlanet());
     }
 
     public static RaceDTO toRace(Race race) {
-        return new RaceDTO(race.getName(), race.getAmount(), race.getBehavior());
+        return new RaceDTO(race.getName(), race.getAmount(), race.getBehavior(),race.getIdCountry());
     }
 
     public static UserDTO toUser(User user) {

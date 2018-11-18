@@ -31,7 +31,7 @@ public class SQLRaceDAO implements RaceDAO {
     public List<RaceDTO> getCountryRaces(int idCountry) throws ExceptionDAO {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT Race.name,amount,B.name " +
+                    "SELECT Race.name,amount,B.name,Race.idRace " +
                             "FROM Race " +
                             "INNER JOIN Behavior B on Race.idBehavior = B.idBehavior " +
                             "WHERE idCountry = ?");
@@ -40,9 +40,10 @@ public class SQLRaceDAO implements RaceDAO {
             connection.commit();
             List<RaceDTO> races = new ArrayList<>();
             while (resultSet.next()) {
-                races.add(new RaceDTO(resultSet.getString(1),
+                races.add(new RaceDTO(resultSet.getInt(4),resultSet.getString(1),
                         resultSet.getLong(2),
-                        resultSet.getString(3)));
+                        resultSet.getString(3),
+                        idCountry));
             }
             return races;
         } catch (SQLException e) {

@@ -7,31 +7,21 @@ public class Race implements Searchable {
     private final String name;
     private final long amount;
     private final Behavior behavior;
+    private int idCountry;
 
-    public Race(String name, long amount, boolean behavior) {
-        this.name = name;
-        this.amount = amount;
-        if (behavior) this.behavior = Behavior.ANGRY;
-        else this.behavior = Behavior.NEUTRAL;
-    }
-    public Race(int id, String name, long amount, boolean behavior) {
-        this.id = id;
-        this.name = name;
-        this.amount = amount;
-        if (behavior) this.behavior = Behavior.ANGRY;
-        else this.behavior = Behavior.NEUTRAL;
-    }
-    public Race(String name, long amount, Behavior behavior) {
+    public Race(String name, long amount, Behavior behavior,int idCountry) {
         this.id = -1;
         this.name = name;
         this.amount = amount;
         this.behavior = behavior;
+        this.idCountry = idCountry;
     }
-    public Race(int id, String name, long amount, Behavior behavior) {
+    public Race(int id, String name, long amount, Behavior behavior,int idCountry) {
         this.id = id;
         this.name = name;
         this.amount = amount;
         this.behavior = behavior;
+        this.idCountry = idCountry;
     }
 
     public long getAmount() {
@@ -62,6 +52,17 @@ public class Race implements Searchable {
         if (id.getClass() == String.class){
             return this.name.equals(id.toString());
         }
+        if (id.getClass() == Integer.class){
+            return Integer.toString(this.id).equals(id.toString());
+        }
         return false;
+    }
+
+    public int getIdCountry() {
+        return idCountry;
+    }
+
+    public void setIdCountry(int idCountry) {
+        this.idCountry = idCountry;
     }
 }

@@ -4,26 +4,29 @@ public class CountryDTO {
 
 
     private int id;
-    private final String _name;
-    private final long _area;
+    private final String name;
+    private final long area;
+    private int idPlanet;
 
-    public CountryDTO(int id, String name, long area) {
+    public CountryDTO(int id, String name, long area, int idPlanet) {
         this.id = id;
-        this._name = name;
-        this._area = area;
+        this.name = name;
+        this.area = area;
+        this.idPlanet = idPlanet;
     }
-    public CountryDTO(String name, long area) {
+    public CountryDTO(String name, long area, int idPlanet) {
         this.id = -1;
-        this._name = name;
-        this._area = area;
+        this.name = name;
+        this.area = area;
+        this.idPlanet = idPlanet;
     }
 
     public long getArea() {
-        return _area;
+        return area;
     }
 
     public String getName() {
-        return _name;
+        return name;
     }
 
     public int getId() {
@@ -31,5 +34,9 @@ public class CountryDTO {
     }
     public void setId(int id){
         this.id = id;
+    }
+
+    public int getIdPlanet() {
+        return idPlanet;
     }
 }

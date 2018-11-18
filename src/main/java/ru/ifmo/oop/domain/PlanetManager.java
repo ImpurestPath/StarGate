@@ -48,7 +48,28 @@ public class PlanetManager {
         }
         return Collections.unmodifiableList(planets);
     }
-
+    public Planet get(int idPlanet) throws ExceptionDAO {
+        PlanetDTO planetDTO = connection.getPlanet(idPlanet);
+        List<CountryDTO> countriesDB = connection.getPlanetCountries(planetDTO.getId());
+        List<Country> countries = new ArrayList<>();
+        for (CountryDTO countryDTO :
+                countriesDB) {
+            List<RaceDTO> racesDB = connection.getCountryRaces(countryDTO.getId());
+            List<Race> races = new ArrayList<>();
+            for (RaceDTO raceDTO :
+                    racesDB) {
+                races.add(TransformerToEntity.toRace(raceDTO));
+            }
+            countries.add(TransformerToEntity.toCountry(countryDTO, races));
+        }
+        List<LanguageDTO> languagesDB = connection.getPlanetLanguages(planetDTO.getId());
+        List<Language> languages = new ArrayList<>();
+        for (LanguageDTO languageDTO :
+                languagesDB) {
+            languages.add(TransformerToEntity.toLanguage(languageDTO));
+        }
+        return TransformerToEntity.toPlanet(planetDTO, languages, countries);
+    }
     public void add(Planet planet) throws ExceptionDAO {
         planet.setId(connection.addPlanet(TransformerToDTO.toPlanet(planet)));
         int planetID = planet.getId();
@@ -70,14 +91,12 @@ public class PlanetManager {
 
     public void delete(Planet planet) throws ExceptionDAO {
         connection.deletePlanet(planet.getId());
-        for (Language language :
-                planet.getLanguages()) {
+        for (Language language : planet.getLanguages()) {
             connection.deleteLanguage(language.getId());
         }
         for (Country country : planet.getCountries()) {
             connection.deleteCountry(country.getId());
-            for (Race race :
-                    country.getRaces()) {
+            for (Race race : country.getRaces()) {
                 connection.deleteRace(race.getId());
             }
         }
@@ -88,20 +107,31 @@ public class PlanetManager {
         connection.updatePlanet(id, TransformerToDTO.toPlanet(planet));
         planet.setId(id);
         for (Language language : planet.getLanguages()) {
-            connection.updateLanguage(language.getId(), TransformerToDTO.toLanguage(language));
+            if (language.getId() != -1) {
+                connection.updateLanguage(language.getId(), TransformerToDTO.toLanguage(language));
+            }
+            else {
+                language.setId(connection.addLanguage(id,TransformerToDTO.toLanguage(language)));
+            }
         }
         for (Country country : planet.getCountries()) {
-            connection.updateCountry(country.getId(), TransformerToDTO.toCountry(country));
+            if (country.getId() != -1) {
+                connection.updateCountry(country.getId(), TransformerToDTO.toCountry(country));
+            }
+            else {
+                country.setId(connection.addCountry(id,TransformerToDTO.toCountry(country)));
+                connection.commit();
+                //TODO solve problem when country haven't id before adding races
+            }
             for (Race race : country.getRaces()) {
-                connection.updateRace(race.getId(), TransformerToDTO.toRace(race));
+                if (race.getId() != -1) {
+                    connection.updateRace(race.getId(), TransformerToDTO.toRace(race));
+                }
+                else{
+                    race.setId(connection.addRace(country.getId(),TransformerToDTO.toRace(race)));
+                }
             }
         }
         connection.commit(); //How place it?
-    }
-
-    public void addManyPlanets() throws ExceptionDAO {
-        for (int i = 0; i < 30000; i++) {
-            add(new Planet("abc", 1, 1, new ArrayList<>(), new ArrayList<>()));
-        }
     }
 }

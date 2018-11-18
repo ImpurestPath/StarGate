@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -17,7 +23,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.ifmo.oop.ui.gui.controllers.PlanetInfoController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.ifmo.oop.ui.gui.controllers.PlanetInfoController">
    <top>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -44,7 +50,7 @@
             </GridPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Button layoutX="67.0" layoutY="51.0" mnemonicParsing="false" onAction="#btnBaskClicked" prefHeight="37.0" prefWidth="64.0" text="Back" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0" />
+                  <Button layoutX="67.0" layoutY="51.0" mnemonicParsing="false" onAction="#btnBaсkClicked" prefHeight="37.0" prefWidth="64.0" text="Back" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0" />
                </children>
             </AnchorPane>
          </children>
@@ -96,9 +102,9 @@
                               <ListView fx:id="listViewLanguages" layoutX="53.0" layoutY="34.0" prefHeight="268.6666666666667" prefWidth="450.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                               <ToolBar layoutY="229.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                                 <items>
-                                  <Button mnemonicParsing="false" text="Add" />
-                                    <Button mnemonicParsing="false" text="Edit" />
-                                    <Button mnemonicParsing="false" text="Delete" />
+                                  <Button mnemonicParsing="false" onAction="#btnAddLanguageClicked" text="Add" />
+                                    <Button mnemonicParsing="false" onAction="#btnEditLanguageClicked" text="Edit" />
+                                    <Button mnemonicParsing="false" onAction="#btnDeleteLanguageClicked" text="Delete" />
                                 </items>
                               </ToolBar>
                            </children>
@@ -112,9 +118,9 @@
                               <ListView fx:id="listViewCountries" layoutX="60.0" layoutY="14.0" prefHeight="268.6666666666667" prefWidth="450.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                               <ToolBar layoutY="229.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                                 <items>
-                                  <Button mnemonicParsing="false" text="Add" />
-                                    <Button mnemonicParsing="false" text="Edit" />
-                                    <Button mnemonicParsing="false" text="Delete" />
+                                  <Button mnemonicParsing="false" onAction="#btnAddCountryClicked" text="Add" />
+                                    <Button mnemonicParsing="false" onAction="#btnEditCountryClicked" text="Edit" />
+                                    <Button mnemonicParsing="false" onAction="#btnDeleteCountryClicked" text="Delete" />
                                 </items>
                               </ToolBar>
                            </children>
@@ -128,9 +134,9 @@
                               <ListView fx:id="listViewRaces" layoutX="125.0" layoutY="55.0" prefHeight="268.6666666666667" prefWidth="450.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                               <ToolBar layoutY="229.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                                 <items>
-                                  <Button mnemonicParsing="false" text="Add" />
-                                    <Button mnemonicParsing="false" text="Edit" />
-                                    <Button mnemonicParsing="false" text="Delete" />
+                                  <Button mnemonicParsing="false" onAction="#btnAddRaceClicked" text="Add" />
+                                    <Button mnemonicParsing="false" onAction="#btnEditRaceClicked" text="Edit" />
+                                    <Button mnemonicParsing="false" onAction="#btnDeleteRaceClicked" text="Delete" />
                                 </items>
                               </ToolBar>
                            </children>

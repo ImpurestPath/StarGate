@@ -8,20 +8,24 @@ public class Language implements Searchable {
     private final String name;
     private final boolean availableDictionary;
     private final Type type;
+    private int idPlanet;
 
-    public Language(String name, Type type, boolean availableDictionary) {
+    public Language(String name, Type type, boolean availableDictionary,int idPlanet) {
         this.id = -1;
         this.name = name;
         this.type = type;
         this.availableDictionary = availableDictionary;
+        this.idPlanet = idPlanet;
     }
 
-    public Language(int id, String name, Type type, boolean availableDictionary) {
+    public Language(int id, String name, Type type, boolean availableDictionary, int idPlanet) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.availableDictionary = availableDictionary;
+        this.idPlanet = idPlanet;
     }
+
 
     public String merge() {
         return name;
@@ -53,6 +57,9 @@ public class Language implements Searchable {
         if (id.getClass() == String.class) {
             return this.name.equals(id.toString());
         }
+        if (id.getClass() == Integer.class){
+            return Integer.toString(this.id).equals(id.toString());
+        }
         return false;
     }
 
@@ -62,5 +69,13 @@ public class Language implements Searchable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getIdPlanet() {
+        return idPlanet;
+    }
+
+    public void setIdPlanet(int idPlanet) {
+        this.idPlanet = idPlanet;
     }
 }
