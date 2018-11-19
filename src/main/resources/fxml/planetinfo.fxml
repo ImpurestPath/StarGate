@@ -100,7 +100,7 @@
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="227.0" prefWidth="418.0">
                            <children>
                               <ListView fx:id="listViewLanguages" layoutX="53.0" layoutY="34.0" prefHeight="268.6666666666667" prefWidth="450.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                              <ToolBar layoutY="229.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                              <ToolBar fx:id="toolsLanguages" layoutY="229.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                                 <items>
                                   <Button mnemonicParsing="false" onAction="#btnAddLanguageClicked" text="Add" />
                                     <Button mnemonicParsing="false" onAction="#btnEditLanguageClicked" text="Edit" />
@@ -116,7 +116,7 @@
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <ListView fx:id="listViewCountries" layoutX="60.0" layoutY="14.0" prefHeight="268.6666666666667" prefWidth="450.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                              <ToolBar layoutY="229.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                              <ToolBar fx:id="toolsCountries" layoutY="229.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                                 <items>
                                   <Button mnemonicParsing="false" onAction="#btnAddCountryClicked" text="Add" />
                                     <Button mnemonicParsing="false" onAction="#btnEditCountryClicked" text="Edit" />
@@ -132,7 +132,7 @@
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <ListView fx:id="listViewRaces" layoutX="125.0" layoutY="55.0" prefHeight="268.6666666666667" prefWidth="450.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                              <ToolBar layoutY="229.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                              <ToolBar fx:id="toolsRaces" layoutY="229.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                                 <items>
                                   <Button mnemonicParsing="false" onAction="#btnAddRaceClicked" text="Add" />
                                     <Button mnemonicParsing="false" onAction="#btnEditRaceClicked" text="Edit" />

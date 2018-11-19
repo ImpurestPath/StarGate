@@ -10,11 +10,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import ru.ifmo.oop.domain.mappers.TransformerToEntity;
+import ru.ifmo.oop.domain.mappers.TransformerToGUI;
 import ru.ifmo.oop.ui.gui.PlanetGraphicsManager;
 import ru.ifmo.oop.ui.gui.PlanetGUI;
 import ru.ifmo.oop.ui.gui.listCells.PlanetListCell;
@@ -33,6 +36,7 @@ public class MainWindowController implements Initializable {
     public Label lblAmount;
     public Button infobutton;
     public AnchorPane mainPane;
+    public ToolBar adminPanel;
     private ObservableList<PlanetGUI> observableList;
 
     @Override
@@ -70,6 +74,7 @@ public class MainWindowController implements Initializable {
             Parent parent = loader.load();
             info.setScene(new Scene(parent));
             PlanetInfoController planetInfoController = loader.getController();
+            planetInfoController.setMode(PlanetInfoController.Mode.VIEW);
             planetInfoController.setPlanet(item);
             info.showAndWait();
             this.listView1.setItems(FXCollections.observableArrayList(PlanetGraphicsManager.getInstance().getPlanetUIList()));
@@ -95,6 +100,74 @@ public class MainWindowController implements Initializable {
             GateController gateController = loader.getController();
             gateController.setPlanetName(item.getName());
             stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void btnAddClicked(ActionEvent actionEvent) {
+        Stage info = new Stage();
+        info.initOwner(mainPane.getScene().getWindow());
+        info.initModality(Modality.APPLICATION_MODAL);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/planetpage.fxml"));
+            Parent parent = loader.load();
+            info.setScene(new Scene(parent));
+            PlanetPageController planetPageController = loader.getController();
+            planetPageController.setMode(PlanetPageController.Mode.CREATE);
+            info.showAndWait();
+            this.listView1.setItems(FXCollections.observableArrayList(PlanetGraphicsManager.getInstance().getPlanetUIList()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void btnEditClicked(ActionEvent actionEvent) {
+        PlanetGUI item = listView1.getSelectionModel().getSelectedItem();
+        if (item == null) return;
+        Stage info = new Stage();
+        info.initOwner(mainPane.getScene().getWindow());
+        info.initModality(Modality.APPLICATION_MODAL);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/planetpage.fxml"));
+            Parent parent = loader.load();
+            info.setScene(new Scene(parent));
+            PlanetPageController planetPageController = loader.getController();
+            planetPageController.setMode(PlanetPageController.Mode.UPDATE);
+            planetPageController.setPlanet(item);
+            info.showAndWait();
+            this.listView1.setItems(FXCollections.observableArrayList(PlanetGraphicsManager.getInstance().getPlanetUIList()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void btnDeleteClicked(ActionEvent actionEvent) {
+        try {
+            PlanetGUI item = listView1.getSelectionModel().getSelectedItem();
+            if (item == null) return;
+            PlanetGraphicsManager.getInstance().deletePlanet(TransformerToEntity.toPlanet(item));
+            this.listView1.setItems(FXCollections.observableArrayList(PlanetGraphicsManager.getInstance().getPlanetUIList()));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void btnEditInfoClicked(ActionEvent actionEvent) {
+        PlanetGUI item = listView1.getSelectionModel().getSelectedItem();
+        if (item == null) return;
+        Stage info = new Stage();
+        info.initOwner(mainPane.getScene().getWindow());
+        info.initModality(Modality.APPLICATION_MODAL);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/planetinfo.fxml"));
+            Parent parent = loader.load();
+            info.setScene(new Scene(parent));
+            PlanetInfoController planetInfoController = loader.getController();
+            planetInfoController.setMode(PlanetInfoController.Mode.CHANGE);
+            planetInfoController.setPlanet(item);
+            info.showAndWait();
+            this.listView1.setItems(FXCollections.observableArrayList(PlanetGraphicsManager.getInstance().getPlanetUIList()));
         } catch (IOException e) {
             e.printStackTrace();
         }

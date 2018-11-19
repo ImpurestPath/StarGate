@@ -132,11 +132,24 @@ public class PlanetGraphicsManager {
         item.getCountries().remove(PlanetManager.findIndex(item.getCountries(),idCountry));
         planetManager.update(idPlanet,TransformerToEntity.toPlanet(item));
     }
+    public void addPlanet(Planet planet) throws ExceptionDAO {
+        planetManager.add(planet);
+        planetUIList.add(TransformerToGUI.toPlanet(planetManager.get(planet.getId())));
+    }
+    public void changePlanet(int idPlanet, Planet planet) throws ExceptionDAO {
+        planetManager.update(idPlanet,planet);
+        planetUIList.set(PlanetManager.findIndex(planetUIList,idPlanet),TransformerToGUI.toPlanet(planetManager.get(idPlanet)));
+    }
+    public void deletePlanet(Planet planet) throws ExceptionDAO {
+        planetManager.delete(planet);
+        planetUIList.remove(PlanetManager.find(planetUIList,planet.getId()));
+    }
     public List<PlanetGUI> getPlanetUIList() {
         return planetUIList;
     }
 
     public PlanetGUI getPlanet(int idPlanet){
+        //TODO change to find
         int item = -1;
         int count = 0;
         for (PlanetGUI planetGUI : planetUIList){

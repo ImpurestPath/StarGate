@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ToolBar;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.ifmo.oop.domain.Country;
@@ -36,11 +37,27 @@ public class PlanetInfoController implements Initializable {
     public ListView listViewLanguages;
     public ListView listViewCountries;
     public ListView listViewRaces;
+    public ToolBar toolsLanguages;
+    public ToolBar toolsCountries;
+    public ToolBar toolsRaces;
     private PlanetGUI planet;
-
+    public enum Mode{
+        VIEW,
+        CHANGE
+    }
+    private Mode mode;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+    }
+
+    public void setMode(Mode mode) {
+        this.mode = mode;
+        if (mode == Mode.VIEW){
+            toolsLanguages.setVisible(false);
+            toolsCountries.setVisible(false);
+            toolsRaces.setVisible(false);
+        }
     }
 
     public void setPlanet(PlanetGUI planet) {

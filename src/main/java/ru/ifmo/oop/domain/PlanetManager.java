@@ -163,6 +163,7 @@ public class PlanetManager {
         for (T t : tList) {
             if (t.compare(id)) {
                 item = count;
+                break;
             }
             count++;
         }
@@ -183,4 +184,5 @@ public class PlanetManager {
         }
         return item;
     }
+
 }

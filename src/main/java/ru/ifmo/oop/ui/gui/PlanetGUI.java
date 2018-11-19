@@ -2,13 +2,14 @@ package ru.ifmo.oop.ui.gui;
 
 
 import ru.ifmo.oop.dataAccess.DTO.RaceDTO;
+import ru.ifmo.oop.domain.Comparable;
 import ru.ifmo.oop.domain.Country;
 import ru.ifmo.oop.domain.Language;
 import ru.ifmo.oop.domain.Planet;
 
 import java.util.List;
 
-public class PlanetGUI {
+public class PlanetGUI implements Comparable {
     //private final Planet planet;
     private final List<Language> languages;
     private final List<Country> countries;
@@ -33,7 +34,18 @@ public class PlanetGUI {
         this.countries = countries;
         //this.image = new Image("Mustafar.jpg");
     }
-
+    public PlanetGUI(String name, long area, long amountAlive, int temperature, long pressure, RaceDTO.Behavior behavior, List<Language> languages, List<Country> countries) {
+        this.id = -1;
+        this.name = name;
+        this.area = area;
+        this.amountAlive = amountAlive;
+        this.temperature = temperature;
+        this.pressure = pressure;
+        this.behavior = behavior;
+        this.languages = languages;
+        this.countries = countries;
+        //this.image = new Image("Mustafar.jpg");
+    }
     public List<Language> getLanguages() {
         return languages;
     }
@@ -68,5 +80,16 @@ public class PlanetGUI {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public <T> boolean compare(T id) {
+        if (id.getClass() == Integer.class){
+            return Integer.toString(this.id).equals(id.toString());
+        }
+        else if (id.getClass() == String.class){
+            return this.name.equals(id.toString());
+        }
+        else return false;
     }
 }

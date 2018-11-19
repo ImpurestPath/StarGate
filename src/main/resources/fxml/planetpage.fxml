@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="402.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.ifmo.oop.ui.gui.controllers.PlanetPageController">
+   <top>
+      <Label text="Planet" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <BorderPane.margin>
+            <Insets top="10.0" />
+         </BorderPane.margin>
+      </Label>
+   </top>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="14.0" layoutY="14.0" text="Name:" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="15.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="20.0" layoutY="40.0" text="Temperature:" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="55.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtName" layoutX="86.0" layoutY="18.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0" />
+            <TextField fx:id="txtTemperature" layoutX="233.0" layoutY="53.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="50.0" />
+            <Label layoutX="20.0" layoutY="99.0" text="Pressure:" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="95.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtPressure" layoutX="239.0" layoutY="98.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="90.0" />
+            <Button layoutX="286.0" layoutY="134.0" mnemonicParsing="false" onAction="#btnOkClicked" prefWidth="60.0" text="OK" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="90.0" />
+            <Button cancelButton="true" defaultButton="true" layoutX="330.0" layoutY="125.0" mnemonicParsing="false" onAction="#btnCancelClicked" prefWidth="60.0" text="Cancel" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
