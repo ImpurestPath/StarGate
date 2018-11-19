@@ -42,7 +42,7 @@ public class PlanetListCell extends ListCell<PlanetGUI> {
 
             name.setText(planet.getName());
             info.setText(planet.getBehavior().toString());
-
+            imageView.setImage(planet.getImage());
             setText(null);
             setGraphic(anchorPane);
         }

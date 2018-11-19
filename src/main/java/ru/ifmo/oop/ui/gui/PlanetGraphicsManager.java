@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlanetGraphicsManager {
+    //TODO split functions
     private final PlanetManager planetManager;
     private final UserManager userManager;
     private User user;
@@ -149,19 +150,6 @@ public class PlanetGraphicsManager {
     }
 
     public PlanetGUI getPlanet(int idPlanet){
-        //TODO change to find
-        int item = -1;
-        int count = 0;
-        for (PlanetGUI planetGUI : planetUIList){
-            if (planetGUI.getId() == idPlanet){
-                item = count;
-                break;
-            }
-            count++;
-        }
-        if (item != -1){
-            return planetUIList.get(item);
-        }
-        else return null;
+        return PlanetManager.find(planetUIList,idPlanet);
     }
 }

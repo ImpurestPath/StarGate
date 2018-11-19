@@ -16,7 +16,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class LanguagePageController implements Initializable {
-    //TODO Finish this
     public ComboBox chooseType;
     public TextField textName;
     public CheckBox radioDictionary;

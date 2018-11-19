@@ -65,7 +65,6 @@ public class LanguageListCell extends ListCell<Language> {
                 }
                 imageViewType.setImage(imgVibration);
             }
-            // TODO: make dictionary language
             if (language.isAvailableDictionary()){
                 if (imgAvailableDictionary == null){
                     imgAvailableDictionary = new Image("/images/dictionary.png");
