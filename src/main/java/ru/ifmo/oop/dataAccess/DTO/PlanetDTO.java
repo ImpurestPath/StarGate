@@ -2,6 +2,7 @@ package ru.ifmo.oop.dataAccess.DTO;
 
 
 public class PlanetDTO {
+    //TODO make image blob
     private final int _temperature;
     private final long _pressure;
     private int _id;
