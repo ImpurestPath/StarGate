@@ -6,7 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import ru.ifmo.oop.dataAccess.Exception.ExceptionDAO;
+import ru.ifmo.oop.dataAccess.exception.ExceptionDAO;
 import ru.ifmo.oop.domain.PlanetManager;
 import ru.ifmo.oop.domain.UserManager;
 import ru.ifmo.oop.ui.gui.PlanetGraphicsManager;

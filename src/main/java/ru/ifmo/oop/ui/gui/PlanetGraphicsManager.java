@@ -3,7 +3,7 @@ package ru.ifmo.oop.ui.gui;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import ru.ifmo.oop.MainGUI;
-import ru.ifmo.oop.dataAccess.Exception.ExceptionDAO;
+import ru.ifmo.oop.dataAccess.exception.ExceptionDAO;
 import ru.ifmo.oop.domain.*;
 import ru.ifmo.oop.domain.mappers.TransformerToEntity;
 import ru.ifmo.oop.domain.mappers.TransformerToGUI;

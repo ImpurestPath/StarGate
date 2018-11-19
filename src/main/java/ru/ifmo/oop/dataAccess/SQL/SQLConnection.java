@@ -6,7 +6,7 @@ import ru.ifmo.oop.dataAccess.UserDAO;
 import ru.ifmo.oop.dataAccess.LanguageDAO;
 import ru.ifmo.oop.dataAccess.ConnectionDAO;
 import ru.ifmo.oop.dataAccess.CountryDAO;
-import ru.ifmo.oop.dataAccess.Exception.ExceptionDAO;
+import ru.ifmo.oop.dataAccess.exception.ExceptionDAO;
 import ru.ifmo.oop.dataAccess.PlanetDAO;
 import ru.ifmo.oop.dataAccess.RaceDAO;
 

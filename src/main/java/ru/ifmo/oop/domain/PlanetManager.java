@@ -6,7 +6,7 @@ import ru.ifmo.oop.dataAccess.DTO.CountryDTO;
 import ru.ifmo.oop.dataAccess.DTO.LanguageDTO;
 import ru.ifmo.oop.dataAccess.DTO.PlanetDTO;
 import ru.ifmo.oop.dataAccess.DTO.RaceDTO;
-import ru.ifmo.oop.dataAccess.Exception.ExceptionDAO;
+import ru.ifmo.oop.dataAccess.exception.ExceptionDAO;
 import ru.ifmo.oop.dataAccess.SQL.SQLConnection;
 import ru.ifmo.oop.domain.mappers.TransformerToDTO;
 import ru.ifmo.oop.domain.mappers.TransformerToEntity;

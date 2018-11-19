@@ -2,7 +2,7 @@ package ru.ifmo.oop.dataAccess.SQL;
 
 import ru.ifmo.oop.dataAccess.CountryDAO;
 import ru.ifmo.oop.dataAccess.DTO.CountryDTO;
-import ru.ifmo.oop.dataAccess.Exception.ExceptionDAO;
+import ru.ifmo.oop.dataAccess.exception.ExceptionDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

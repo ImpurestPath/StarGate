@@ -1,6 +1,6 @@
 package ru.ifmo.oop.dataAccess.SQL;
 
-import ru.ifmo.oop.dataAccess.Exception.ExceptionDAO;
+import ru.ifmo.oop.dataAccess.exception.ExceptionDAO;
 import ru.ifmo.oop.dataAccess.RaceDAO;
 import ru.ifmo.oop.dataAccess.DTO.RaceDTO;
 
