@@ -49,7 +49,20 @@ public class LanguageDTO {
         this.id = id;
         this.idPlanet = idPlanet;
     }
-
+    public LanguageDTO(int id, String name, String type, boolean availableDictionary, int idPlanet) {
+        this.name = name;
+        this.type = type.equals("VISUAL") ? Type.VISUAL : type.equals("VOICE") ? Type.VOICE : Type.VIBRATION;
+        this.availableDictionary = availableDictionary;
+        this.id = id;
+        this.idPlanet = idPlanet;
+    }
+    public LanguageDTO(int id, String name, Type type, boolean availableDictionary, int idPlanet) {
+        this.name = name;
+        this.type = type;
+        this.availableDictionary = availableDictionary;
+        this.id = id;
+        this.idPlanet = idPlanet;
+    }
     /*public LanguageDB(Language language) {
         this.name = language.merge();
         this.type = language.getType();

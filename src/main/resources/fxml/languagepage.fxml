@@ -19,7 +19,7 @@
    <top>
       <Label text="Language" BorderPane.alignment="CENTER">
          <font>
-            <Font size="22.0" />
+            <Font size="25.0" />
          </font>
          <padding>
             <Insets top="10.0" />

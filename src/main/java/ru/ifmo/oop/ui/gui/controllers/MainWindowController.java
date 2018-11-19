@@ -65,7 +65,6 @@ public class MainWindowController implements Initializable {
         Stage info = new Stage();
         info.initOwner(mainPane.getScene().getWindow());
         info.initModality(Modality.APPLICATION_MODAL);
-
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/planetinfo.fxml"));
             Parent parent = loader.load();
@@ -73,6 +72,7 @@ public class MainWindowController implements Initializable {
             PlanetInfoController planetInfoController = loader.getController();
             planetInfoController.setPlanet(item);
             info.showAndWait();
+            this.listView1.setItems(FXCollections.observableArrayList(PlanetGraphicsManager.getInstance().getPlanetUIList()));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -16,11 +16,11 @@ public class SQLRaceDAO implements RaceDAO {
     private int getIdBehavior(RaceDTO.Behavior behavior){
         switch (behavior){
             case ANGRY:
-                return 1;
-            case NEUTRAL:
                 return 2;
+            case NEUTRAL:
+                return 1;
                 default:
-                    return 2;
+                    return 1;
         }
     }
     public SQLRaceDAO(Connection connection) {
@@ -60,7 +60,7 @@ public class SQLRaceDAO implements RaceDAO {
             preparedStatementRace.setInt(1, idCountry);
             preparedStatementRace.setString(2, race.getName());
             preparedStatementRace.setLong(3, race.getAmount());
-            preparedStatementRace.setInt(4, race.getBoolBehavior() ? 2 : 1);
+            preparedStatementRace.setInt(4, getIdBehavior(race.getBehavior()));
             preparedStatementRace.execute();
             int raceID = this.connection.createStatement().executeQuery(
                     "SELECT last_insert_rowid()").getInt(1);

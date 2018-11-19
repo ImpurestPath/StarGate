@@ -69,9 +69,9 @@ public class PlanetGraphicsManager {
             planetUIList.set(item, TransformerToGUI.toPlanet(planetManager.get(idPlanet)));
         }
     }
-    public void changeLanguageToPlanet(int idPlanet, int idLanguage, Language language) throws ExceptionDAO {
+    public void changeLanguageOfPlanet(int idPlanet, int idLanguage, Language language) throws ExceptionDAO {
         PlanetGUI item = getPlanet(idPlanet);
-        item.getLanguages().set(findIndex(item.getLanguages(),idLanguage),language);
+        item.getLanguages().set(PlanetManager.findIndex(item.getLanguages(),idLanguage),language);
         planetManager.update(idPlanet, TransformerToEntity.toPlanet(item));
     }
     public void addLanguageToPlanet(int idPlanet, Language language) throws ExceptionDAO {
@@ -81,38 +81,61 @@ public class PlanetGraphicsManager {
     }
     public void deleteLanguageFromPlanet(int idPlanet,int idLanguage) throws ExceptionDAO {
         PlanetGUI item = getPlanet(idPlanet);
-        item.getLanguages().remove(findIndex(item.getLanguages(),idLanguage));
+        item.getLanguages().remove(PlanetManager.findIndex(item.getLanguages(),idLanguage));
+        planetManager.update(idPlanet,TransformerToEntity.toPlanet(item));
+    }
+    public void changeRaceOfCountry(int idPlanet, int idCountry, int idRace, Race race) throws ExceptionDAO {
+        PlanetGUI item = getPlanet(idPlanet);
+        int indexOfCountry = PlanetManager.findIndex(item.getCountries(), idCountry);
+        if (indexOfCountry != -1) {
+            Country original = item.getCountries().get(indexOfCountry);
+            List<Race> races = new ArrayList<>(original.getRaces());
+            races.set(PlanetManager.findIndex(races,idRace),race);
+            item.getCountries().set(indexOfCountry, new Country(original.getId(),original.getName(),original.getArea(),races,original.getIdPlanet()));
+            planetManager.update(idPlanet,TransformerToEntity.toPlanet(item));
+        }
+    }
+    public void addRaceToCountry(int idPlanet, int idCountry, Race race) throws ExceptionDAO {
+        PlanetGUI item = getPlanet(idPlanet);
+        int indexOfCountry = PlanetManager.findIndex(item.getCountries(), idCountry);
+        if (indexOfCountry != -1) {
+            Country original = item.getCountries().get(indexOfCountry);
+            List<Race> races = new ArrayList<>(original.getRaces());
+            races.add(race);
+            item.getCountries().set(indexOfCountry, new Country(original.getId(),original.getName(),original.getArea(),races,original.getIdPlanet()));
+            planetManager.update(idPlanet,TransformerToEntity.toPlanet(item));
+        }
+    }
+    public void deleteRaceFromCountry(int idPlanet, int idCountry, int idRace) throws ExceptionDAO {
+        PlanetGUI item = getPlanet(idPlanet);
+        int indexOfCountry = PlanetManager.findIndex(item.getCountries(), idCountry);
+        if (indexOfCountry != -1) {
+            Country original = item.getCountries().get(indexOfCountry);
+            List<Race> races = new ArrayList<>(original.getRaces());
+            races.remove(PlanetManager.find(races,idRace));
+            item.getCountries().set(indexOfCountry, new Country(original.getId(),original.getName(),original.getArea(),races,original.getIdPlanet()));
+            planetManager.update(idPlanet,TransformerToEntity.toPlanet(item));
+        }
+    }
+    public void addCountryToPlanet(int idPlanet, Country country) throws ExceptionDAO {
+        PlanetGUI item = getPlanet(idPlanet);
+        item.getCountries().add(country);
+        planetManager.update(idPlanet, TransformerToEntity.toPlanet(item));
+    }
+    public void changeCountryOfPlanet(int idPlanet, int idCountry, Country country) throws ExceptionDAO {
+        PlanetGUI item = getPlanet(idPlanet);
+        item.getCountries().set(PlanetManager.findIndex(item.getCountries(),idCountry),country);
+        planetManager.update(idPlanet, TransformerToEntity.toPlanet(item));
+    }
+    public void deleteCountryFromPlanet(int idPlanet, int idCountry) throws ExceptionDAO {
+        PlanetGUI item = getPlanet(idPlanet);
+        item.getCountries().remove(PlanetManager.findIndex(item.getCountries(),idCountry));
         planetManager.update(idPlanet,TransformerToEntity.toPlanet(item));
     }
     public List<PlanetGUI> getPlanetUIList() {
         return planetUIList;
     }
-    private <T extends Searchable,P> T find(List<T> tList, P id){
-        int item = -1;
-        int count = 0;
-        for (T t: tList){
-            if (t.merge(id)){
-                item = count;
-            }
-            count++;
-        }
-        if (item != -1){
-            return tList.get(item);
-        }
-        else return null;
-    }
-    private <T extends Searchable, P> int findIndex(List<T> tList, P id){
-        int item = -1;
-        int count = 0;
-        for (T t: tList){
-            if (t.merge(id)){
-                item = count;
-                break;
-            }
-            count++;
-        }
-        return item;
-    }
+
     public PlanetGUI getPlanet(int idPlanet){
         int item = -1;
         int count = 0;

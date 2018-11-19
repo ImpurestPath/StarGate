@@ -30,7 +30,6 @@ public class LanguagePageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //TODO create list for combobox
         chooseType.setCellFactory(param -> new ListCell<LanguageDTO.Type>(){
             @Override
             protected void updateItem(LanguageDTO.Type type, boolean empty){
@@ -68,7 +67,7 @@ public class LanguagePageController implements Initializable {
         try {
 
             if (mode == Mode.UPDATE) {
-                PlanetGraphicsManager.getInstance().changeLanguageToPlanet(language.getIdPlanet(), language.getId(), new Language(language.getId(), textName.getText(), (LanguageDTO.Type) chooseType.getSelectionModel().getSelectedItem(), radioDictionary.isSelected(), language.getIdPlanet()));
+                PlanetGraphicsManager.getInstance().changeLanguageOfPlanet(language.getIdPlanet(), language.getId(), new Language(language.getId(), textName.getText(), (LanguageDTO.Type) chooseType.getSelectionModel().getSelectedItem(), radioDictionary.isSelected(), language.getIdPlanet()));
             } else {
                 PlanetGraphicsManager.getInstance().addLanguageToPlanet(idPlanet, new Language(textName.getText(), (LanguageDTO.Type) chooseType.getSelectionModel().getSelectedItem(), radioDictionary.isSelected(), idPlanet));
             }

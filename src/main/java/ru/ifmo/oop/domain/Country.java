@@ -66,7 +66,7 @@ public class Country implements Searchable {
     }
 
     public List<Race> getRaces() {
-        return Collections.unmodifiableList(races);
+        return races;
     }
 
     public String getName(){

@@ -42,6 +42,7 @@ public class PlanetInfoController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
+
     public void setPlanet(PlanetGUI planet) {
         this.planet = planet;
         lblName.setText(planet.getName());
@@ -87,7 +88,7 @@ public class PlanetInfoController implements Initializable {
     }
 
     public void btnEditLanguageClicked(ActionEvent actionEvent) {
-        Language item = (Language)listViewLanguages.getSelectionModel().getSelectedItem();
+        Language item = (Language) listViewLanguages.getSelectionModel().getSelectedItem();
         if (item != null) {
             Stage info = new Stage();
             info.initOwner(lblName.getScene().getWindow());
@@ -110,32 +111,127 @@ public class PlanetInfoController implements Initializable {
     }
 
     public void btnDeleteLanguageClicked(ActionEvent actionEvent) {
-        try{
-            PlanetGraphicsManager.getInstance().deleteLanguageFromPlanet(planet.getId(),((Language)listViewLanguages.getSelectionModel().getSelectedItem()).getId());
-            PlanetGraphicsManager.getInstance().updatePlanet(planet.getId());
-            this.setPlanet(PlanetGraphicsManager.getInstance().getPlanet(planet.getId()));
-        }
-        catch (Exception e){
+        try {
+            Language item = (Language) listViewLanguages.getSelectionModel().getSelectedItem();
+            if (item != null) {
+                PlanetGraphicsManager.getInstance().deleteLanguageFromPlanet(planet.getId(), item.getId());
+                PlanetGraphicsManager.getInstance().updatePlanet(planet.getId());
+                this.setPlanet(PlanetGraphicsManager.getInstance().getPlanet(planet.getId()));
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void btnAddCountryClicked(ActionEvent actionEvent) {
+        Stage info = new Stage();
+        info.initOwner(lblName.getScene().getWindow());
+        info.initModality(Modality.APPLICATION_MODAL);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/countrypage.fxml"));
+            Parent parent = loader.load();
+            info.setScene(new Scene(parent));
+            CountryPageController countryPageController = loader.getController();
+            countryPageController.setMode(CountryPageController.Mode.CREATE);
+            countryPageController.setIdPlanet(planet.getId());
+            info.showAndWait();
+            PlanetGraphicsManager.getInstance().updatePlanet(planet.getId());
+            this.setPlanet(PlanetGraphicsManager.getInstance().getPlanet(planet.getId()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void btnEditCountryClicked(ActionEvent actionEvent) {
+        Country item = (Country) listViewCountries.getSelectionModel().getSelectedItem();
+        if (item != null) {
+            Stage info = new Stage();
+            info.initOwner(lblName.getScene().getWindow());
+            info.initModality(Modality.APPLICATION_MODAL);
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/countrypage.fxml"));
+                Parent parent = loader.load();
+                info.setScene(new Scene(parent));
+                CountryPageController countryPageController = loader.getController();
+                countryPageController.setMode(CountryPageController.Mode.UPDATE);
+                countryPageController.setCountry(item);
+                countryPageController.setIdPlanet(planet.getId());
+                info.showAndWait();
+                PlanetGraphicsManager.getInstance().updatePlanet(planet.getId());
+                this.setPlanet(PlanetGraphicsManager.getInstance().getPlanet(planet.getId()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void btnDeleteCountryClicked(ActionEvent actionEvent) {
+        try {
+            Country item = (Country) listViewCountries.getSelectionModel().getSelectedItem();
+            if (item != null) {
+                PlanetGraphicsManager.getInstance().deleteCountryFromPlanet(planet.getId(), item.getId());
+                PlanetGraphicsManager.getInstance().updatePlanet(planet.getId());
+                this.setPlanet(PlanetGraphicsManager.getInstance().getPlanet(planet.getId()));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void btnAddRaceClicked(ActionEvent actionEvent) {
+        Stage info = new Stage();
+        info.initOwner(lblName.getScene().getWindow());
+        info.initModality(Modality.APPLICATION_MODAL);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/racepage.fxml"));
+            Parent parent = loader.load();
+            info.setScene(new Scene(parent));
+            RacePageController racePageController = loader.getController();
+            racePageController.setMode(RacePageController.Mode.CREATE);
+            racePageController.setIdPlanet(planet.getId());
+            racePageController.setCountries(planet.getCountries());
+            info.showAndWait();
+            PlanetGraphicsManager.getInstance().updatePlanet(planet.getId());
+            this.setPlanet(PlanetGraphicsManager.getInstance().getPlanet(planet.getId()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void btnEditRaceClicked(ActionEvent actionEvent) {
+        Race item = (Race) listViewRaces.getSelectionModel().getSelectedItem();
+        if (item != null) {
+            Stage info = new Stage();
+            info.initOwner(lblName.getScene().getWindow());
+            info.initModality(Modality.APPLICATION_MODAL);
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/racepage.fxml"));
+                Parent parent = loader.load();
+                info.setScene(new Scene(parent));
+                RacePageController racePageController = loader.getController();
+                racePageController.setMode(RacePageController.Mode.UPDATE);
+                racePageController.setIdPlanet(planet.getId());
+                racePageController.setCountries(planet.getCountries());
+                racePageController.setRace(item);
+                info.showAndWait();
+                PlanetGraphicsManager.getInstance().updatePlanet(planet.getId());
+                this.setPlanet(PlanetGraphicsManager.getInstance().getPlanet(planet.getId()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void btnDeleteRaceClicked(ActionEvent actionEvent) {
-
+        try {
+            Race item = (Race) listViewRaces.getSelectionModel().getSelectedItem();
+            if (item != null) {
+                PlanetGraphicsManager.getInstance().deleteRaceFromCountry(planet.getId(), item.getIdCountry(), item.getId());
+                PlanetGraphicsManager.getInstance().updatePlanet(planet.getId());
+                this.setPlanet(PlanetGraphicsManager.getInstance().getPlanet(planet.getId()));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
