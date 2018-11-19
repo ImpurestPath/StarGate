@@ -2,7 +2,7 @@ package ru.ifmo.oop.domain;
 
 import ru.ifmo.oop.dataAccess.DTO.RaceDTO.Behavior;
 
-public class Race implements Searchable {
+public class Race implements Comparable {
     private int id;
     private final String name;
     private final long amount;
@@ -48,7 +48,7 @@ public class Race implements Searchable {
     }
 
     @Override
-    public <T> boolean merge(T id) {
+    public <T> boolean compare(T id) {
         if (id.getClass() == String.class){
             return this.name.equals(id.toString());
         }

@@ -3,10 +3,9 @@ package ru.ifmo.oop.domain;
 
 import ru.ifmo.oop.dataAccess.DTO.RaceDTO.Behavior;
 
-import java.util.Collections;
 import java.util.List;
 
-public class Country implements Searchable {
+public class Country implements Comparable {
     private int id;
     private final String name;
     private final long area;
@@ -81,7 +80,7 @@ public class Country implements Searchable {
         return !races.isEmpty();
     }
     @Override
-    public <T> boolean merge(T id) {
+    public <T> boolean compare(T id) {
         if (id.getClass() == String.class){
             return this.name.equals(id.toString());
         }

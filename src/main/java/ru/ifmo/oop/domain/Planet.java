@@ -5,7 +5,7 @@ import ru.ifmo.oop.dataAccess.DTO.RaceDTO.Behavior;
 import java.util.Collections;
 import java.util.List;
 
-public class Planet implements Searchable {
+public class Planet implements Comparable {
     private static final double AREAANGRYPERSENT = 0.4;
     private static final double AMOUNTANGRYPERSENT = 0.5;
     private final Behavior behavior;
@@ -128,7 +128,7 @@ public class Planet implements Searchable {
         return name;
     }
     @Override
-    public <T> boolean merge(T id) {
+    public <T> boolean compare(T id) {
         if (id.getClass() == Integer.class){
             return Integer.toString(this.id).equals(id.toString());
         }

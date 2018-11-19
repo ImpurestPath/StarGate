@@ -1,6 +1,6 @@
 package ru.ifmo.oop.domain;
 
-public class User implements Searchable {
+public class User implements Comparable {
     private int id;
     private final String name;
     private final String permission;
@@ -28,7 +28,7 @@ public class User implements Searchable {
     }
 
     @Override
-    public <T> boolean merge(T id) {
+    public <T> boolean compare(T id) {
         if (id.getClass() == String.class){
             return this.name.equals(id.toString());
         }

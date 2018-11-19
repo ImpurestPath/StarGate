@@ -2,7 +2,7 @@ package ru.ifmo.oop.domain;
 
 import ru.ifmo.oop.dataAccess.DTO.LanguageDTO.Type;
 
-public class Language implements Searchable {
+public class Language implements Comparable {
 
     private int id;
     private final String name;
@@ -53,7 +53,7 @@ public class Language implements Searchable {
     }
 
     @Override
-    public <T> boolean merge(T id) {
+    public <T> boolean compare(T id) {
         if (id.getClass() == String.class) {
             return this.name.equals(id.toString());
         }

@@ -157,11 +157,11 @@ public class PlanetManager {
         connection.commit(); //How place it?
     }
 
-    public static <T extends Searchable, P> T find(List<T> tList, P id) {
+    public static <T extends Comparable, P> T find(List<T> tList, P id) {
         int item = -1;
         int count = 0;
         for (T t : tList) {
-            if (t.merge(id)) {
+            if (t.compare(id)) {
                 item = count;
             }
             count++;
@@ -171,11 +171,11 @@ public class PlanetManager {
         } else return null;
     }
 
-    public static <T extends Searchable, P> int findIndex(List<T> tList, P id) {
+    public static <T extends Comparable, P> int findIndex(List<T> tList, P id) {
         int item = -1;
         int count = 0;
         for (T t : tList) {
-            if (t.merge(id)) {
+            if (t.compare(id)) {
                 item = count;
                 break;
             }

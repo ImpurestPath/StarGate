@@ -84,7 +84,7 @@
 //        }
 //    }
 //
-//    private <T extends Searchable, P> int findT(List<T> tList, P id) {
+//    private <T extends Comparable, P> int findT(List<T> tList, P id) {
 //        int count = 0;
 //        for (T t :
 //                tList) {
@@ -94,7 +94,7 @@
 //        return -1;
 //    }
 //
-//    private <T extends Searchable> void deleteT(List<T> tList, String name) {
+//    private <T extends Comparable> void deleteT(List<T> tList, String name) {
 //        //Maybe print name
 //        int i = findT(tList, name);
 //        if (i != -1) tList.remove(i);

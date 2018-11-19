@@ -2,10 +2,11 @@ package ru.ifmo.oop.ui;
 
 
 import ru.ifmo.oop.domain.*;
+import ru.ifmo.oop.domain.Comparable;
 
 import java.util.List;
 
-class PlanetUI implements Searchable {
+class PlanetUI implements Comparable {
     private final Planet planet;
 
     PlanetUI(Planet planet) {
@@ -78,7 +79,7 @@ class PlanetUI implements Searchable {
     }
 
     @Override
-    public <T> boolean merge(T id) {
+    public <T> boolean compare(T id) {
         if (id.getClass() == Integer.class){
             return Integer.toString(this.planet.getId()).equals(id.toString());
         }
