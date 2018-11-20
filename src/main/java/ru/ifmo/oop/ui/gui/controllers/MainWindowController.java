@@ -41,6 +41,10 @@ public class MainWindowController implements Initializable {
     public AnchorPane mainPane;
     public ToolBar adminPanel;
     public ImageView imageView;
+    public Label lblPlanetManagment;
+    public ToolBar planetManagmentPanel;
+    public Label lblUserManagment;
+    public ToolBar userManagmentPanel;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -108,7 +112,7 @@ public class MainWindowController implements Initializable {
         }
     }
 
-    public void btnAddClicked(ActionEvent actionEvent) {
+    public void btnAddPlanetClicked(ActionEvent actionEvent) {
         Stage info = new Stage();
         info.initOwner(mainPane.getScene().getWindow());
         info.initModality(Modality.APPLICATION_MODAL);
@@ -125,7 +129,7 @@ public class MainWindowController implements Initializable {
         }
     }
 
-    public void btnEditClicked(ActionEvent actionEvent) {
+    public void btnEditPlanetClicked(ActionEvent actionEvent) {
         PlanetGUI item = listView1.getSelectionModel().getSelectedItem();
         if (item == null) return;
         Stage info = new Stage();
@@ -145,7 +149,7 @@ public class MainWindowController implements Initializable {
         }
     }
 
-    public void btnDeleteClicked(ActionEvent actionEvent) {
+    public void btnDeletePlanetClicked(ActionEvent actionEvent) {
         try {
             PlanetGUI item = listView1.getSelectionModel().getSelectedItem();
             if (item == null) return;
@@ -156,7 +160,7 @@ public class MainWindowController implements Initializable {
         }
     }
 
-    public void btnEditInfoClicked(ActionEvent actionEvent) {
+    public void btnEditInfoPlanetClicked(ActionEvent actionEvent) {
         PlanetGUI item = listView1.getSelectionModel().getSelectedItem();
         if (item == null) return;
         Stage info = new Stage();
@@ -178,5 +182,32 @@ public class MainWindowController implements Initializable {
 
     public void btnExitClicked(ActionEvent actionEvent) {
         Platform.runLater(MainGUI::loadNext);
+    }
+
+    public void btnAddUserClicked(ActionEvent actionEvent) {
+        Stage info = new Stage();
+        info.initOwner(mainPane.getScene().getWindow());
+        info.initModality(Modality.APPLICATION_MODAL);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/userpage.fxml"));
+            Parent parent = loader.load();
+            info.setScene(new Scene(parent));
+            UserPageController userPageController = loader.getController();
+            userPageController.setMode(UserPageController.Mode.CREATE);
+            info.showAndWait();
+            this.listView1.setItems(FXCollections.observableArrayList(UIPlanetManager.getInstance().getPlanetUIList()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void btnEditUserClicked(ActionEvent actionEvent) {
+
+    }
+
+    public void btnDeleteUserClicked(ActionEvent actionEvent) {
+    }
+
+    public void btnFindUserClicked(ActionEvent actionEvent) {
     }
 }

@@ -15,7 +15,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class AuthController implements Initializable {
-    //TODO Finish this
     public TextField txtUsername;
     public PasswordField txtPassword;
     public Label lblAttention;

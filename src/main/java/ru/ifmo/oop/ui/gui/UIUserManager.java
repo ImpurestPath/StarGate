@@ -60,4 +60,8 @@ public class UIUserManager {
     public UserMode getMode() {
         return mode;
     }
+
+    public int getIdGatePlanet() {
+        return idGatePlanet;
+    }
 }
