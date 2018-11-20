@@ -39,7 +39,6 @@ public class MainWindowController implements Initializable {
     public Label lblAmount;
     public Button infobutton;
     public AnchorPane mainPane;
-    public ToolBar adminPanel;
     public ImageView imageView;
     public Label lblPlanetManagment;
     public ToolBar planetManagmentPanel;
@@ -70,8 +69,9 @@ public class MainWindowController implements Initializable {
         );
     }
     public void updateMode(){
-        if (UIUserManager.getInstance().getMode() == UIUserManager.UserMode.USER) adminPanel.setVisible(false);
-        else adminPanel.setVisible(true);
+        //TODO add other panels
+        if (UIUserManager.getInstance().getMode() == UIUserManager.UserMode.USER) planetManagmentPanel.setVisible(false);
+        else planetManagmentPanel.setVisible(true);
     }
 
     public void btnInfoClicked(ActionEvent actionEvent) {
@@ -95,6 +95,7 @@ public class MainWindowController implements Initializable {
     }
 
     public void btnOpenGateClicked(ActionEvent actionEvent) {
+        //TODO add warning
         PlanetGUI item = listView1.getSelectionModel().getSelectedItem();
         if (item == null) return;
         Stage stage = new Stage();
@@ -150,6 +151,7 @@ public class MainWindowController implements Initializable {
     }
 
     public void btnDeletePlanetClicked(ActionEvent actionEvent) {
+        //TODO add warning
         try {
             PlanetGUI item = listView1.getSelectionModel().getSelectedItem();
             if (item == null) return;

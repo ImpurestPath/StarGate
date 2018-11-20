@@ -26,6 +26,7 @@ public class UIUserManager {
         this.idGatePlanet = idGatePlanet;
         this.userManager = userManager;
         instance = this;
+        this.mode = UserMode.USER;
     }
 
     public User getUser(String name) throws ExceptionDAO {
