@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ToolBar;
+import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.ifmo.oop.domain.Country;
@@ -40,6 +41,7 @@ public class PlanetInfoController implements Initializable {
     public ToolBar toolsLanguages;
     public ToolBar toolsCountries;
     public ToolBar toolsRaces;
+    public ImageView imageView;
     private PlanetGUI planet;
     public enum Mode{
         VIEW,
@@ -62,6 +64,7 @@ public class PlanetInfoController implements Initializable {
 
     public void setPlanet(PlanetGUI planet) {
         this.planet = planet;
+        imageView.setImage(planet.getImage());
         lblName.setText(planet.getName());
         lblPressure.setText(Long.toString(planet.getPressure()));
         lblAmount.setText(Long.toString(planet.getAmountAlive()));

@@ -1,4 +1,4 @@
-package ru.ifmo.oop.ui.gui.controllers;
+package ru.ifmo.oop.ui.gui.listCells;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;

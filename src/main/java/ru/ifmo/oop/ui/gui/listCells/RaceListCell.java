@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import ru.ifmo.oop.dataAccess.DTO.RaceDTO;
 import ru.ifmo.oop.domain.Race;
+import ru.ifmo.oop.ui.gui.PlanetGraphicsManager;
 
 import java.io.IOException;
 
@@ -44,7 +45,7 @@ public class RaceListCell extends ListCell<Race> {
             }
 
             lblName.setText(race.getName());
-            lblInfo.setText(String.format("Amount: %d",race.getAmount()));
+            lblInfo.setText(String.format("Amount: %d, country id: %d",race.getAmount(),race.getIdCountry()));
             if (race.getBehavior() == RaceDTO.Behavior.ANGRY){
                 if (imgAngry == null){
                     imgAngry = new Image("/images/angry.png");

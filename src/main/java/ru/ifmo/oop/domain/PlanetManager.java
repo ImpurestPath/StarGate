@@ -21,7 +21,7 @@ public class PlanetManager {
     public PlanetManager(String filename) throws ExceptionDAO {
         this.connection = SQLConnection.getInstance(filename);
     }
-
+    //TODO task
     public List<Planet> getAll() throws ExceptionDAO {
         List<Planet> planets = new ArrayList<>();
         for (PlanetDTO planetDTO :

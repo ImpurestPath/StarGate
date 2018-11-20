@@ -11,6 +11,7 @@ import ru.ifmo.oop.domain.PlanetManager;
 import ru.ifmo.oop.domain.UserManager;
 import ru.ifmo.oop.ui.gui.PlanetGraphicsManager;
 import ru.ifmo.oop.ui.gui.controllers.LoadingController;
+import ru.ifmo.oop.ui.gui.controllers.MainWindowController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ public class MainGUI extends Application {
     private static Stage stage;
     private static List<Scene> scenes;
     private static int next;
+    private static MainWindowController mainWindowController;
     @Override
     public void start(Stage stage) throws Exception {
         MainGUI.stage = stage;
@@ -38,7 +40,9 @@ public class MainGUI extends Application {
             scenes = new ArrayList<>();
             next = 0;
             scenes.add(new Scene((new FXMLLoader(MainGUI.class.getResource("/fxml/auth.fxml"))).load()));
-            scenes.add(new Scene((new FXMLLoader(MainGUI.class.getResource("/fxml/mainwindow.fxml"))).load()));
+            FXMLLoader main = new FXMLLoader(MainGUI.class.getResource("/fxml/mainwindow.fxml"));
+            scenes.add(new Scene(main.load()));
+            mainWindowController = main.getController();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -60,6 +64,7 @@ public class MainGUI extends Application {
     }
     public static void loadNext(){
         try {
+            mainWindowController.updateMode();
             stage.setScene(scenes.get(next));
             next = (next+1)% scenes.size();
             //stage.setFullScreen(true);

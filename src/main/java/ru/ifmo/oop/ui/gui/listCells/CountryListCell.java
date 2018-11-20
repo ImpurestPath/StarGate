@@ -43,7 +43,7 @@ public class CountryListCell extends ListCell<Country> {
 
             }
             lblName.setText(country.getName());
-            lblInfo.setText(String.format("Amount: %d, area: %d",country.getAmountAlive(),country.getArea()));
+            lblInfo.setText(String.format("Amount: %d, area: %d, id: %d",country.getAmountAlive(),country.getArea(),country.getId()));
             if (country.getBehavior() == Behavior.ANGRY){
                 if (imgAngry == null){
                     imgAngry = new Image("/images/angry.png");

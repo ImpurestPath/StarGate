@@ -64,7 +64,10 @@ public class MainWindowController implements Initializable {
                     return listCell;
                 }
         );
-
+    }
+    public void updateMode(){
+        if (PlanetGraphicsManager.getInstance().getMode() == PlanetGraphicsManager.UserMode.USER) adminPanel.setVisible(false);
+        else adminPanel.setVisible(true);
     }
 
     public void btnInfoClicked(ActionEvent actionEvent) {
@@ -93,7 +96,6 @@ public class MainWindowController implements Initializable {
         Stage stage = new Stage();
         stage.initOwner(mainPane.getScene().getWindow());
         stage.initModality(Modality.APPLICATION_MODAL);
-
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/gate.fxml"));
             Parent parent = loader.load();

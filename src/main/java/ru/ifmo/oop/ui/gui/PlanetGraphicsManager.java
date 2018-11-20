@@ -8,6 +8,7 @@ import ru.ifmo.oop.domain.*;
 import ru.ifmo.oop.domain.mappers.TransformerToEntity;
 import ru.ifmo.oop.domain.mappers.TransformerToGUI;
 
+import java.net.UnknownServiceException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,11 @@ public class PlanetGraphicsManager {
     private final int idGatePlanet;
     private List<PlanetGUI> planetUIList;
     private static PlanetGraphicsManager instance = null;
+    public enum UserMode{
+        ADMIN,
+        USER
+    }
+    private UserMode mode;
     public static synchronized PlanetGraphicsManager getInstance() {
         //if (instance == null) throw new Exception("No controller");
         //else
@@ -147,21 +153,32 @@ public class PlanetGraphicsManager {
     public User getUser(String name) throws ExceptionDAO {
         return userManager.get(name);
     }
+    private UserMode getMode(String permissions){
+        return permissions.contains("a")?UserMode.ADMIN : UserMode.USER;
+    }
     public void setUser(User user) {
         this.user = user;
+        this.mode = getMode(user.getPermission());
     }
 
     public void addUser(User user) throws ExceptionDAO {
         userManager.add(user);
         this.user = user;
+        this.mode = getMode(user.getPermission());
     }
     public void changeUser(int idUser, User user) throws ExceptionDAO {
         userManager.update(idUser, user);
         this.user = userManager.get(user.getName());
+        this.mode = getMode(user.getPermission());
     }
     public void deleteUser(int idUser) throws ExceptionDAO {
         userManager.delete(idUser);
     }
+
+    public UserMode getMode() {
+        return mode;
+    }
+
     public List<PlanetGUI> getPlanetUIList() {
         return planetUIList;
     }
