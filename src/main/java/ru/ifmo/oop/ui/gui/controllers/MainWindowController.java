@@ -20,9 +20,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.ifmo.oop.MainGUI;
 import ru.ifmo.oop.domain.mappers.TransformerToEntity;
-import ru.ifmo.oop.domain.mappers.TransformerToGUI;
-import ru.ifmo.oop.ui.gui.PlanetGraphicsManager;
+import ru.ifmo.oop.ui.gui.UIPlanetManager;
 import ru.ifmo.oop.ui.gui.PlanetGUI;
+import ru.ifmo.oop.ui.gui.UIUserManager;
 import ru.ifmo.oop.ui.gui.listCells.PlanetListCell;
 
 import java.io.IOException;
@@ -44,7 +44,7 @@ public class MainWindowController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ObservableList<PlanetGUI> observableList = FXCollections.observableArrayList(PlanetGraphicsManager.getInstance().getPlanetUIList());
+        ObservableList<PlanetGUI> observableList = FXCollections.observableArrayList(UIPlanetManager.getInstance().getPlanetUIList());
         listView1.setItems(observableList);
         listView1.setCellFactory(param -> {
                     PlanetListCell listCell = new PlanetListCell();
@@ -66,7 +66,7 @@ public class MainWindowController implements Initializable {
         );
     }
     public void updateMode(){
-        if (PlanetGraphicsManager.getInstance().getMode() == PlanetGraphicsManager.UserMode.USER) adminPanel.setVisible(false);
+        if (UIUserManager.getInstance().getMode() == UIUserManager.UserMode.USER) adminPanel.setVisible(false);
         else adminPanel.setVisible(true);
     }
 
@@ -84,7 +84,7 @@ public class MainWindowController implements Initializable {
             planetInfoController.setMode(PlanetInfoController.Mode.VIEW);
             planetInfoController.setPlanet(item);
             info.showAndWait();
-            this.listView1.setItems(FXCollections.observableArrayList(PlanetGraphicsManager.getInstance().getPlanetUIList()));
+            this.listView1.setItems(FXCollections.observableArrayList(UIPlanetManager.getInstance().getPlanetUIList()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -119,7 +119,7 @@ public class MainWindowController implements Initializable {
             PlanetPageController planetPageController = loader.getController();
             planetPageController.setMode(PlanetPageController.Mode.CREATE);
             info.showAndWait();
-            this.listView1.setItems(FXCollections.observableArrayList(PlanetGraphicsManager.getInstance().getPlanetUIList()));
+            this.listView1.setItems(FXCollections.observableArrayList(UIPlanetManager.getInstance().getPlanetUIList()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -139,7 +139,7 @@ public class MainWindowController implements Initializable {
             planetPageController.setMode(PlanetPageController.Mode.UPDATE);
             planetPageController.setPlanet(item);
             info.showAndWait();
-            this.listView1.setItems(FXCollections.observableArrayList(PlanetGraphicsManager.getInstance().getPlanetUIList()));
+            this.listView1.setItems(FXCollections.observableArrayList(UIPlanetManager.getInstance().getPlanetUIList()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -149,8 +149,8 @@ public class MainWindowController implements Initializable {
         try {
             PlanetGUI item = listView1.getSelectionModel().getSelectedItem();
             if (item == null) return;
-            PlanetGraphicsManager.getInstance().deletePlanet(TransformerToEntity.toPlanet(item));
-            this.listView1.setItems(FXCollections.observableArrayList(PlanetGraphicsManager.getInstance().getPlanetUIList()));
+            UIPlanetManager.getInstance().deletePlanet(TransformerToEntity.toPlanet(item));
+            this.listView1.setItems(FXCollections.observableArrayList(UIPlanetManager.getInstance().getPlanetUIList()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -170,13 +170,13 @@ public class MainWindowController implements Initializable {
             planetInfoController.setMode(PlanetInfoController.Mode.CHANGE);
             planetInfoController.setPlanet(item);
             info.showAndWait();
-            this.listView1.setItems(FXCollections.observableArrayList(PlanetGraphicsManager.getInstance().getPlanetUIList()));
+            this.listView1.setItems(FXCollections.observableArrayList(UIPlanetManager.getInstance().getPlanetUIList()));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void btnChangeUserClicked(ActionEvent actionEvent) {
+    public void btnExitClicked(ActionEvent actionEvent) {
         Platform.runLater(MainGUI::loadNext);
     }
 }

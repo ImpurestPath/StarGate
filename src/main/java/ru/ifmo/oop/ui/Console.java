@@ -11,7 +11,7 @@
 //public class Console {
 //    private final Scanner scanner;
 //    private final PlanetManager planetManager;
-//    private final UserManager userManager;
+//    private final UIUserManager userManager;
 //    private User user;
 //    private final int idGatePlanet;
 //    private List<PlanetUI> planetUIList;
@@ -19,7 +19,7 @@
 //
 //
 //
-//    public Console(PlanetManager planetManager, UserManager userManager, int idGatePlanet){
+//    public Console(PlanetManager planetManager, UIUserManager userManager, int idGatePlanet){
 //        this.scanner = new Scanner(System.in);
 //        this.planetManager = planetManager;
 //        this.userManager = userManager;

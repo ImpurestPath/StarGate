@@ -2,7 +2,7 @@
 //
 //import ru.ifmo.oop.dataAccess.Exception.ExceptionDAO;
 //import ru.ifmo.oop.domain.PlanetManager;
-//import ru.ifmo.oop.domain.UserManager;
+//import ru.ifmo.oop.domain.UIUserManager;
 //import ru.ifmo.oop.ui.Console;
 //
 //
@@ -10,7 +10,7 @@
 //
 //    public static void main(String[] args) throws ExceptionDAO {
 //        PlanetManager manager = new PlanetManager("PlanetRepository.db");
-//        UserManager userManager = new UserManager("PlanetRepository.db");
+//        UIUserManager userManager = new UIUserManager("PlanetRepository.db");
 //        Console console = new Console(manager,userManager,1);
 //        Thread loadPlanets = new Thread(console.new LoadPlanets());
 //        Thread loadingScreen = new Thread(console.new LoadingScreen());

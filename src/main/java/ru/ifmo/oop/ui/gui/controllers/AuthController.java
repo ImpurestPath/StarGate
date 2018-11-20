@@ -6,10 +6,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import ru.ifmo.oop.MainGUI;
 import ru.ifmo.oop.domain.User;
-import ru.ifmo.oop.ui.gui.PlanetGraphicsManager;
+import ru.ifmo.oop.ui.gui.UIPlanetManager;
+import ru.ifmo.oop.ui.gui.UIUserManager;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -22,13 +22,13 @@ public class AuthController implements Initializable {
 
     public void btnSignInClicked(ActionEvent actionEvent) {
         try {
-            User potentialUser = PlanetGraphicsManager.getInstance().getUser(txtUsername.getText());
+            User potentialUser = UIUserManager.getInstance().getUser(txtUsername.getText());
             if (potentialUser != null && potentialUser.getPassword().equals(txtPassword.getText())){
-                PlanetGraphicsManager.getInstance().setUser(potentialUser);
+                UIUserManager.getInstance().setUser(potentialUser);
                 Platform.runLater(MainGUI::loadNext);
                 txtUsername.setText("");
                 txtPassword.setText("");
-                //((Stage)txtPassword.getScene().getWindow()).close();
+                lblAttention.setText("");
             }
             else {
                 lblAttention.setText("No such user or wrong password");
@@ -40,11 +40,16 @@ public class AuthController implements Initializable {
 
     public void btnSignUpClicked(ActionEvent actionEvent) {
         try {
-            PlanetGraphicsManager.getInstance().addUser(new User(txtUsername.getText(),"",PlanetGraphicsManager.getInstance().getIdGatePlanet(),txtPassword.getText()));
+            UIUserManager.getInstance().addUser(
+                    new User(
+                            txtUsername.getText(),
+                            "",
+                            UIPlanetManager.getInstance().getIdGatePlanet(),
+                            txtPassword.getText()));
             Platform.runLater(MainGUI::loadNext);
             txtUsername.setText("");
             txtPassword.setText("");
-            //((Stage)txtPassword.getScene().getWindow()).close();
+            lblAttention.setText("");
         } catch (Exception e){
             e.printStackTrace();
         }

@@ -2,7 +2,6 @@ package ru.ifmo.oop.domain.mappers;
 
 import ru.ifmo.oop.domain.Planet;
 import ru.ifmo.oop.ui.gui.PlanetGUI;
-import ru.ifmo.oop.ui.gui.PlanetGraphicsManager;
 
 import java.util.ArrayList;
 

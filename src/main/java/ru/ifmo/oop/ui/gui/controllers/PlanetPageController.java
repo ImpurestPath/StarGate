@@ -2,12 +2,11 @@ package ru.ifmo.oop.ui.gui.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import ru.ifmo.oop.domain.Planet;
 import ru.ifmo.oop.ui.gui.PlanetGUI;
-import ru.ifmo.oop.ui.gui.PlanetGraphicsManager;
+import ru.ifmo.oop.ui.gui.UIPlanetManager;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -41,9 +40,9 @@ public class PlanetPageController implements Initializable {
     public void btnOkClicked(ActionEvent actionEvent) {
         try {
             if (mode == Mode.UPDATE) {
-                PlanetGraphicsManager.getInstance().changePlanet(planet.getId(),new Planet(txtName.getText(), Integer.parseInt(txtTemperature.getText()), Long.parseLong(txtPressure.getText()), new ArrayList<>(), new ArrayList<>()));
+                UIPlanetManager.getInstance().changePlanet(planet.getId(),new Planet(txtName.getText(), Integer.parseInt(txtTemperature.getText()), Long.parseLong(txtPressure.getText()), new ArrayList<>(), new ArrayList<>()));
             } else {
-                PlanetGraphicsManager.getInstance().addPlanet(new Planet(txtName.getText(), Integer.parseInt(txtTemperature.getText()), Long.parseLong(txtPressure.getText()), new ArrayList<>(), new ArrayList<>()));
+                UIPlanetManager.getInstance().addPlanet(new Planet(txtName.getText(), Integer.parseInt(txtTemperature.getText()), Long.parseLong(txtPressure.getText()), new ArrayList<>(), new ArrayList<>()));
             }
         } catch (Exception e){
             e.printStackTrace();

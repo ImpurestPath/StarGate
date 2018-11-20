@@ -9,7 +9,7 @@ import ru.ifmo.oop.dataAccess.DTO.RaceDTO;
 import ru.ifmo.oop.domain.Country;
 import ru.ifmo.oop.domain.PlanetManager;
 import ru.ifmo.oop.domain.Race;
-import ru.ifmo.oop.ui.gui.PlanetGraphicsManager;
+import ru.ifmo.oop.ui.gui.UIPlanetManager;
 
 import java.net.URL;
 import java.util.List;
@@ -73,11 +73,11 @@ public class RacePageController implements Initializable {
             if (mode == Mode.UPDATE) {
                 Country selected = (Country)chooseCountry.getSelectionModel().getSelectedItem();
                 RaceDTO.Behavior behavior = (RaceDTO.Behavior) chooseBehavior.getSelectionModel().getSelectedItem();
-                PlanetGraphicsManager.getInstance().changeRaceOfCountry(idPlanet,selected.getId(),race.getId(), new Race(race.getId(),txtName.getText(),Long.parseLong(txtAmount.getText()),behavior,selected.getId()));
+                UIPlanetManager.getInstance().changeRaceOfCountry(idPlanet,selected.getId(),race.getId(), new Race(race.getId(),txtName.getText(),Long.parseLong(txtAmount.getText()),behavior,selected.getId()));
             } else {
                 Country selected = (Country)chooseCountry.getSelectionModel().getSelectedItem();
                 RaceDTO.Behavior behavior = (RaceDTO.Behavior) chooseBehavior.getSelectionModel().getSelectedItem();
-                PlanetGraphicsManager.getInstance().addRaceToCountry(idPlanet,selected.getId(),new Race(txtName.getText(),Long.parseLong(txtAmount.getText()),behavior,selected.getId()));
+                UIPlanetManager.getInstance().addRaceToCountry(idPlanet,selected.getId(),new Race(txtName.getText(),Long.parseLong(txtAmount.getText()),behavior,selected.getId()));
             }
         }
         catch (Exception e){

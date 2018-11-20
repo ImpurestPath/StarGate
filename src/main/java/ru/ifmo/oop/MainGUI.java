@@ -9,7 +9,8 @@ import javafx.stage.Stage;
 import ru.ifmo.oop.dataAccess.exception.ExceptionDAO;
 import ru.ifmo.oop.domain.PlanetManager;
 import ru.ifmo.oop.domain.UserManager;
-import ru.ifmo.oop.ui.gui.PlanetGraphicsManager;
+import ru.ifmo.oop.ui.gui.UIPlanetManager;
+import ru.ifmo.oop.ui.gui.UIUserManager;
 import ru.ifmo.oop.ui.gui.controllers.LoadingController;
 import ru.ifmo.oop.ui.gui.controllers.MainWindowController;
 
@@ -32,7 +33,7 @@ public class MainGUI extends Application {
             stage.setMinWidth(1080);
             stage.setScene(scene);
             stage.show();
-            Task load = PlanetGraphicsManager.getInstance().new Loader();
+            Task load = UIPlanetManager.getInstance().new Loader();
             LoadingController loadingController = loader.getController();
             loadingController.getProgressBar().progressProperty().bind(load.progressProperty());
             Thread t = new Thread(load);
@@ -75,9 +76,9 @@ public class MainGUI extends Application {
     }
 
     public static void main(String[] args) throws ExceptionDAO {
-        new PlanetGraphicsManager(1,
-                new PlanetManager("PlanetRepository.db"),
-                new UserManager("PlanetRepository.db"));
+        new UIPlanetManager(2,
+                new PlanetManager("PlanetRepository.db"));
+        new UIUserManager(2, new UserManager("PlanetRepository.db"));
         launch(args);
 
     }

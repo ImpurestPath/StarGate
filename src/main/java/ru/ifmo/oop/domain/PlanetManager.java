@@ -1,6 +1,7 @@
 package ru.ifmo.oop.domain;
 
 
+import javafx.concurrent.Task;
 import ru.ifmo.oop.dataAccess.ConnectionDAO;
 import ru.ifmo.oop.dataAccess.DTO.CountryDTO;
 import ru.ifmo.oop.dataAccess.DTO.LanguageDTO;
@@ -22,32 +23,61 @@ public class PlanetManager {
         this.connection = SQLConnection.getInstance(filename);
     }
     //TODO task
-    public List<Planet> getAll() throws ExceptionDAO {
-        List<Planet> planets = new ArrayList<>();
-        for (PlanetDTO planetDTO :
-                connection.getAllPlanets()) {
-            List<CountryDTO> countriesDB = connection.getPlanetCountries(planetDTO.getId());
-            List<Country> countries = new ArrayList<>();
-            for (CountryDTO countryDTO :
-                    countriesDB) {
-                List<RaceDTO> racesDB = connection.getCountryRaces(countryDTO.getId());
-                List<Race> races = new ArrayList<>();
-                for (RaceDTO raceDTO :
-                        racesDB) {
-                    races.add(TransformerToEntity.toRace(raceDTO));
+    public class Loader extends Task<List<Planet>>{
+        @Override
+        protected List<Planet> call() throws ExceptionDAO {
+            List<Planet> planets = new ArrayList<>();
+            for (PlanetDTO planetDTO :
+                    connection.getAllPlanets()) {
+                List<CountryDTO> countriesDB = connection.getPlanetCountries(planetDTO.getId());
+                List<Country> countries = new ArrayList<>();
+                for (CountryDTO countryDTO :
+                        countriesDB) {
+                    List<RaceDTO> racesDB = connection.getCountryRaces(countryDTO.getId());
+                    List<Race> races = new ArrayList<>();
+                    for (RaceDTO raceDTO :
+                            racesDB) {
+                        races.add(TransformerToEntity.toRace(raceDTO));
+                    }
+                    countries.add(TransformerToEntity.toCountry(countryDTO, races));
                 }
-                countries.add(TransformerToEntity.toCountry(countryDTO, races));
+                List<LanguageDTO> languagesDB = connection.getPlanetLanguages(planetDTO.getId());
+                List<Language> languages = new ArrayList<>();
+                for (LanguageDTO languageDTO :
+                        languagesDB) {
+                    languages.add(TransformerToEntity.toLanguage(languageDTO));
+                }
+                planets.add(TransformerToEntity.toPlanet(planetDTO, languages, countries)); //mappers work
             }
-            List<LanguageDTO> languagesDB = connection.getPlanetLanguages(planetDTO.getId());
-            List<Language> languages = new ArrayList<>();
-            for (LanguageDTO languageDTO :
-                    languagesDB) {
-                languages.add(TransformerToEntity.toLanguage(languageDTO));
-            }
-            planets.add(TransformerToEntity.toPlanet(planetDTO, languages, countries)); //mappers work
+            return Collections.unmodifiableList(planets);
         }
-        return Collections.unmodifiableList(planets);
     }
+//    public List<Planet> getAll() throws ExceptionDAO {
+//        List<Planet> planets = new ArrayList<>();
+//        for (PlanetDTO planetDTO :
+//                connection.getAllPlanets()) {
+//            List<CountryDTO> countriesDB = connection.getPlanetCountries(planetDTO.getId());
+//            List<Country> countries = new ArrayList<>();
+//            for (CountryDTO countryDTO :
+//                    countriesDB) {
+//                List<RaceDTO> racesDB = connection.getCountryRaces(countryDTO.getId());
+//                List<Race> races = new ArrayList<>();
+//                for (RaceDTO raceDTO :
+//                        racesDB) {
+//                    races.add(TransformerToEntity.toRace(raceDTO));
+//                }
+//                countries.add(TransformerToEntity.toCountry(countryDTO, races));
+//            }
+//            List<LanguageDTO> languagesDB = connection.getPlanetLanguages(planetDTO.getId());
+//            List<Language> languages = new ArrayList<>();
+//            for (LanguageDTO languageDTO :
+//                    languagesDB) {
+//                languages.add(TransformerToEntity.toLanguage(languageDTO));
+//            }
+//            planets.add(TransformerToEntity.toPlanet(planetDTO, languages, countries)); //mappers work
+//        }
+//        return Collections.unmodifiableList(planets);
+//    }
 
     public Planet get(int idPlanet) throws ExceptionDAO {
         PlanetDTO planetDTO = connection.getPlanet(idPlanet);

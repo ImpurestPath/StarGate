@@ -5,8 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import ru.ifmo.oop.domain.Country;
-import ru.ifmo.oop.domain.Planet;
-import ru.ifmo.oop.ui.gui.PlanetGraphicsManager;
+import ru.ifmo.oop.ui.gui.UIPlanetManager;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -32,11 +31,11 @@ public class CountryPageController implements Initializable {
     public void btnOkClicked(ActionEvent actionEvent) {
         try {
             if (mode == Mode.UPDATE) {
-                PlanetGraphicsManager.getInstance().changeCountryOfPlanet(idPlanet,
+                UIPlanetManager.getInstance().changeCountryOfPlanet(idPlanet,
                         country.getId(),
                         new Country(txtName.getText(), Long.parseLong(txtArea.getText()), new ArrayList<>(), idPlanet));
             } else {
-                PlanetGraphicsManager.getInstance().addCountryToPlanet(idPlanet,
+                UIPlanetManager.getInstance().addCountryToPlanet(idPlanet,
                         new Country(txtName.getText(), Long.parseLong(txtArea.getText()), new ArrayList<>(), idPlanet));
             }
         } catch (Exception e){

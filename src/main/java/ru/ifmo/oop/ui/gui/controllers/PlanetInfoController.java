@@ -15,13 +15,12 @@ import javafx.stage.Stage;
 import ru.ifmo.oop.domain.Country;
 import ru.ifmo.oop.domain.Language;
 import ru.ifmo.oop.domain.Race;
-import ru.ifmo.oop.ui.gui.PlanetGraphicsManager;
+import ru.ifmo.oop.ui.gui.UIPlanetManager;
 import ru.ifmo.oop.ui.gui.listCells.CountryListCell;
 import ru.ifmo.oop.ui.gui.listCells.LanguageListCell;
 import ru.ifmo.oop.ui.gui.PlanetGUI;
 import ru.ifmo.oop.ui.gui.listCells.RaceListCell;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -100,8 +99,8 @@ public class PlanetInfoController implements Initializable {
             languagePageController.setMode(LanguagePageController.Mode.CREATE);
             languagePageController.setIdPlanet(planet.getId());
             info.showAndWait();
-            PlanetGraphicsManager.getInstance().updatePlanet(planet.getId());
-            this.setPlanet(PlanetGraphicsManager.getInstance().getPlanet(planet.getId()));
+            UIPlanetManager.getInstance().updatePlanet(planet.getId());
+            this.setPlanet(UIPlanetManager.getInstance().getPlanet(planet.getId()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -122,8 +121,8 @@ public class PlanetInfoController implements Initializable {
                 languagePageController.setLanguage(item);
                 languagePageController.setIdPlanet(planet.getId());
                 info.showAndWait();
-                PlanetGraphicsManager.getInstance().updatePlanet(planet.getId());
-                this.setPlanet(PlanetGraphicsManager.getInstance().getPlanet(planet.getId()));
+                UIPlanetManager.getInstance().updatePlanet(planet.getId());
+                this.setPlanet(UIPlanetManager.getInstance().getPlanet(planet.getId()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -134,9 +133,9 @@ public class PlanetInfoController implements Initializable {
         try {
             Language item = (Language) listViewLanguages.getSelectionModel().getSelectedItem();
             if (item != null) {
-                PlanetGraphicsManager.getInstance().deleteLanguageFromPlanet(planet.getId(), item.getId());
-                PlanetGraphicsManager.getInstance().updatePlanet(planet.getId());
-                this.setPlanet(PlanetGraphicsManager.getInstance().getPlanet(planet.getId()));
+                UIPlanetManager.getInstance().deleteLanguageFromPlanet(planet.getId(), item.getId());
+                UIPlanetManager.getInstance().updatePlanet(planet.getId());
+                this.setPlanet(UIPlanetManager.getInstance().getPlanet(planet.getId()));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -155,8 +154,8 @@ public class PlanetInfoController implements Initializable {
             countryPageController.setMode(CountryPageController.Mode.CREATE);
             countryPageController.setIdPlanet(planet.getId());
             info.showAndWait();
-            PlanetGraphicsManager.getInstance().updatePlanet(planet.getId());
-            this.setPlanet(PlanetGraphicsManager.getInstance().getPlanet(planet.getId()));
+            UIPlanetManager.getInstance().updatePlanet(planet.getId());
+            this.setPlanet(UIPlanetManager.getInstance().getPlanet(planet.getId()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -177,8 +176,8 @@ public class PlanetInfoController implements Initializable {
                 countryPageController.setCountry(item);
                 countryPageController.setIdPlanet(planet.getId());
                 info.showAndWait();
-                PlanetGraphicsManager.getInstance().updatePlanet(planet.getId());
-                this.setPlanet(PlanetGraphicsManager.getInstance().getPlanet(planet.getId()));
+                UIPlanetManager.getInstance().updatePlanet(planet.getId());
+                this.setPlanet(UIPlanetManager.getInstance().getPlanet(planet.getId()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -189,9 +188,9 @@ public class PlanetInfoController implements Initializable {
         try {
             Country item = (Country) listViewCountries.getSelectionModel().getSelectedItem();
             if (item != null) {
-                PlanetGraphicsManager.getInstance().deleteCountryFromPlanet(planet.getId(), item.getId());
-                PlanetGraphicsManager.getInstance().updatePlanet(planet.getId());
-                this.setPlanet(PlanetGraphicsManager.getInstance().getPlanet(planet.getId()));
+                UIPlanetManager.getInstance().deleteCountryFromPlanet(planet.getId(), item.getId());
+                UIPlanetManager.getInstance().updatePlanet(planet.getId());
+                this.setPlanet(UIPlanetManager.getInstance().getPlanet(planet.getId()));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -211,8 +210,8 @@ public class PlanetInfoController implements Initializable {
             racePageController.setIdPlanet(planet.getId());
             racePageController.setCountries(planet.getCountries());
             info.showAndWait();
-            PlanetGraphicsManager.getInstance().updatePlanet(planet.getId());
-            this.setPlanet(PlanetGraphicsManager.getInstance().getPlanet(planet.getId()));
+            UIPlanetManager.getInstance().updatePlanet(planet.getId());
+            this.setPlanet(UIPlanetManager.getInstance().getPlanet(planet.getId()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -234,8 +233,8 @@ public class PlanetInfoController implements Initializable {
                 racePageController.setCountries(planet.getCountries());
                 racePageController.setRace(item);
                 info.showAndWait();
-                PlanetGraphicsManager.getInstance().updatePlanet(planet.getId());
-                this.setPlanet(PlanetGraphicsManager.getInstance().getPlanet(planet.getId()));
+                UIPlanetManager.getInstance().updatePlanet(planet.getId());
+                this.setPlanet(UIPlanetManager.getInstance().getPlanet(planet.getId()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -246,9 +245,9 @@ public class PlanetInfoController implements Initializable {
         try {
             Race item = (Race) listViewRaces.getSelectionModel().getSelectedItem();
             if (item != null) {
-                PlanetGraphicsManager.getInstance().deleteRaceFromCountry(planet.getId(), item.getIdCountry(), item.getId());
-                PlanetGraphicsManager.getInstance().updatePlanet(planet.getId());
-                this.setPlanet(PlanetGraphicsManager.getInstance().getPlanet(planet.getId()));
+                UIPlanetManager.getInstance().deleteRaceFromCountry(planet.getId(), item.getIdCountry(), item.getId());
+                UIPlanetManager.getInstance().updatePlanet(planet.getId());
+                this.setPlanet(UIPlanetManager.getInstance().getPlanet(planet.getId()));
             }
         } catch (Exception e) {
             e.printStackTrace();

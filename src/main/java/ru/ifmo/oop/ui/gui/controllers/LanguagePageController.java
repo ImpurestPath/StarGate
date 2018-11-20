@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import ru.ifmo.oop.dataAccess.DTO.LanguageDTO;
 import ru.ifmo.oop.domain.Language;
-import ru.ifmo.oop.ui.gui.PlanetGraphicsManager;
+import ru.ifmo.oop.ui.gui.UIPlanetManager;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -66,9 +66,9 @@ public class LanguagePageController implements Initializable {
         try {
 
             if (mode == Mode.UPDATE) {
-                PlanetGraphicsManager.getInstance().changeLanguageOfPlanet(language.getIdPlanet(), language.getId(), new Language(language.getId(), textName.getText(), (LanguageDTO.Type) chooseType.getSelectionModel().getSelectedItem(), radioDictionary.isSelected(), language.getIdPlanet()));
+                UIPlanetManager.getInstance().changeLanguageOfPlanet(language.getIdPlanet(), language.getId(), new Language(language.getId(), textName.getText(), (LanguageDTO.Type) chooseType.getSelectionModel().getSelectedItem(), radioDictionary.isSelected(), language.getIdPlanet()));
             } else {
-                PlanetGraphicsManager.getInstance().addLanguageToPlanet(idPlanet, new Language(textName.getText(), (LanguageDTO.Type) chooseType.getSelectionModel().getSelectedItem(), radioDictionary.isSelected(), idPlanet));
+                UIPlanetManager.getInstance().addLanguageToPlanet(idPlanet, new Language(textName.getText(), (LanguageDTO.Type) chooseType.getSelectionModel().getSelectedItem(), radioDictionary.isSelected(), idPlanet));
             }
         }
         catch (Exception e){
