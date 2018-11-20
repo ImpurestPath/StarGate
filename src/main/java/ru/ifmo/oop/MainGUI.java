@@ -12,8 +12,13 @@ import ru.ifmo.oop.domain.UserManager;
 import ru.ifmo.oop.ui.gui.PlanetGraphicsManager;
 import ru.ifmo.oop.ui.gui.controllers.LoadingController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainGUI extends Application {
     private static Stage stage;
+    private static List<Scene> scenes;
+    private static int next;
     @Override
     public void start(Stage stage) throws Exception {
         MainGUI.stage = stage;
@@ -30,6 +35,10 @@ public class MainGUI extends Application {
             loadingController.getProgressBar().progressProperty().bind(load.progressProperty());
             Thread t = new Thread(load);
             t.start();
+            scenes = new ArrayList<>();
+            next = 0;
+            scenes.add(new Scene((new FXMLLoader(MainGUI.class.getResource("/fxml/auth.fxml"))).load()));
+            scenes.add(new Scene((new FXMLLoader(MainGUI.class.getResource("/fxml/mainwindow.fxml"))).load()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -49,19 +58,17 @@ public class MainGUI extends Application {
         };
         Platform.runLater(t2);*/
     }
-    public static void loadMain() {
+    public static void loadNext(){
         try {
-            FXMLLoader main = new FXMLLoader(MainGUI.class.getResource("/fxml/mainwindow.fxml"));
-
-            Parent root = main.load();
-            Scene mainWindow = new Scene(root);
-            stage.setScene(mainWindow);
-            stage.setFullScreen(true);
+            stage.setScene(scenes.get(next));
+            next = (next+1)% scenes.size();
+            //stage.setFullScreen(true);
         }
         catch (Exception e){
             e.printStackTrace();
         }
     }
+
     public static void main(String[] args) throws ExceptionDAO {
         new PlanetGraphicsManager(1,
                 new PlanetManager("PlanetRepository.db"),

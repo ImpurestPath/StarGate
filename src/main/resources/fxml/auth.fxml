@@ -68,6 +68,7 @@
                         </Button>
                      </children>
                   </GridPane>
+                  <Label fx:id="lblAttention" textFill="RED" />
                </children>
                <GridPane.margin>
                   <Insets bottom="10.0" />

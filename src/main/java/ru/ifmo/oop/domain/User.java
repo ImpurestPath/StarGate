@@ -4,19 +4,22 @@ public class User implements Comparable {
     private int id;
     private final String name;
     private final String permission;
+    private final String password;
     int idCurrentPlanet;
 
-    public User(String name, String permission, int  idPlanet) {
+    public User(String name, String permission, int  idPlanet, String password) {
         this.id = -1;
         this.name = name;
         this.idCurrentPlanet = idPlanet;
         this.permission = permission;
+        this.password = password;
     }
-    public User(int id,String name, String permission, int  idPlanet) {
+    public User(int id,String name, String permission, int  idPlanet, String password) {
         this.id = id;
         this.name = name;
         this.idCurrentPlanet = idPlanet;
         this.permission = permission;
+        this.password = password;
     }
 
     public String getName(){
@@ -48,5 +51,9 @@ public class User implements Comparable {
 
     public String getPermission() {
         return permission;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

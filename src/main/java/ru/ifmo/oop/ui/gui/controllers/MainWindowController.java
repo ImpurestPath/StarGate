@@ -1,5 +1,6 @@
 package ru.ifmo.oop.ui.gui.controllers;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,11 +12,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ToolBar;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import ru.ifmo.oop.MainGUI;
 import ru.ifmo.oop.domain.mappers.TransformerToEntity;
 import ru.ifmo.oop.domain.mappers.TransformerToGUI;
 import ru.ifmo.oop.ui.gui.PlanetGraphicsManager;
@@ -37,11 +40,11 @@ public class MainWindowController implements Initializable {
     public Button infobutton;
     public AnchorPane mainPane;
     public ToolBar adminPanel;
-    private ObservableList<PlanetGUI> observableList;
+    public ImageView imageView;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.observableList = FXCollections.observableArrayList(PlanetGraphicsManager.getInstance().getPlanetUIList());
+        ObservableList<PlanetGUI> observableList = FXCollections.observableArrayList(PlanetGraphicsManager.getInstance().getPlanetUIList());
         listView1.setItems(observableList);
         listView1.setCellFactory(param -> {
                     PlanetListCell listCell = new PlanetListCell();
@@ -49,6 +52,7 @@ public class MainWindowController implements Initializable {
                         if (event.getButton() == MouseButton.PRIMARY && (!listCell.isEmpty())) {
                             PlanetGUI item = listCell.getItem();
                             System.out.println("clicked " + item.toString());
+                            imageView.setImage(item.getImage());
                             lblName.setText(item.getName());
                             lblAmount.setText(Long.toString(item.getAmountAlive()));
                             lblArea.setText(Long.toString(item.getArea()));
@@ -81,9 +85,6 @@ public class MainWindowController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
     }
 
     public void btnOpenGateClicked(ActionEvent actionEvent) {
@@ -148,7 +149,7 @@ public class MainWindowController implements Initializable {
             if (item == null) return;
             PlanetGraphicsManager.getInstance().deletePlanet(TransformerToEntity.toPlanet(item));
             this.listView1.setItems(FXCollections.observableArrayList(PlanetGraphicsManager.getInstance().getPlanetUIList()));
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -171,5 +172,9 @@ public class MainWindowController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void btnChangeUserClicked(ActionEvent actionEvent) {
+        Platform.runLater(MainGUI::loadNext);
     }
 }

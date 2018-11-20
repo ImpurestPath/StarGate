@@ -46,8 +46,7 @@ public class PlanetGraphicsManager {
                     this.updateProgress(i,amount);
                     //Thread.sleep(1);
                 }
-
-                Platform.runLater(MainGUI::loadMain);
+                Platform.runLater(MainGUI::loadNext);
             } catch (Exception e) {
                 System.out.println("Failure of loading");
                 e.printStackTrace();
@@ -145,11 +144,33 @@ public class PlanetGraphicsManager {
         planetManager.delete(planet);
         planetUIList.remove(PlanetManager.find(planetUIList,planet.getId()));
     }
+    public User getUser(String name) throws ExceptionDAO {
+        return userManager.get(name);
+    }
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void addUser(User user) throws ExceptionDAO {
+        userManager.add(user);
+        this.user = user;
+    }
+    public void changeUser(int idUser, User user) throws ExceptionDAO {
+        userManager.update(idUser, user);
+        this.user = userManager.get(user.getName());
+    }
+    public void deleteUser(int idUser) throws ExceptionDAO {
+        userManager.delete(idUser);
+    }
     public List<PlanetGUI> getPlanetUIList() {
         return planetUIList;
     }
 
     public PlanetGUI getPlanet(int idPlanet){
         return PlanetManager.find(planetUIList,idPlanet);
+    }
+
+    public int getIdGatePlanet() {
+        return idGatePlanet;
     }
 }

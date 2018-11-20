@@ -22,7 +22,7 @@ public class SQLUserDAO implements UserDAO {
     public UserDTO get(String name) throws ExceptionDAO {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT idUser,Name,Permission,idCurrentPlanet FROM User WHERE Name = ?");
+                    "SELECT idUser,Name,Permission,idCurrentPlanet,Password FROM User WHERE Name = ?");
             preparedStatement.setString(1,name);
             ResultSet resultSet = preparedStatement.executeQuery();
             connection.commit();
@@ -30,7 +30,8 @@ public class SQLUserDAO implements UserDAO {
             return new UserDTO(resultSet.getInt(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
-                    resultSet.getInt(4));
+                    resultSet.getInt(4),
+                    resultSet.getString(5));
             else return null;
         } catch (SQLException e) {
             throw new ExceptionDAO(e);
@@ -40,13 +41,14 @@ public class SQLUserDAO implements UserDAO {
     @Override
     public int insert(UserDTO user) throws ExceptionDAO {
         try {
-            PreparedStatement preparedStatementRace = connection.prepareStatement("INSERT INTO" +
-                    " User('Name','idCurrentPlanet','Permission') VALUES (?,?,?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO" +
+                    " User('Name','idCurrentPlanet','Permission','Password') VALUES (?,?,?,?)");
 
-            preparedStatementRace.setString(1, user.getName());
-            preparedStatementRace.setInt(2, user.getIdCurrentPlanet());
-            preparedStatementRace.setString(3,user.getPermissions());
-            preparedStatementRace.execute();
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setInt(2, user.getIdCurrentPlanet());
+            preparedStatement.setString(3,user.getPermissions());
+            preparedStatement.setString(4,user.getPassword());
+            preparedStatement.execute();
             int raceID = this.connection.createStatement().executeQuery(
                     "SELECT last_insert_rowid()").getInt(1);
             user.setId(raceID);
@@ -73,11 +75,12 @@ public class SQLUserDAO implements UserDAO {
     public void update(int idUser, UserDTO user) throws ExceptionDAO {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "UPDATE User SET name = ?, idCurrentPlanet = ?,Permission = ? WHERE idUser = ?");
+                    "UPDATE User SET name = ?, idCurrentPlanet = ?,Permission = ?, Password = ? WHERE idUser = ?");
             preparedStatement.setString(1, user.getName());
             preparedStatement.setInt(2, user.getIdCurrentPlanet());
             preparedStatement.setString(3,user.getPermissions());
             preparedStatement.setInt(4,idUser);
+            preparedStatement.setString(5,user.getPassword());
             preparedStatement.execute();
         }
         catch (SQLException e) {

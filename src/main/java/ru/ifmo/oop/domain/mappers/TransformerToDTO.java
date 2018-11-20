@@ -22,6 +22,6 @@ public class TransformerToDTO {
     }
 
     public static UserDTO toUser(User user) {
-        return new UserDTO(user.getId(),user.getName(), user.getPermission(), user.getIdCurrentPlanet());
+        return new UserDTO(user.getId(),user.getName(), user.getPermission(), user.getIdCurrentPlanet(),user.getPassword());
     }
 }
