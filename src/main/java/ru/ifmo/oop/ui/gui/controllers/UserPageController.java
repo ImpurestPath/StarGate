@@ -45,8 +45,7 @@ public class UserPageController implements Initializable {
     public void btnOkClicked(ActionEvent actionEvent) {
         try {
             if (mode == Mode.UPDATE) {
-                userManager.changeUser(
-                        user.getId(),
+                userManager.update(
                         new User(
                                 user.getId(),
                                 txtNickname.getText(),
@@ -54,7 +53,7 @@ public class UserPageController implements Initializable {
                                 user.getIdCurrentPlanet(),
                                 txtPassword.getText()));
             } else {
-                userManager.addUser(
+                userManager.add(
                         new User(
                                 txtNickname.getText(),
                                 checkBoxAdmin.isSelected() ? "a" : "",

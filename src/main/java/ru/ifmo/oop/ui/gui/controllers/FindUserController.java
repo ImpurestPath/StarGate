@@ -34,7 +34,7 @@ public class FindUserController {
 
     public void btnFindClicked(ActionEvent actionEvent) {
         try {
-            currentUser = userManager.getUser(txtUsername.getText().toLowerCase());
+            currentUser = userManager.get(txtUsername.getText().toLowerCase());
             if (currentUser != null) {
                 lblCurrentPlanet.setText(Integer.toString(currentUser.getIdCurrentPlanet()));
                 lblPermissions.setText(currentUser.getPermission().isEmpty() ? "No special" : currentUser.getPermission());

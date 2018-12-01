@@ -26,9 +26,9 @@ public class AuthController implements Initializable {
     public void btnSignInClicked(ActionEvent actionEvent) {
         try {
             // TODO Change to hash
-            User potentialUser = userManager.getUser(txtUsername.getText().toLowerCase());
+            User potentialUser = userManager.get(txtUsername.getText().toLowerCase());
             if (potentialUser != null && potentialUser.getPassword().equals(txtPassword.getText())){
-                userManager.setUser(potentialUser);
+                userManager.setCurrentUser(potentialUser);
                 Platform.runLater(MainGUI::loadNext);
                 txtUsername.setText("");
                 txtPassword.setText("");
@@ -44,7 +44,7 @@ public class AuthController implements Initializable {
 
     public void btnSignUpClicked(ActionEvent actionEvent) {
         try {
-            userManager.addUser(
+            userManager.add(
                     new User(
                             txtUsername.getText(),
                             "",

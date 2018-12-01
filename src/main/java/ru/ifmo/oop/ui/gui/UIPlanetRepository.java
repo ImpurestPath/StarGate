@@ -70,19 +70,19 @@ public class UIPlanetRepository {
     public void changeLanguageOfPlanet(int idPlanet, int idLanguage, Language language) throws ExceptionDAO {
         PlanetGUI item = getPlanet(idPlanet);
         item.getLanguages().set(PlanetManager.findIndex(item.getLanguages(), idLanguage), language);
-        planetManager.update(idPlanet, TransformerToEntity.toPlanet(item));
+        planetManager.update(TransformerToEntity.toPlanet(item));
     }
 
     public void addLanguageToPlanet(int idPlanet, Language language) throws ExceptionDAO {
         PlanetGUI item = getPlanet(idPlanet);
         item.getLanguages().add(language);
-        planetManager.update(idPlanet, TransformerToEntity.toPlanet(item));
+        planetManager.update(TransformerToEntity.toPlanet(item));
     }
 
     public void deleteLanguageFromPlanet(int idPlanet, int idLanguage) throws ExceptionDAO {
         PlanetGUI item = getPlanet(idPlanet);
         item.getLanguages().remove(PlanetManager.findIndex(item.getLanguages(), idLanguage));
-        planetManager.update(idPlanet, TransformerToEntity.toPlanet(item));
+        planetManager.update(TransformerToEntity.toPlanet(item));
     }
 
     public void changeRaceOfCountry(int idPlanet, int idCountry, int idRace, Race race) throws ExceptionDAO {
@@ -100,7 +100,7 @@ public class UIPlanetRepository {
                             original.getArea(),
                             races,
                             original.getIdPlanet()));
-            planetManager.update(idPlanet, TransformerToEntity.toPlanet(item));
+            planetManager.update(TransformerToEntity.toPlanet(item));
         }
     }
 
@@ -119,7 +119,7 @@ public class UIPlanetRepository {
                             original.getArea(),
                             races,
                             original.getIdPlanet()));
-            planetManager.update(idPlanet, TransformerToEntity.toPlanet(item));
+            planetManager.update(TransformerToEntity.toPlanet(item));
         }
     }
 
@@ -138,26 +138,26 @@ public class UIPlanetRepository {
                             original.getArea(),
                             races,
                             original.getIdPlanet()));
-            planetManager.update(idPlanet, TransformerToEntity.toPlanet(item));
+            planetManager.update(TransformerToEntity.toPlanet(item));
         }
     }
 
     public void addCountryToPlanet(int idPlanet, Country country) throws ExceptionDAO {
         PlanetGUI item = getPlanet(idPlanet);
         item.getCountries().add(country);
-        planetManager.update(idPlanet, TransformerToEntity.toPlanet(item));
+        planetManager.update(TransformerToEntity.toPlanet(item));
     }
 
     public void changeCountryOfPlanet(int idPlanet, int idCountry, Country country) throws ExceptionDAO {
         PlanetGUI item = getPlanet(idPlanet);
         item.getCountries().set(PlanetManager.findIndex(item.getCountries(), idCountry), country);
-        planetManager.update(idPlanet, TransformerToEntity.toPlanet(item));
+        planetManager.update(TransformerToEntity.toPlanet(item));
     }
 
     public void deleteCountryFromPlanet(int idPlanet, int idCountry) throws ExceptionDAO {
         PlanetGUI item = getPlanet(idPlanet);
         item.getCountries().remove(PlanetManager.findIndex(item.getCountries(), idCountry));
-        planetManager.update(idPlanet, TransformerToEntity.toPlanet(item));
+        planetManager.update(TransformerToEntity.toPlanet(item));
     }
 
     public void addPlanet(Planet planet) throws ExceptionDAO {
@@ -166,7 +166,7 @@ public class UIPlanetRepository {
     }
 
     public void changePlanet(int idPlanet, Planet planet) throws ExceptionDAO {
-        planetManager.update(idPlanet, planet);
+        planetManager.update(planet);
         planetUIList.set(
                 PlanetManager.findIndex(planetUIList, idPlanet),
                 TransformerToGUI.toPlanet(planetManager.get(idPlanet)));

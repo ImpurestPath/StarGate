@@ -5,24 +5,17 @@ import ru.ifmo.oop.domain.User;
 import ru.ifmo.oop.domain.UserManager;
 
 public class UIUserManager {
-    public enum UserMode {
-        ADMIN,
-        USER
-    }
-
     private final UserManager userManager;
-    private User user;
     private final int idGatePlanet;
+    private User currentUser;
     private UserMode mode;
-
-
     public UIUserManager(int idGatePlanet, UserManager userManager) {
         this.idGatePlanet = idGatePlanet;
         this.userManager = userManager;
         this.mode = UserMode.USER;
     }
 
-    public User getUser(String name) throws ExceptionDAO {
+    public User get(String name) throws ExceptionDAO {
         return userManager.get(name);
     }
 
@@ -30,24 +23,19 @@ public class UIUserManager {
         return permissions.contains("a") ? UserMode.ADMIN : UserMode.USER;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-        this.mode = getMode(user.getPermission());
-    }
-
-    public void addUser(User user) throws ExceptionDAO {
+    public void add(User user) throws ExceptionDAO {
         userManager.add(user);
-        this.user = user;
+        this.currentUser = user;
         this.mode = getMode(user.getPermission());
     }
 
-    public void changeUser(int idUser, User user) throws ExceptionDAO {
-        userManager.update(idUser, user);
-        this.user = userManager.get(user.getName());
+    public void update(User user) throws ExceptionDAO {
+        userManager.update(user);
+        this.currentUser = userManager.get(user.getName());
         this.mode = getMode(user.getPermission());
     }
 
-    public void deleteUser(int idUser) throws ExceptionDAO {
+    public void delete(int idUser) throws ExceptionDAO {
         userManager.delete(idUser);
     }
 
@@ -55,7 +43,21 @@ public class UIUserManager {
         return mode;
     }
 
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
+        this.mode = getMode(currentUser.getPermission());
+    }
+
     public int getIdGatePlanet() {
         return idGatePlanet;
+    }
+
+    public enum UserMode {
+        ADMIN,
+        USER
     }
 }

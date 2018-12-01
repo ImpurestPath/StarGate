@@ -105,7 +105,7 @@
                             <Button mnemonicParsing="false" onAction="#btnAddUserClicked" prefWidth="60.0" text="Add" />
                               <Button mnemonicParsing="false" onAction="#btnEditUserClicked" prefWidth="60.0" text="Edit" />
                               <Button mnemonicParsing="false" onAction="#btnDeleteUserClicked" prefWidth="60.0" text="Delete" />
-                              <Button mnemonicParsing="false" onAction="#btnFindUserClicked" prefWidth="80.0" text="Find user" />
+                              <Button mnemonicParsing="false" onAction="#btnFindUserClicked" prefWidth="80.0" text="Find" />
                           </items>
                         </ToolBar>
                      </children>

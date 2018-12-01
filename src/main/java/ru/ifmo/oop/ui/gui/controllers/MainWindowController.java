@@ -150,9 +150,11 @@ public class MainWindowController implements Initializable {
             Parent parent = loader.load();
             stage.setScene(new Scene(parent));
             GateController gateController = loader.getController();
-            gateController.setPlanetName(item.getName());
+            gateController.setPlanet(item.getName(),item.getId());
+            gateController.setUser(userManager.getCurrentUser());
             stage.showAndWait();
-        } catch (IOException e) {
+            userManager.update(userManager.getCurrentUser());
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -296,7 +298,7 @@ public class MainWindowController implements Initializable {
         if (user == null) return;
         if (!warningWithAgree("Deleting confirm", "Are you sure?")) return;
         try {
-            userManager.deleteUser(user.getId());
+            userManager.delete(user.getId());
         } catch (Exception e) {
             e.printStackTrace();
         }

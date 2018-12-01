@@ -4,20 +4,31 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import ru.ifmo.oop.MainGUI;
+import ru.ifmo.oop.domain.StarGate;
+import ru.ifmo.oop.domain.User;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import static ru.ifmo.oop.domain.StarGate.moveUser;
 
 public class GateController implements Initializable {
 
     public ProgressBar progressBar;
     public Label lblName;
+    private User user;
+    private int idDestination;
     //TODO exit after entering to the gate
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -30,10 +41,20 @@ public class GateController implements Initializable {
         timeline.play();
     }
 
-    public void setPlanetName(String name){
+    public void setPlanet(String name, int id){
         lblName.setText(name);
+        this.idDestination = id;
     }
+    public void setUser(User user){this.user = user;}
     public void btnCancel(ActionEvent actionEvent) {
         ((Stage) progressBar.getScene().getWindow()).close();
+    }
+
+    public void keyPressed(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.M){
+            StarGate.moveUser(idDestination,user);
+            Platform.runLater(MainGUI::loadNext);
+            ((Stage) lblName.getScene().getWindow()).close();
+        }
     }
 }

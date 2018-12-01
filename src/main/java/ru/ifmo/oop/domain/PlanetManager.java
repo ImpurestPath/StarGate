@@ -121,15 +121,15 @@ public class PlanetManager {
         connection.commit(); //How place it?
     }
 
-    public void update(int id, Planet planet) throws ExceptionDAO {
-        Planet original = this.get(id);
+    public void update(Planet planet) throws ExceptionDAO {
+        Planet original = this.get(planet.getId());
         connection.updatePlanet(TransformerToDTO.toPlanet(planet));
-        planet.setId(id);
+        //planet.setId(id);
         for (Language language : planet.getLanguages()) {
             if (language.getId() != -1) {
                 connection.updateLanguage(TransformerToDTO.toLanguage(language));
             } else {
-                language.setId(connection.addLanguage(id, TransformerToDTO.toLanguage(language)));
+                language.setId(connection.addLanguage(planet.getId(), TransformerToDTO.toLanguage(language)));
             }
         }
         for (Language language :
@@ -142,7 +142,7 @@ public class PlanetManager {
             if (country.getId() != -1) {
                 connection.updateCountry(TransformerToDTO.toCountry(country));
             } else {
-                country.setId(connection.addCountry(id, TransformerToDTO.toCountry(country)));
+                country.setId(connection.addCountry(planet.getId(), TransformerToDTO.toCountry(country)));
             }
             for (Race race : country.getRaces()) {
                 if (race.getId() != -1) {

@@ -18,7 +18,7 @@ public class UserManager {
         return TransformerToEntity.toUser(connection.getUser(name));
     }
 
-    public void update(int idUser, User user) throws ExceptionDAO {
+    public void update(User user) throws ExceptionDAO {
         connection.updateUser(TransformerToDTO.toUser(user));
         connection.commit();
     }
