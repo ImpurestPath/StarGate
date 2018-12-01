@@ -19,6 +19,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.ifmo.oop.MainGUI;
+import ru.ifmo.oop.dataAccess.DTO.RaceDTO;
+import ru.ifmo.oop.dataAccess.exception.ExceptionDAO;
+import ru.ifmo.oop.domain.User;
 import ru.ifmo.oop.domain.mappers.TransformerToEntity;
 import ru.ifmo.oop.ui.gui.UIPlanetManager;
 import ru.ifmo.oop.ui.gui.PlanetGUI;
@@ -40,10 +43,10 @@ public class MainWindowController implements Initializable {
     public Button infobutton;
     public AnchorPane mainPane;
     public ImageView imageView;
-    public Label lblPlanetManagment;
-    public ToolBar planetManagmentPanel;
-    public Label lblUserManagment;
-    public ToolBar userManagmentPanel;
+    public Label lblPlanetManagement;
+    public ToolBar planetManagementPanel;
+    public Label lblUserManagement;
+    public ToolBar userManagementPanel;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -68,10 +71,38 @@ public class MainWindowController implements Initializable {
                 }
         );
     }
-    public void updateMode(){
-        //TODO add other panels
-        if (UIUserManager.getInstance().getMode() == UIUserManager.UserMode.USER) planetManagmentPanel.setVisible(false);
-        else planetManagmentPanel.setVisible(true);
+
+    public void updateMode() {
+        if (UIUserManager.getInstance().getMode() == UIUserManager.UserMode.USER) {
+            planetManagementPanel.setVisible(false);
+            userManagementPanel.setVisible(false);
+            lblPlanetManagement.setVisible(false);
+            lblUserManagement.setVisible(false);
+        } else {
+            planetManagementPanel.setVisible(true);
+            userManagementPanel.setVisible(true);
+            lblPlanetManagement.setVisible(true);
+            lblUserManagement.setVisible(true);
+        }
+    }
+
+    public boolean warningWithAgree(String type, String question) {
+        Stage info = new Stage();
+        info.initOwner(mainPane.getScene().getWindow());
+        info.initModality(Modality.APPLICATION_MODAL);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/warning.fxml"));
+            Parent parent = loader.load();
+            info.setScene(new Scene(parent));
+            WarningController warningController = loader.getController();
+            warningController.setWarningName(type);
+            warningController.setQuestion(question);
+            info.showAndWait();
+            return warningController.isAgree();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public void btnInfoClicked(ActionEvent actionEvent) {
@@ -95,9 +126,11 @@ public class MainWindowController implements Initializable {
     }
 
     public void btnOpenGateClicked(ActionEvent actionEvent) {
-        //TODO add warning
         PlanetGUI item = listView1.getSelectionModel().getSelectedItem();
         if (item == null) return;
+        if (item.getBehavior() == RaceDTO.Behavior.ANGRY) {
+            if (!warningWithAgree("Angry planet", "Are you sure?")) return;
+        }
         Stage stage = new Stage();
         stage.initOwner(mainPane.getScene().getWindow());
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -151,10 +184,10 @@ public class MainWindowController implements Initializable {
     }
 
     public void btnDeletePlanetClicked(ActionEvent actionEvent) {
-        //TODO add warning
+        PlanetGUI item = listView1.getSelectionModel().getSelectedItem();
+        if (item == null) return;
+        if (!warningWithAgree("Deleting confirm", "Are you sure?")) return;
         try {
-            PlanetGUI item = listView1.getSelectionModel().getSelectedItem();
-            if (item == null) return;
             UIPlanetManager.getInstance().deletePlanet(TransformerToEntity.toPlanet(item));
             this.listView1.setItems(FXCollections.observableArrayList(UIPlanetManager.getInstance().getPlanetUIList()));
         } catch (Exception e) {
@@ -197,19 +230,76 @@ public class MainWindowController implements Initializable {
             UserPageController userPageController = loader.getController();
             userPageController.setMode(UserPageController.Mode.CREATE);
             info.showAndWait();
-            this.listView1.setItems(FXCollections.observableArrayList(UIPlanetManager.getInstance().getPlanetUIList()));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    private User findUser() {
+        Stage info = new Stage();
+        info.initOwner(mainPane.getScene().getWindow());
+        info.initModality(Modality.APPLICATION_MODAL);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/finduser.fxml"));
+            Parent parent = loader.load();
+            info.setScene(new Scene(parent));
+            FindUserController findUserController = loader.getController();
+            findUserController.setUserManager(UIUserManager.getInstance());
+            findUserController.setMode(FindUserController.Mode.RETURN_USER);
+            info.showAndWait();
+            return findUserController.getCurrentUser();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public void btnEditUserClicked(ActionEvent actionEvent) {
+        User user = findUser();
+        if (user == null) return;
+        Stage info = new Stage();
+        info.initOwner(mainPane.getScene().getWindow());
+        info.initModality(Modality.APPLICATION_MODAL);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/userpage.fxml"));
+            Parent parent = loader.load();
+            info.setScene(new Scene(parent));
+            UserPageController userPageController = loader.getController();
+            userPageController.setMode(UserPageController.Mode.UPDATE);
+            userPageController.setUser(user);
+            info.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
     public void btnDeleteUserClicked(ActionEvent actionEvent) {
+        User user = findUser();
+        if (user == null) return;
+        if (!warningWithAgree("Deleting confirm", "Are you sure?")) return;
+        try {
+            UIUserManager.getInstance().deleteUser(user.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void btnFindUserClicked(ActionEvent actionEvent) {
+        Stage info = new Stage();
+        info.initOwner(mainPane.getScene().getWindow());
+        info.initModality(Modality.APPLICATION_MODAL);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/finduser.fxml"));
+            Parent parent = loader.load();
+            info.setScene(new Scene(parent));
+            FindUserController findUserController = loader.getController();
+            findUserController.setUserManager(UIUserManager.getInstance());
+            findUserController.setMode(FindUserController.Mode.ONLY_FIND);
+            info.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

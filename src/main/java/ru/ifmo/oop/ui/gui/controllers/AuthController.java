@@ -21,7 +21,8 @@ public class AuthController implements Initializable {
 
     public void btnSignInClicked(ActionEvent actionEvent) {
         try {
-            User potentialUser = UIUserManager.getInstance().getUser(txtUsername.getText());
+            // TODO Change to hash
+            User potentialUser = UIUserManager.getInstance().getUser(txtUsername.getText().toLowerCase());
             if (potentialUser != null && potentialUser.getPassword().equals(txtPassword.getText())){
                 UIUserManager.getInstance().setUser(potentialUser);
                 Platform.runLater(MainGUI::loadNext);

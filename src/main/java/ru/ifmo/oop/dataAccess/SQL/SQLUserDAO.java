@@ -39,7 +39,7 @@ public class SQLUserDAO implements UserDAO {
     }
 
     @Override
-    public int insert(UserDTO user) throws ExceptionDAO {
+    public int add(UserDTO user) throws ExceptionDAO {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO" +
                     " User('Name','idCurrentPlanet','Permission','Password') VALUES (?,?,?,?)");
@@ -79,8 +79,8 @@ public class SQLUserDAO implements UserDAO {
             preparedStatement.setString(1, user.getName());
             preparedStatement.setInt(2, user.getIdCurrentPlanet());
             preparedStatement.setString(3,user.getPermissions());
-            preparedStatement.setInt(4,idUser);
-            preparedStatement.setString(5,user.getPassword());
+            preparedStatement.setInt(5,idUser);
+            preparedStatement.setString(4,user.getPassword());
             preparedStatement.execute();
         }
         catch (SQLException e) {

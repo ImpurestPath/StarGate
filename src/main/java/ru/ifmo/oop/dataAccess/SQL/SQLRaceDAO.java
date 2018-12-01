@@ -52,7 +52,7 @@ public class SQLRaceDAO implements RaceDAO {
     }
 
     @Override
-    public int insert(int idCountry, RaceDTO race) throws ExceptionDAO {
+    public int add(int idCountry, RaceDTO race) throws ExceptionDAO {
         try {
             PreparedStatement preparedStatementRace = connection.prepareStatement("INSERT INTO" +
                     " Race('idCountry','name','amount','idBehavior') VALUES (?,?,?,?)");

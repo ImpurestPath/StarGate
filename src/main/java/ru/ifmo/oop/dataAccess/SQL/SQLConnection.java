@@ -85,7 +85,7 @@ public class SQLConnection implements ConnectionDAO {
 
     @Override
     public int addRace(int idCountry, RaceDTO race) throws ExceptionDAO {
-        return sqlRaceDAO.insert(idCountry,race);
+        return sqlRaceDAO.add(idCountry,race);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class SQLConnection implements ConnectionDAO {
 
     @Override
     public int addUser(UserDTO userDTO) throws ExceptionDAO {
-        return sqlUserDAO.insert(userDTO);
+        return sqlUserDAO.add(userDTO);
     }
 
     @Override

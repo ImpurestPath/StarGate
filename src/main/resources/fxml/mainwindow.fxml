@@ -82,12 +82,12 @@
                               <Button mnemonicParsing="false" onAction="#btnExitClicked" prefWidth="80.0" text="Exit" />
                           </items>
                         </ToolBar>
-                        <Label fx:id="lblPlanetManagment" text="Planet managment">
+                        <Label fx:id="lblPlanetManagement" text="Planet managment">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
                         </Label>
-                        <ToolBar fx:id="planetManagmentPanel" prefHeight="40.0" prefWidth="200.0">
+                        <ToolBar fx:id="planetManagementPanel" prefHeight="40.0" prefWidth="200.0">
                           <items>
                             <Button mnemonicParsing="false" onAction="#btnAddPlanetClicked" prefWidth="60.0" text="Add" />
                               <Button mnemonicParsing="false" onAction="#btnEditPlanetClicked" prefWidth="60.0" text="Edit" />
@@ -95,12 +95,12 @@
                               <Button mnemonicParsing="false" onAction="#btnEditInfoPlanetClicked" prefWidth="80.0" text="Edit info" />
                           </items>
                         </ToolBar>
-                        <Label fx:id="lblUserManagment" text="User managment">
+                        <Label fx:id="lblUserManagement" text="User managment">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
                         </Label>
-                        <ToolBar fx:id="userManagmentPanel" prefHeight="40.0" prefWidth="200.0">
+                        <ToolBar fx:id="userManagementPanel" prefHeight="40.0" prefWidth="200.0">
                           <items>
                             <Button mnemonicParsing="false" onAction="#btnAddUserClicked" prefWidth="60.0" text="Add" />
                               <Button mnemonicParsing="false" onAction="#btnEditUserClicked" prefWidth="60.0" text="Edit" />

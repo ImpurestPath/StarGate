@@ -29,7 +29,7 @@ public class TransformerToEntity {
 
     public static User toUser(UserDTO userDTO) {
         if (userDTO != null)
-            return new User(userDTO.getName(), userDTO.getPermissions(), userDTO.getIdCurrentPlanet(),userDTO.getPassword());
+            return new User(userDTO.getId(),userDTO.getName(), userDTO.getPermissions(), userDTO.getIdCurrentPlanet(),userDTO.getPassword());
         else return null;
     }
 }

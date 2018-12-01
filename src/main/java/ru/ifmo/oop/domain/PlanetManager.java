@@ -22,7 +22,7 @@ public class PlanetManager {
     public PlanetManager(String filename) throws ExceptionDAO {
         this.connection = SQLConnection.getInstance(filename);
     }
-    //TODO task
+    //TODO task progress
     public class Loader extends Task<List<Planet>>{
         @Override
         protected List<Planet> call() throws ExceptionDAO {
@@ -157,8 +157,6 @@ public class PlanetManager {
                 connection.updateCountry(country.getId(), TransformerToDTO.toCountry(country));
             } else {
                 country.setId(connection.addCountry(id, TransformerToDTO.toCountry(country)));
-                connection.commit();
-                //TODO solve problem when country haven't id before adding races
             }
             for (Race race : country.getRaces()) {
                 if (race.getId() != -1) {

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.ifmo.oop.ui.gui.controllers.WarningController">
+   <children>
+      <Label fx:id="lblWarning" layoutX="14.0" layoutY="14.0" text="Warning" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblQuestion" alignment="CENTER" layoutX="186.0" layoutY="57.0" text="Question" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="60.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Button layoutX="264.0" layoutY="155.0" mnemonicParsing="false" onAction="#btnOkClicked" prefWidth="70.0" text="OK" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="100.0" />
+      <Button cancelButton="true" defaultButton="true" layoutX="332.0" layoutY="155.0" mnemonicParsing="false" onAction="#btnCancelClicked" prefWidth="70.0" text="Cancel" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0" />
+   </children>
+</AnchorPane>
