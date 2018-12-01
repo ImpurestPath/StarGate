@@ -7,7 +7,7 @@ public class Race implements Comparable {
     private final String name;
     private final long amount;
     private final Behavior behavior;
-    private int idCountry;
+    private final int idCountry;
 
     public Race(String name, long amount, Behavior behavior,int idCountry) {
         this.id = -1;
@@ -32,9 +32,6 @@ public class Race implements Comparable {
         return behavior;
     }
 
-    public boolean getBoolBehavior() {
-        return (behavior == Behavior.ANGRY);
-    }
     public String getName(){
         return this.name;
     }
@@ -62,7 +59,4 @@ public class Race implements Comparable {
         return idCountry;
     }
 
-    public void setIdCountry(int idCountry) {
-        this.idCountry = idCountry;
-    }
 }

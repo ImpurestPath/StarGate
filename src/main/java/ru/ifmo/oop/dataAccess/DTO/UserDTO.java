@@ -5,12 +5,12 @@ public class UserDTO {
     private final int idCurrentPlanet;
     private final String permissions;
     private final String password;
-    public UserDTO(String name, String permissions, int idCurrentPlanet, String password){
+/*    public UserDTO(String name, String permissions, int idCurrentPlanet, String password){
         this.name = name;
         this.permissions = permissions;
         this.idCurrentPlanet = idCurrentPlanet;
         this.password =  password;
-    }
+    }*/
     public UserDTO(int id, String name, String permissions, int idCurrentPlanet, String password){
         this.id = id;
         this.name = name;

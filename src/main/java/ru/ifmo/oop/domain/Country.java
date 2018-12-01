@@ -12,7 +12,7 @@ public class Country implements Comparable {
     private final long amountAlive;
     private final List<Race> races;
     private final Behavior behavior;
-    private int idPlanet;
+    private final int idPlanet;
 
 
     public Country(int id, String name, long area, List<Race> races, int idPlanet) {
@@ -38,7 +38,7 @@ public class Country implements Comparable {
         if (amountAlive == 0) return Behavior.NEUTRAL;
         long amountAngry = 0;
         for (Race race : races) {
-            if (race.getBoolBehavior()) amountAngry += race.getAmount();
+            if (race.getBehavior() == Behavior.ANGRY) amountAngry += race.getAmount();
         }
         if ((double) amountAngry / amountAlive > 0.5) return Behavior.ANGRY;
         else return Behavior.NEUTRAL;
@@ -98,7 +98,4 @@ public class Country implements Comparable {
         return idPlanet;
     }
 
-    public void setIdPlanet(int idPlanet) {
-        this.idPlanet = idPlanet;
-    }
 }

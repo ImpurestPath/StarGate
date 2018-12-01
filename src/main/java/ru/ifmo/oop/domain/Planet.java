@@ -74,14 +74,6 @@ public class Planet implements Comparable {
         return behavior == Behavior.ANGRY;
     }
 
-    public boolean hasLanguages() {
-        return !languages.isEmpty();
-    }
-
-    public boolean hasCountries() {
-        return !countries.isEmpty();
-    }
-
 
     public List<Language> getLanguages() {
         return Collections.unmodifiableList(languages);

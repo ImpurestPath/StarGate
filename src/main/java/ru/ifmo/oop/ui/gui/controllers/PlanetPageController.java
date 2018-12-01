@@ -17,6 +17,7 @@ public class PlanetPageController implements Initializable {
     public TextField txtTemperature;
     public TextField txtName;
     private PlanetGUI planet;
+    private UIPlanetManager planetManager;
     public enum Mode{
         CREATE,
         UPDATE
@@ -37,12 +38,16 @@ public class PlanetPageController implements Initializable {
         this.mode = mode;
     }
 
+    public void setPlanetManager(UIPlanetManager planetManager) {
+        this.planetManager = planetManager;
+    }
+
     public void btnOkClicked(ActionEvent actionEvent) {
         try {
             if (mode == Mode.UPDATE) {
-                UIPlanetManager.getInstance().changePlanet(planet.getId(),new Planet(txtName.getText(), Integer.parseInt(txtTemperature.getText()), Long.parseLong(txtPressure.getText()), new ArrayList<>(), new ArrayList<>()));
+                planetManager.changePlanet(planet.getId(),new Planet(planet.getId(),txtName.getText(), Integer.parseInt(txtTemperature.getText()), Long.parseLong(txtPressure.getText()), new ArrayList<>(), new ArrayList<>()));
             } else {
-                UIPlanetManager.getInstance().addPlanet(new Planet(txtName.getText(), Integer.parseInt(txtTemperature.getText()), Long.parseLong(txtPressure.getText()), new ArrayList<>(), new ArrayList<>()));
+                planetManager.addPlanet(new Planet(txtName.getText(), Integer.parseInt(txtTemperature.getText()), Long.parseLong(txtPressure.getText()), new ArrayList<>(), new ArrayList<>()));
             }
         } catch (Exception e){
             e.printStackTrace();

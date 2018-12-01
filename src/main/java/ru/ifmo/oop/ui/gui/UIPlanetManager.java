@@ -20,11 +20,11 @@ public class UIPlanetManager {
     private List<PlanetGUI> planetUIList;
     private static UIPlanetManager instance = null;
 
-    public static synchronized UIPlanetManager getInstance() {
+    /*public static synchronized UIPlanetManager getInstance() {
         //if (instance == null) throw new Exception("No controller");
         //else
         return instance;
-    }
+    }*/
 
     public UIPlanetManager(int idGatePlanet, PlanetManager planetManager) {
         this.idGatePlanet = idGatePlanet;

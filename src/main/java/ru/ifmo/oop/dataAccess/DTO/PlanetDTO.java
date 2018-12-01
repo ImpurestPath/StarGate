@@ -14,12 +14,12 @@ public class PlanetDTO {
         this._pressure = pressure;
         this._id = id;
     }
-    public PlanetDTO(String name, int temperature, long pressure) {
+/*    public PlanetDTO(String name, int temperature, long pressure) {
         this._name = name;
         this._temperature = temperature;
         this._pressure = pressure;
         this._id = -1;
-    }
+    }*/
 
 
     public int getTemperature() {

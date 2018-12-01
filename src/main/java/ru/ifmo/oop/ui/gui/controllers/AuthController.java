@@ -18,13 +18,18 @@ public class AuthController implements Initializable {
     public TextField txtUsername;
     public PasswordField txtPassword;
     public Label lblAttention;
+    private UIUserManager userManager;
+
+    public void setUserManager(UIUserManager userManager) {
+        this.userManager = userManager;
+    }
 
     public void btnSignInClicked(ActionEvent actionEvent) {
         try {
             // TODO Change to hash
-            User potentialUser = UIUserManager.getInstance().getUser(txtUsername.getText().toLowerCase());
+            User potentialUser = userManager.getUser(txtUsername.getText().toLowerCase());
             if (potentialUser != null && potentialUser.getPassword().equals(txtPassword.getText())){
-                UIUserManager.getInstance().setUser(potentialUser);
+                userManager.setUser(potentialUser);
                 Platform.runLater(MainGUI::loadNext);
                 txtUsername.setText("");
                 txtPassword.setText("");
@@ -40,11 +45,11 @@ public class AuthController implements Initializable {
 
     public void btnSignUpClicked(ActionEvent actionEvent) {
         try {
-            UIUserManager.getInstance().addUser(
+            userManager.addUser(
                     new User(
                             txtUsername.getText(),
                             "",
-                            UIPlanetManager.getInstance().getIdGatePlanet(),
+                            userManager.getIdGatePlanet(),
                             txtPassword.getText()));
             Platform.runLater(MainGUI::loadNext);
             txtUsername.setText("");

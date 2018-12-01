@@ -14,11 +14,11 @@ import java.util.List;
 public class SQLCountryDAO implements CountryDAO {
     private Connection connection;
 
-    public SQLCountryDAO(Connection connection) {
+    SQLCountryDAO(Connection connection) {
         this.connection = connection;
     }
 
-    public int insert( int idPlanet, CountryDTO country) throws ExceptionDAO {
+    public int add(int idPlanet, CountryDTO country) throws ExceptionDAO {
         try {
             PreparedStatement preparedStatementCountry = connection.prepareStatement("INSERT INTO" +
                     " Country('idPlanet','name','area') VALUES (?,?,?)");
@@ -45,13 +45,37 @@ public class SQLCountryDAO implements CountryDAO {
             throw new ExceptionDAO(e);
         }
     }
-    public void update(int idCountry, CountryDTO country) throws ExceptionDAO {
+
+    @Override
+    public CountryDTO get(int id) {
+        return null; //Not implemented
+    }
+
+    @Override
+    public int add(CountryDTO obj) throws ExceptionDAO {
+        try {
+            PreparedStatement preparedStatementCountry = connection.prepareStatement("INSERT INTO" +
+                    " Country('idPlanet','name','area') VALUES (?,?,?)");
+            preparedStatementCountry.setInt(1, obj.getIdPlanet());
+            preparedStatementCountry.setString(2, obj.getName());
+            preparedStatementCountry.setLong(3, obj.getArea());
+            preparedStatementCountry.execute();
+            int countryID = this.connection.createStatement().executeQuery(
+                    "SELECT last_insert_rowid()").getInt(1);
+            obj.setId(countryID);
+            return countryID;
+        } catch (SQLException e) {
+            throw new ExceptionDAO(e);
+        }
+    }
+
+    public void update(CountryDTO country) throws ExceptionDAO {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "UPDATE Country SET name = ?, area = ? WHERE idCountry = ?");
             preparedStatement.setString(1,country.getName());
             preparedStatement.setLong(2,country.getArea());
-            preparedStatement.setInt(3,idCountry);
+            preparedStatement.setInt(3,country.getId());
             preparedStatement.execute();
         }
         catch (SQLException e) {

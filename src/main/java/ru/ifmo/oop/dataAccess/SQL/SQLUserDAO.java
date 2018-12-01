@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public class SQLUserDAO implements UserDAO {
     private Connection connection;
 
-    public SQLUserDAO(Connection connection) {
+    SQLUserDAO(Connection connection) {
         this.connection = connection;
     }
 
@@ -72,14 +72,34 @@ public class SQLUserDAO implements UserDAO {
     }
 
     @Override
-    public void update(int idUser, UserDTO user) throws ExceptionDAO {
+    public UserDTO get(int id) throws ExceptionDAO {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT idUser,Name,Permission,idCurrentPlanet,Password FROM User WHERE idUser = ?");
+            preparedStatement.setInt(1,id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            connection.commit();
+            if (resultSet.next())
+                return new UserDTO(resultSet.getInt(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3),
+                        resultSet.getInt(4),
+                        resultSet.getString(5));
+            else return null;
+        } catch (SQLException e) {
+            throw new ExceptionDAO(e);
+        }
+    }
+
+    @Override
+    public void update(UserDTO user) throws ExceptionDAO {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "UPDATE User SET name = ?, idCurrentPlanet = ?,Permission = ?, Password = ? WHERE idUser = ?");
             preparedStatement.setString(1, user.getName());
             preparedStatement.setInt(2, user.getIdCurrentPlanet());
             preparedStatement.setString(3,user.getPermissions());
-            preparedStatement.setInt(5,idUser);
+            preparedStatement.setInt(5,user.getId());
             preparedStatement.setString(4,user.getPassword());
             preparedStatement.execute();
         }

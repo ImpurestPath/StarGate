@@ -17,18 +17,14 @@ import java.util.List;
 
 public class SQLConnection implements ConnectionDAO {
     private static final String CON_STR = "jdbc:sqlite:";
+    private static SQLConnection instance = null;
     private Connection connection;
     private CountryDAO sqlCountryDAO;
     private PlanetDAO sqlPlanetDAO;
     private RaceDAO sqlRaceDAO;
     private UserDAO sqlUserDAO;
     private LanguageDAO sqlLanguageDAO;
-    private static SQLConnection instance = null;
-    public static synchronized SQLConnection getInstance(String filename) throws ExceptionDAO {
-        if (instance == null)
-            instance = new SQLConnection(filename);
-        return instance;
-    }
+
     private SQLConnection(String url) throws ExceptionDAO {
         try {
             DriverManager.registerDriver(new JDBC());
@@ -44,11 +40,16 @@ public class SQLConnection implements ConnectionDAO {
         }
     }
 
+    public static synchronized SQLConnection getInstance(String filename) throws ExceptionDAO {
+        if (instance == null)
+            instance = new SQLConnection(filename);
+        return instance;
+    }
+
     public void commit() throws ExceptionDAO {
         try {
             connection.commit();
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             throw new ExceptionDAO(e);
         }
     }
@@ -85,17 +86,17 @@ public class SQLConnection implements ConnectionDAO {
 
     @Override
     public int addRace(int idCountry, RaceDTO race) throws ExceptionDAO {
-        return sqlRaceDAO.add(idCountry,race);
+        return sqlRaceDAO.add(idCountry, race);
     }
 
     @Override
     public int addCountry(int idPlanet, CountryDTO country) throws ExceptionDAO {
-        return sqlCountryDAO.insert(idPlanet, country);
+        return sqlCountryDAO.add(idPlanet, country);
     }
 
     @Override
     public int addLanguage(int idPlanet, LanguageDTO languageDTO) throws ExceptionDAO {
-        return sqlLanguageDAO.insert(idPlanet, languageDTO);
+        return sqlLanguageDAO.add(idPlanet, languageDTO);
     }
 
     @Override
@@ -109,28 +110,28 @@ public class SQLConnection implements ConnectionDAO {
     }
 
     @Override
-    public void updateRace(int idRace, RaceDTO race) throws ExceptionDAO {
-        sqlRaceDAO.update(idRace, race);
+    public void updateRace(RaceDTO race) throws ExceptionDAO {
+        sqlRaceDAO.update(race);
     }
 
     @Override
-    public void updateCountry(int idCountry, CountryDTO country) throws ExceptionDAO {
-        sqlCountryDAO.update(idCountry, country);
+    public void updateCountry(CountryDTO country) throws ExceptionDAO {
+        sqlCountryDAO.update(country);
     }
 
     @Override
-    public void updateLanguage(int idLanguage, LanguageDTO language) throws ExceptionDAO {
-        sqlLanguageDAO.update(idLanguage, language);
+    public void updateLanguage(LanguageDTO language) throws ExceptionDAO {
+        sqlLanguageDAO.update(language);
     }
 
     @Override
-    public void updatePlanet(int idPlanet, PlanetDTO planet) throws ExceptionDAO {
-        sqlPlanetDAO.update(idPlanet, planet);
+    public void updatePlanet(PlanetDTO planet) throws ExceptionDAO {
+        sqlPlanetDAO.update(planet);
     }
 
     @Override
-    public void updateUser(int idUser, UserDTO userDTO) throws ExceptionDAO {
-        sqlUserDAO.update(idUser, userDTO);
+    public void updateUser(UserDTO userDTO) throws ExceptionDAO {
+        sqlUserDAO.update(userDTO);
     }
 
     @Override

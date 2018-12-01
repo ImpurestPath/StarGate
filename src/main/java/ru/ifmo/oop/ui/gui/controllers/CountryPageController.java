@@ -17,12 +17,16 @@ public class CountryPageController implements Initializable {
     public TextField txtArea;
     private Country country;
     private int idPlanet;
+    private UIPlanetManager planetManager;
     public enum Mode{
         UPDATE,
         CREATE
     }
     private Mode mode;
 
+    public void setPlanetManager(UIPlanetManager planetManager) {
+        this.planetManager = planetManager;
+    }
 
     public void btnCancelClicked(ActionEvent actionEvent) {
         ((Stage) txtName.getScene().getWindow()).close();
@@ -31,11 +35,11 @@ public class CountryPageController implements Initializable {
     public void btnOkClicked(ActionEvent actionEvent) {
         try {
             if (mode == Mode.UPDATE) {
-                UIPlanetManager.getInstance().changeCountryOfPlanet(idPlanet,
+                planetManager.changeCountryOfPlanet(idPlanet,
                         country.getId(),
-                        new Country(txtName.getText(), Long.parseLong(txtArea.getText()), new ArrayList<>(), idPlanet));
+                        new Country(country.getId(),txtName.getText(), Long.parseLong(txtArea.getText()), new ArrayList<>(), idPlanet));
             } else {
-                UIPlanetManager.getInstance().addCountryToPlanet(idPlanet,
+                planetManager.addCountryToPlanet(idPlanet,
                         new Country(txtName.getText(), Long.parseLong(txtArea.getText()), new ArrayList<>(), idPlanet));
             }
         } catch (Exception e){

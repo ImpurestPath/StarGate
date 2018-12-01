@@ -21,26 +21,26 @@ public class RacePageController implements Initializable {
     public ComboBox chooseCountry;
     public TextField txtAmount;
     private int idPlanet;
-
-
-    public enum Mode{
-        UPDATE,
-        CREATE
-    }
     private Mode mode;
     private Race race;
     private List<Country> countries;
+    private UIPlanetManager planetManager;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         chooseBehavior.setItems(FXCollections.observableArrayList());
         chooseBehavior.getItems().add(RaceDTO.Behavior.ANGRY);
         chooseBehavior.getItems().add(RaceDTO.Behavior.NEUTRAL);
     }
-    public void setCountries(List<Country> countries){
+
+    public void setPlanetManager(UIPlanetManager planetManager) {
+        this.planetManager = planetManager;
+    }
+
+    public void setCountries(List<Country> countries) {
         this.countries = countries;
-        chooseCountry.setCellFactory(params -> new ListCell<Country>(){
+        chooseCountry.setCellFactory(params -> new ListCell<Country>() {
             @Override
-            protected void updateItem(Country country, boolean empty){
+            protected void updateItem(Country country, boolean empty) {
                 super.updateItem(country, empty);
                 if (country == null || empty) {
                     setText(null);
@@ -51,19 +51,23 @@ public class RacePageController implements Initializable {
         });
         chooseCountry.setItems(FXCollections.observableArrayList(countries));
     }
-    public void setIdPlanet(int idPlanet){
+
+    public void setIdPlanet(int idPlanet) {
         this.idPlanet = idPlanet;
     }
-    public void setMode(Mode mode){
+
+    public void setMode(Mode mode) {
         this.mode = mode;
     }
-    public void setRace(Race race){
+
+    public void setRace(Race race) {
         this.race = race;
         txtName.setText(race.getName());
         chooseBehavior.getSelectionModel().select(race.getBehavior() == RaceDTO.Behavior.ANGRY ? RaceDTO.Behavior.ANGRY : RaceDTO.Behavior.NEUTRAL);
         txtAmount.setText(Long.toString(race.getAmount()));
-        chooseCountry.getSelectionModel().select(PlanetManager.find(countries,race.getIdCountry()));
+        chooseCountry.getSelectionModel().select(PlanetManager.find(countries, race.getIdCountry()));
     }
+
     public void btnCancelClicked(ActionEvent actionEvent) {
         ((Stage) txtName.getScene().getWindow()).close();
     }
@@ -71,19 +75,23 @@ public class RacePageController implements Initializable {
     public void btnOkClicked(ActionEvent actionEvent) {
         try {
             if (mode == Mode.UPDATE) {
-                Country selected = (Country)chooseCountry.getSelectionModel().getSelectedItem();
+                Country selected = (Country) chooseCountry.getSelectionModel().getSelectedItem();
                 RaceDTO.Behavior behavior = (RaceDTO.Behavior) chooseBehavior.getSelectionModel().getSelectedItem();
-                UIPlanetManager.getInstance().changeRaceOfCountry(idPlanet,selected.getId(),race.getId(), new Race(race.getId(),txtName.getText(),Long.parseLong(txtAmount.getText()),behavior,selected.getId()));
+                planetManager.changeRaceOfCountry(idPlanet, selected.getId(), race.getId(), new Race(race.getId(), txtName.getText(), Long.parseLong(txtAmount.getText()), behavior, selected.getId()));
             } else {
-                Country selected = (Country)chooseCountry.getSelectionModel().getSelectedItem();
+                Country selected = (Country) chooseCountry.getSelectionModel().getSelectedItem();
                 RaceDTO.Behavior behavior = (RaceDTO.Behavior) chooseBehavior.getSelectionModel().getSelectedItem();
-                UIPlanetManager.getInstance().addRaceToCountry(idPlanet,selected.getId(),new Race(txtName.getText(),Long.parseLong(txtAmount.getText()),behavior,selected.getId()));
+                planetManager.addRaceToCountry(idPlanet, selected.getId(), new Race(txtName.getText(), Long.parseLong(txtAmount.getText()), behavior, selected.getId()));
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         ((Stage) txtName.getScene().getWindow()).close();
+    }
+
+    public enum Mode {
+        UPDATE,
+        CREATE
     }
 
 }

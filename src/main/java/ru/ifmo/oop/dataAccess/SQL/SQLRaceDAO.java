@@ -23,7 +23,7 @@ public class SQLRaceDAO implements RaceDAO {
                     return 1;
         }
     }
-    public SQLRaceDAO(Connection connection) {
+    SQLRaceDAO(Connection connection) {
         this.connection = connection;
     }
 
@@ -85,14 +85,39 @@ public class SQLRaceDAO implements RaceDAO {
     }
 
     @Override
-    public void update(int idRace, RaceDTO race) throws ExceptionDAO {
+    public RaceDTO get(int id)  {
+        return null; //Not implemented
+    }
+
+    @Override
+    public int add(RaceDTO obj) throws ExceptionDAO {
+        try {
+            PreparedStatement preparedStatementRace = connection.prepareStatement("INSERT INTO" +
+                    " Race('idCountry','name','amount','idBehavior') VALUES (?,?,?,?)");
+
+            preparedStatementRace.setInt(1, obj.getIdCountry());
+            preparedStatementRace.setString(2, obj.getName());
+            preparedStatementRace.setLong(3, obj.getAmount());
+            preparedStatementRace.setInt(4, getIdBehavior(obj.getBehavior()));
+            preparedStatementRace.execute();
+            int raceID = this.connection.createStatement().executeQuery(
+                    "SELECT last_insert_rowid()").getInt(1);
+            obj.setId(raceID);
+            return raceID;
+        } catch (SQLException e) {
+            throw new ExceptionDAO(e);
+        }
+    }
+
+    @Override
+    public void update(RaceDTO race) throws ExceptionDAO {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "UPDATE Race SET name = ?, amount = ?, idBehavior = ? WHERE idRace = ?");
             preparedStatement.setString(1, race.getName());
             preparedStatement.setLong(2, race.getAmount());
             preparedStatement.setInt(3,getIdBehavior(race.getBehavior()));
-            preparedStatement.setInt(4,idRace);
+            preparedStatement.setInt(4,race.getId());
             preparedStatement.execute();
         }
         catch (SQLException e) {

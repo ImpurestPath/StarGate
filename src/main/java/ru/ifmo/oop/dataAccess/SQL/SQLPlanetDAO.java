@@ -12,7 +12,7 @@ import java.util.List;
 public class SQLPlanetDAO implements PlanetDAO {
     private Connection connection;
 
-    public SQLPlanetDAO(Connection connection) {
+    SQLPlanetDAO(Connection connection) {
         this.connection = connection;
     }
 
@@ -86,7 +86,7 @@ public class SQLPlanetDAO implements PlanetDAO {
         }
     }
 
-    public void update(int idPlanet, PlanetDTO planet) throws ExceptionDAO {
+    public void update(PlanetDTO planet) throws ExceptionDAO {
         try (PreparedStatement preparedStatement =
                      connection.prepareStatement("UPDATE Planet " +
                              "SET name = ?, temperature = ?, pressure = ? " +
@@ -94,7 +94,7 @@ public class SQLPlanetDAO implements PlanetDAO {
             preparedStatement.setString(1, planet.getName());
             preparedStatement.setInt(2, planet.getTemperature());
             preparedStatement.setLong(3, planet.getPressure());
-            preparedStatement.setInt(4, idPlanet);
+            preparedStatement.setInt(4, planet.getId());
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new ExceptionDAO(e);

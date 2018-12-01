@@ -19,7 +19,7 @@ public class UserManager {
     }
 
     public void update(int idUser, User user) throws ExceptionDAO {
-        connection.updateUser(idUser, TransformerToDTO.toUser(user));
+        connection.updateUser(TransformerToDTO.toUser(user));
         connection.commit();
     }
     public void add(User user) throws ExceptionDAO {

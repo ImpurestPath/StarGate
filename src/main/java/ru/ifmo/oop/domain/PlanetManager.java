@@ -137,11 +137,11 @@ public class PlanetManager {
 
     public void update(int id, Planet planet) throws ExceptionDAO {
         Planet original = this.get(id);
-        connection.updatePlanet(id, TransformerToDTO.toPlanet(planet));
+        connection.updatePlanet(TransformerToDTO.toPlanet(planet));
         planet.setId(id);
         for (Language language : planet.getLanguages()) {
             if (language.getId() != -1) {
-                connection.updateLanguage(language.getId(), TransformerToDTO.toLanguage(language));
+                connection.updateLanguage(TransformerToDTO.toLanguage(language));
             } else {
                 language.setId(connection.addLanguage(id, TransformerToDTO.toLanguage(language)));
             }
@@ -154,13 +154,13 @@ public class PlanetManager {
         }
         for (Country country : planet.getCountries()) {
             if (country.getId() != -1) {
-                connection.updateCountry(country.getId(), TransformerToDTO.toCountry(country));
+                connection.updateCountry(TransformerToDTO.toCountry(country));
             } else {
                 country.setId(connection.addCountry(id, TransformerToDTO.toCountry(country)));
             }
             for (Race race : country.getRaces()) {
                 if (race.getId() != -1) {
-                    connection.updateRace(race.getId(), TransformerToDTO.toRace(race));
+                    connection.updateRace(TransformerToDTO.toRace(race));
                 } else {
                     race.setId(connection.addRace(country.getId(), TransformerToDTO.toRace(race)));
                 }

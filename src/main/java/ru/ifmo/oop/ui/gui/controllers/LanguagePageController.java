@@ -19,13 +19,18 @@ public class LanguagePageController implements Initializable {
     public ComboBox chooseType;
     public TextField textName;
     public CheckBox radioDictionary;
+    private UIPlanetManager planetManager;
     enum Mode{
         UPDATE,
         CREATE
-    };
-    Mode mode;
-    Language language;
-    int idPlanet;
+    }
+    private Mode mode;
+    private Language language;
+    private int idPlanet;
+
+    public void setPlanetManager(UIPlanetManager planetManager) {
+        this.planetManager = planetManager;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -66,9 +71,9 @@ public class LanguagePageController implements Initializable {
         try {
 
             if (mode == Mode.UPDATE) {
-                UIPlanetManager.getInstance().changeLanguageOfPlanet(language.getIdPlanet(), language.getId(), new Language(language.getId(), textName.getText(), (LanguageDTO.Type) chooseType.getSelectionModel().getSelectedItem(), radioDictionary.isSelected(), language.getIdPlanet()));
+                planetManager.changeLanguageOfPlanet(language.getIdPlanet(), language.getId(), new Language(language.getId(), textName.getText(), (LanguageDTO.Type) chooseType.getSelectionModel().getSelectedItem(), radioDictionary.isSelected(), language.getIdPlanet()));
             } else {
-                UIPlanetManager.getInstance().addLanguageToPlanet(idPlanet, new Language(textName.getText(), (LanguageDTO.Type) chooseType.getSelectionModel().getSelectedItem(), radioDictionary.isSelected(), idPlanet));
+                planetManager.addLanguageToPlanet(idPlanet, new Language(textName.getText(), (LanguageDTO.Type) chooseType.getSelectionModel().getSelectedItem(), radioDictionary.isSelected(), idPlanet));
             }
         }
         catch (Exception e){

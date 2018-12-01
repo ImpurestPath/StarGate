@@ -14,7 +14,7 @@ import java.util.List;
 public class SQLLanguageDAO implements LanguageDAO {
     private Connection connection;
 
-    public SQLLanguageDAO(Connection connection) {
+    SQLLanguageDAO(Connection connection) {
         this.connection = connection;
     }
 
@@ -57,7 +57,7 @@ public class SQLLanguageDAO implements LanguageDAO {
     }
 
     @Override
-    public int insert(int idPlanet, LanguageDTO languageDTO) throws ExceptionDAO {
+    public int add(int idPlanet, LanguageDTO languageDTO) throws ExceptionDAO {
         try {
             PreparedStatement preparedStatementCountry = connection.prepareStatement("INSERT INTO" +
                     " Language('idPlanet','name','idType','availableDictionary') VALUES (?,?,?,?)");
@@ -88,14 +88,38 @@ public class SQLLanguageDAO implements LanguageDAO {
     }
 
     @Override
-    public void update(int idLanguage, LanguageDTO language) throws ExceptionDAO {
+    public LanguageDTO get(int id) {
+        return null; //Not implemented
+    }
+
+    @Override
+    public int add(LanguageDTO obj) throws ExceptionDAO {
+        try {
+            PreparedStatement preparedStatementCountry = connection.prepareStatement("INSERT INTO" +
+                    " Language('idPlanet','name','idType','availableDictionary') VALUES (?,?,?,?)");
+            preparedStatementCountry.setInt(1, obj.getIdPlanet());
+            preparedStatementCountry.setString(2, obj.getName());
+            preparedStatementCountry.setInt(3, getIdType(obj.getType()));
+            preparedStatementCountry.setInt(4, obj.isAvailableDictionary() ? 1 : 0);
+            preparedStatementCountry.execute();
+            int languageID = this.connection.createStatement().executeQuery(
+                    "SELECT last_insert_rowid()").getInt(1);
+            obj.setId(languageID);
+            return languageID;
+        } catch (SQLException e) {
+            throw new ExceptionDAO(e);
+        }
+    }
+
+    @Override
+    public void update(LanguageDTO language) throws ExceptionDAO {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "UPDATE Language SET name = ?, idType = ?, availableDictionary = ? WHERE idLanguage = ?");
             preparedStatement.setString(1, language.getName());
             preparedStatement.setInt(2, getIdType(language.getType()));
             preparedStatement.setInt(3, language.isAvailableDictionary() ? 1 : 0);
-            preparedStatement.setInt(4, idLanguage);
+            preparedStatement.setInt(4, language.getId());
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new ExceptionDAO(e);

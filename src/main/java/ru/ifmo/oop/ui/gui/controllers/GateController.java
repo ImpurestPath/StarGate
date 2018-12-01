@@ -18,7 +18,7 @@ public class GateController implements Initializable {
 
     public ProgressBar progressBar;
     public Label lblName;
-
+    //TODO exit after entering to the gate
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Timeline timeline = new Timeline(

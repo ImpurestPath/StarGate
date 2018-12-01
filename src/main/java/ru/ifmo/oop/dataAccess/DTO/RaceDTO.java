@@ -11,30 +11,15 @@ public class RaceDTO {
     private final Behavior behavior;
     private int idCountry;
 
-    RaceDTO(String name, long amount, boolean angry) {
-        this.id = -1;
-        this.name = name;
-        this.amount = amount;
-        if (angry) behavior = Behavior.ANGRY;
-        else behavior = Behavior.NEUTRAL;
-    }
-
-    public RaceDTO(String name, long amount, String behavior, int idCountry) {
+/*    public RaceDTO(String name, long amount, String behavior, int idCountry) {
         this.id = -1;
         this.name = name;
         this.amount = amount;
         if (behavior.equals("ANGRY")) this.behavior = Behavior.ANGRY;
         else this.behavior = Behavior.NEUTRAL;
         this.idCountry = idCountry;
-    }
+    }*/
 
-    RaceDTO(int id, String name, long amount, boolean angry) {
-        this.id = id;
-        this.name = name;
-        this.amount = amount;
-        if (angry) behavior = Behavior.ANGRY;
-        else behavior = Behavior.NEUTRAL;
-    }
     public RaceDTO(int id, String name, long amount, String behavior, int idCountry) {
         this.id = -1;
         this.name = name;
@@ -45,13 +30,6 @@ public class RaceDTO {
         this.id = id;
     }
 
-    RaceDTO(int id, String name, long amount, String behavior) {
-        this.id = id;
-        this.name = name;
-        this.amount = amount;
-        if (behavior.equals("ANGRY")) this.behavior = Behavior.ANGRY;
-        else this.behavior = Behavior.NEUTRAL;
-    }
     public RaceDTO(int id, String name, long amount, Behavior behavior, int idCountry) {
         this.id = id;
         this.name = name;
@@ -59,17 +37,12 @@ public class RaceDTO {
         this.behavior = behavior;
         this.idCountry = idCountry;
     }
-    public RaceDTO(String name, long amount, Behavior behavior, int idCountry) {
+/*    public RaceDTO(String name, long amount, Behavior behavior, int idCountry) {
         this.id = -1;
         this.name = name;
         this.amount = amount;
         this.behavior = behavior;
         this.idCountry = idCountry;
-    }
-    /*RaceDB(Race race) {
-        this.name = race.getName();
-        this.amount = race.getAmount();
-        this.behavior = race.getBehavior();
     }*/
 
     public long getAmount() {
@@ -80,9 +53,6 @@ public class RaceDTO {
         return behavior;
     }
 
-    public boolean getBoolBehavior() {
-        return (behavior == Behavior.ANGRY);
-    }
 
     public String getName() {
         return name;

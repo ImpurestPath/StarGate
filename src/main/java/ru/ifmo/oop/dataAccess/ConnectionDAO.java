@@ -19,11 +19,11 @@ public interface ConnectionDAO {
     int addLanguage(int idPlanet, LanguageDTO languageDTO) throws ExceptionDAO;
     int addPlanet(PlanetDTO planetDTO) throws ExceptionDAO;
     int addUser(UserDTO userDTO) throws ExceptionDAO;
-    void updateRace(int idRace, RaceDTO race) throws ExceptionDAO;
-    void updateCountry(int idCountry, CountryDTO country) throws ExceptionDAO;
-    void updateLanguage(int idLanguage, LanguageDTO language) throws ExceptionDAO;
-    void updatePlanet(int idPlanet, PlanetDTO planet) throws ExceptionDAO;
-    void updateUser(int idUser, UserDTO userDTO) throws ExceptionDAO;
+    void updateRace(RaceDTO race) throws ExceptionDAO;
+    void updateCountry(CountryDTO country) throws ExceptionDAO;
+    void updateLanguage(LanguageDTO language) throws ExceptionDAO;
+    void updatePlanet(PlanetDTO planet) throws ExceptionDAO;
+    void updateUser(UserDTO userDTO) throws ExceptionDAO;
     void deleteRace(int idRace) throws ExceptionDAO;
     void deleteCountry(int idCountry) throws ExceptionDAO;
     void deleteLanguage(int idLanguage) throws ExceptionDAO;

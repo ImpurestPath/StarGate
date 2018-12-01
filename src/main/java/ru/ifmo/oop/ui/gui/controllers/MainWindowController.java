@@ -47,11 +47,11 @@ public class MainWindowController implements Initializable {
     public ToolBar planetManagementPanel;
     public Label lblUserManagement;
     public ToolBar userManagementPanel;
+    private UIUserManager userManager;
+    private UIPlanetManager planetManager;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ObservableList<PlanetGUI> observableList = FXCollections.observableArrayList(UIPlanetManager.getInstance().getPlanetUIList());
-        listView1.setItems(observableList);
         listView1.setCellFactory(param -> {
                     PlanetListCell listCell = new PlanetListCell();
                     listCell.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
@@ -72,8 +72,19 @@ public class MainWindowController implements Initializable {
         );
     }
 
+    public void setUserManager(UIUserManager userManager) {
+        this.userManager = userManager;
+
+    }
+
+    public void setPlanetManager(UIPlanetManager planetManager) {
+        this.planetManager = planetManager;
+        ObservableList<PlanetGUI> observableList = FXCollections.observableArrayList(planetManager.getPlanetUIList());
+        listView1.setItems(observableList);
+    }
+
     public void updateMode() {
-        if (UIUserManager.getInstance().getMode() == UIUserManager.UserMode.USER) {
+        if (userManager.getMode() == UIUserManager.UserMode.USER) {
             planetManagementPanel.setVisible(false);
             userManagementPanel.setVisible(false);
             lblPlanetManagement.setVisible(false);
@@ -86,7 +97,7 @@ public class MainWindowController implements Initializable {
         }
     }
 
-    public boolean warningWithAgree(String type, String question) {
+    private boolean warningWithAgree(String type, String question) {
         Stage info = new Stage();
         info.initOwner(mainPane.getScene().getWindow());
         info.initModality(Modality.APPLICATION_MODAL);
@@ -117,9 +128,10 @@ public class MainWindowController implements Initializable {
             info.setScene(new Scene(parent));
             PlanetInfoController planetInfoController = loader.getController();
             planetInfoController.setMode(PlanetInfoController.Mode.VIEW);
+            planetInfoController.setPlanetManager(planetManager);
             planetInfoController.setPlanet(item);
             info.showAndWait();
-            this.listView1.setItems(FXCollections.observableArrayList(UIPlanetManager.getInstance().getPlanetUIList()));
+            this.listView1.setItems(FXCollections.observableArrayList(planetManager.getPlanetUIList()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -156,8 +168,9 @@ public class MainWindowController implements Initializable {
             info.setScene(new Scene(parent));
             PlanetPageController planetPageController = loader.getController();
             planetPageController.setMode(PlanetPageController.Mode.CREATE);
+            planetPageController.setPlanetManager(planetManager);
             info.showAndWait();
-            this.listView1.setItems(FXCollections.observableArrayList(UIPlanetManager.getInstance().getPlanetUIList()));
+            this.listView1.setItems(FXCollections.observableArrayList(planetManager.getPlanetUIList()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -176,8 +189,9 @@ public class MainWindowController implements Initializable {
             PlanetPageController planetPageController = loader.getController();
             planetPageController.setMode(PlanetPageController.Mode.UPDATE);
             planetPageController.setPlanet(item);
+            planetPageController.setPlanetManager(planetManager);
             info.showAndWait();
-            this.listView1.setItems(FXCollections.observableArrayList(UIPlanetManager.getInstance().getPlanetUIList()));
+            this.listView1.setItems(FXCollections.observableArrayList(planetManager.getPlanetUIList()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -188,8 +202,8 @@ public class MainWindowController implements Initializable {
         if (item == null) return;
         if (!warningWithAgree("Deleting confirm", "Are you sure?")) return;
         try {
-            UIPlanetManager.getInstance().deletePlanet(TransformerToEntity.toPlanet(item));
-            this.listView1.setItems(FXCollections.observableArrayList(UIPlanetManager.getInstance().getPlanetUIList()));
+            planetManager.deletePlanet(TransformerToEntity.toPlanet(item));
+            this.listView1.setItems(FXCollections.observableArrayList(planetManager.getPlanetUIList()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -208,8 +222,9 @@ public class MainWindowController implements Initializable {
             PlanetInfoController planetInfoController = loader.getController();
             planetInfoController.setMode(PlanetInfoController.Mode.CHANGE);
             planetInfoController.setPlanet(item);
+            planetInfoController.setPlanetManager(planetManager);
             info.showAndWait();
-            this.listView1.setItems(FXCollections.observableArrayList(UIPlanetManager.getInstance().getPlanetUIList()));
+            this.listView1.setItems(FXCollections.observableArrayList(planetManager.getPlanetUIList()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -229,6 +244,7 @@ public class MainWindowController implements Initializable {
             info.setScene(new Scene(parent));
             UserPageController userPageController = loader.getController();
             userPageController.setMode(UserPageController.Mode.CREATE);
+            userPageController.setUserManager(userManager);
             info.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
@@ -244,8 +260,9 @@ public class MainWindowController implements Initializable {
             Parent parent = loader.load();
             info.setScene(new Scene(parent));
             FindUserController findUserController = loader.getController();
-            findUserController.setUserManager(UIUserManager.getInstance());
+            findUserController.setUserManager(userManager);
             findUserController.setMode(FindUserController.Mode.RETURN_USER);
+            findUserController.setUserManager(userManager);
             info.showAndWait();
             return findUserController.getCurrentUser();
         } catch (Exception e) {
@@ -267,6 +284,7 @@ public class MainWindowController implements Initializable {
             UserPageController userPageController = loader.getController();
             userPageController.setMode(UserPageController.Mode.UPDATE);
             userPageController.setUser(user);
+            userPageController.setUserManager(userManager);
             info.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
@@ -279,7 +297,7 @@ public class MainWindowController implements Initializable {
         if (user == null) return;
         if (!warningWithAgree("Deleting confirm", "Are you sure?")) return;
         try {
-            UIUserManager.getInstance().deleteUser(user.getId());
+            userManager.deleteUser(user.getId());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -295,8 +313,9 @@ public class MainWindowController implements Initializable {
             Parent parent = loader.load();
             info.setScene(new Scene(parent));
             FindUserController findUserController = loader.getController();
-            findUserController.setUserManager(UIUserManager.getInstance());
+            findUserController.setUserManager(userManager);
             findUserController.setMode(FindUserController.Mode.ONLY_FIND);
+            findUserController.setUserManager(userManager);
             info.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();

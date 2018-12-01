@@ -8,7 +8,7 @@ public class Language implements Comparable {
     private final String name;
     private final boolean availableDictionary;
     private final Type type;
-    private int idPlanet;
+    private final int idPlanet;
 
     public Language(String name, Type type, boolean availableDictionary,int idPlanet) {
         this.id = -1;
@@ -41,10 +41,12 @@ public class Language implements Comparable {
 
     @Override
     public String toString() {
-        return "MainLogic.Language{" +
-                "name='" + name + '\'' +
+        return "Language{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", availableDictionary=" + availableDictionary +
                 ", type=" + type +
+                ", idPlanet=" + idPlanet +
                 '}';
     }
 
@@ -75,7 +77,4 @@ public class Language implements Comparable {
         return idPlanet;
     }
 
-    public void setIdPlanet(int idPlanet) {
-        this.idPlanet = idPlanet;
-    }
 }

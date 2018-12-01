@@ -14,12 +14,12 @@ public class CountryDTO {
         this.area = area;
         this.idPlanet = idPlanet;
     }
-    public CountryDTO(String name, long area, int idPlanet) {
+/*    public CountryDTO(String name, long area, int idPlanet) {
         this.id = -1;
         this.name = name;
         this.area = area;
         this.idPlanet = idPlanet;
-    }
+    }*/
 
     public long getArea() {
         return area;
