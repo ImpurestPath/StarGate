@@ -20,10 +20,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.ifmo.oop.MainGUI;
 import ru.ifmo.oop.dataAccess.DTO.RaceDTO;
-import ru.ifmo.oop.dataAccess.exception.ExceptionDAO;
 import ru.ifmo.oop.domain.User;
 import ru.ifmo.oop.domain.mappers.TransformerToEntity;
-import ru.ifmo.oop.ui.gui.UIPlanetManager;
+import ru.ifmo.oop.ui.gui.UIPlanetRepository;
 import ru.ifmo.oop.ui.gui.PlanetGUI;
 import ru.ifmo.oop.ui.gui.UIUserManager;
 import ru.ifmo.oop.ui.gui.listCells.PlanetListCell;
@@ -48,7 +47,7 @@ public class MainWindowController implements Initializable {
     public Label lblUserManagement;
     public ToolBar userManagementPanel;
     private UIUserManager userManager;
-    private UIPlanetManager planetManager;
+    private UIPlanetRepository planetManager;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -77,7 +76,7 @@ public class MainWindowController implements Initializable {
 
     }
 
-    public void setPlanetManager(UIPlanetManager planetManager) {
+    public void setPlanetManager(UIPlanetRepository planetManager) {
         this.planetManager = planetManager;
         ObservableList<PlanetGUI> observableList = FXCollections.observableArrayList(planetManager.getPlanetUIList());
         listView1.setItems(observableList);

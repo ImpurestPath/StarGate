@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import ru.ifmo.oop.dataAccess.exception.ExceptionDAO;
 import ru.ifmo.oop.domain.PlanetManager;
 import ru.ifmo.oop.domain.UserManager;
-import ru.ifmo.oop.ui.gui.UIPlanetManager;
+import ru.ifmo.oop.ui.gui.UIPlanetRepository;
 import ru.ifmo.oop.ui.gui.UIUserManager;
 import ru.ifmo.oop.ui.gui.controllers.AuthController;
 import ru.ifmo.oop.ui.gui.controllers.LoadingController;
@@ -26,7 +26,7 @@ public class MainGUI extends Application {
     private static MainWindowController mainWindowController;
     @Override
     public void start(Stage stage) throws Exception {
-        UIPlanetManager planetManager = new UIPlanetManager(2,
+        UIPlanetRepository planetManager = new UIPlanetRepository(2,
                 new PlanetManager("PlanetRepository.db"));
         UIUserManager userManager = new UIUserManager(2, new UserManager("PlanetRepository.db"));
         MainGUI.stage = stage;

@@ -6,7 +6,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import ru.ifmo.oop.domain.Planet;
 import ru.ifmo.oop.ui.gui.PlanetGUI;
-import ru.ifmo.oop.ui.gui.UIPlanetManager;
+import ru.ifmo.oop.ui.gui.UIPlanetRepository;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class PlanetPageController implements Initializable {
     public TextField txtTemperature;
     public TextField txtName;
     private PlanetGUI planet;
-    private UIPlanetManager planetManager;
+    private UIPlanetRepository planetManager;
     public enum Mode{
         CREATE,
         UPDATE
@@ -38,7 +38,7 @@ public class PlanetPageController implements Initializable {
         this.mode = mode;
     }
 
-    public void setPlanetManager(UIPlanetManager planetManager) {
+    public void setPlanetManager(UIPlanetRepository planetManager) {
         this.planetManager = planetManager;
     }
 

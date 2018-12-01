@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import ru.ifmo.oop.dataAccess.DTO.LanguageDTO;
 import ru.ifmo.oop.domain.Language;
-import ru.ifmo.oop.ui.gui.UIPlanetManager;
+import ru.ifmo.oop.ui.gui.UIPlanetRepository;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,7 +19,7 @@ public class LanguagePageController implements Initializable {
     public ComboBox chooseType;
     public TextField textName;
     public CheckBox radioDictionary;
-    private UIPlanetManager planetManager;
+    private UIPlanetRepository planetManager;
     enum Mode{
         UPDATE,
         CREATE
@@ -28,7 +28,7 @@ public class LanguagePageController implements Initializable {
     private Language language;
     private int idPlanet;
 
-    public void setPlanetManager(UIPlanetManager planetManager) {
+    public void setPlanetManager(UIPlanetRepository planetManager) {
         this.planetManager = planetManager;
     }
 

@@ -11,26 +11,18 @@ import ru.ifmo.oop.domain.mappers.TransformerToGUI;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UIPlanetManager {
+public class UIPlanetRepository {
     //TODO split functions
     private final PlanetManager planetManager;
 
 
     private final int idGatePlanet;
     private List<PlanetGUI> planetUIList;
-    private static UIPlanetManager instance = null;
 
-    /*public static synchronized UIPlanetManager getInstance() {
-        //if (instance == null) throw new Exception("No controller");
-        //else
-        return instance;
-    }*/
-
-    public UIPlanetManager(int idGatePlanet, PlanetManager planetManager) {
+    public UIPlanetRepository(int idGatePlanet, PlanetManager planetManager) {
         this.idGatePlanet = idGatePlanet;
         this.planetUIList = new ArrayList<>();
         this.planetManager = planetManager;
-        instance = this;
     }
 
     public class Loader extends Task<Void> {

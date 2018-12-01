@@ -8,7 +8,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import ru.ifmo.oop.MainGUI;
 import ru.ifmo.oop.domain.User;
-import ru.ifmo.oop.ui.gui.UIPlanetManager;
 import ru.ifmo.oop.ui.gui.UIUserManager;
 
 import java.net.URL;

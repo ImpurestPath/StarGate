@@ -19,15 +19,15 @@ public class WarningController implements Initializable {
 
     }
 
-    public void setWarningName(String warning) {
+    void setWarningName(String warning) {
         this.lblWarning.setText(warning);
     }
 
-    public void setQuestion(String question) {
+    void setQuestion(String question) {
         this.lblQuestion.setText(question);
     }
 
-    public boolean isAgree() {
+    boolean isAgree() {
         return agree;
     }
 

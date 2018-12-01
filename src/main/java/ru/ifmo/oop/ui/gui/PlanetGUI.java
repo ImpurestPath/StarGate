@@ -36,7 +36,7 @@ public class PlanetGUI implements Comparable {
         this.countries = countries;
         this.image = new Image("/images/planet.jpg");
     }
-/*    public PlanetGUI(String name, long area, long amountAlive, int temperature, long pressure, RaceDTO.Behavior behavior, List<Language> languages, List<Country> countries) {
+    public PlanetGUI(String name, long area, long amountAlive, int temperature, long pressure, RaceDTO.Behavior behavior, List<Language> languages, List<Country> countries) {
         this.id = -1;
         this.name = name;
         this.area = area;
@@ -47,7 +47,7 @@ public class PlanetGUI implements Comparable {
         this.languages = languages;
         this.countries = countries;
         this.image = new Image("/images/planet.jpg");
-    }*/
+    }
     public List<Language> getLanguages() {
         return languages;
     }

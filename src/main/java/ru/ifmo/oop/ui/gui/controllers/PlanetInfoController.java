@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 import ru.ifmo.oop.domain.Country;
 import ru.ifmo.oop.domain.Language;
 import ru.ifmo.oop.domain.Race;
-import ru.ifmo.oop.ui.gui.UIPlanetManager;
+import ru.ifmo.oop.ui.gui.UIPlanetRepository;
 import ru.ifmo.oop.ui.gui.listCells.CountryListCell;
 import ru.ifmo.oop.ui.gui.listCells.LanguageListCell;
 import ru.ifmo.oop.ui.gui.PlanetGUI;
@@ -42,7 +42,7 @@ public class PlanetInfoController implements Initializable {
     public ToolBar toolsRaces;
     public ImageView imageView;
     private PlanetGUI planet;
-    private UIPlanetManager planetManager;
+    private UIPlanetRepository planetManager;
     public enum Mode{
         VIEW,
         CHANGE
@@ -53,7 +53,7 @@ public class PlanetInfoController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
     }
 
-    public void setPlanetManager(UIPlanetManager planetManager) {
+    public void setPlanetManager(UIPlanetRepository planetManager) {
         this.planetManager = planetManager;
     }
 

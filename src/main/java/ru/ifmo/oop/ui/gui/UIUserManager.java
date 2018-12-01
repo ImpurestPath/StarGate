@@ -14,18 +14,11 @@ public class UIUserManager {
     private User user;
     private final int idGatePlanet;
     private UserMode mode;
-    private static UIUserManager instance = null;
 
-/*    public static synchronized UIUserManager getInstance() {
-        //if (instance == null) throw new Exception("No controller");
-        //else
-        return instance;
-    }*/
 
     public UIUserManager(int idGatePlanet, UserManager userManager) {
         this.idGatePlanet = idGatePlanet;
         this.userManager = userManager;
-        instance = this;
         this.mode = UserMode.USER;
     }
 

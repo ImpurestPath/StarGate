@@ -9,7 +9,7 @@ import ru.ifmo.oop.dataAccess.DTO.RaceDTO;
 import ru.ifmo.oop.domain.Country;
 import ru.ifmo.oop.domain.PlanetManager;
 import ru.ifmo.oop.domain.Race;
-import ru.ifmo.oop.ui.gui.UIPlanetManager;
+import ru.ifmo.oop.ui.gui.UIPlanetRepository;
 
 import java.net.URL;
 import java.util.List;
@@ -24,7 +24,7 @@ public class RacePageController implements Initializable {
     private Mode mode;
     private Race race;
     private List<Country> countries;
-    private UIPlanetManager planetManager;
+    private UIPlanetRepository planetManager;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         chooseBehavior.setItems(FXCollections.observableArrayList());
@@ -32,7 +32,7 @@ public class RacePageController implements Initializable {
         chooseBehavior.getItems().add(RaceDTO.Behavior.NEUTRAL);
     }
 
-    public void setPlanetManager(UIPlanetManager planetManager) {
+    public void setPlanetManager(UIPlanetRepository planetManager) {
         this.planetManager = planetManager;
     }
 

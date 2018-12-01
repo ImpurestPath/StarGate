@@ -22,6 +22,29 @@ public class PlanetManager {
     public PlanetManager(String filename) throws ExceptionDAO {
         this.connection = SQLConnection.getInstance(filename);
     }
+
+    private Planet buildPlanet(int idPlanet) throws ExceptionDAO {
+        PlanetDTO planetDTO = connection.getPlanet(idPlanet);
+        List<CountryDTO> countriesDB = connection.getPlanetCountries(planetDTO.getId());
+        List<Country> countries = new ArrayList<>();
+        for (CountryDTO countryDTO :
+                countriesDB) {
+            List<RaceDTO> racesDB = connection.getCountryRaces(countryDTO.getId());
+            List<Race> races = new ArrayList<>();
+            for (RaceDTO raceDTO :
+                    racesDB) {
+                races.add(TransformerToEntity.toRace(raceDTO));
+            }
+            countries.add(TransformerToEntity.toCountry(countryDTO, races));
+        }
+        List<LanguageDTO> languagesDB = connection.getPlanetLanguages(planetDTO.getId());
+        List<Language> languages = new ArrayList<>();
+        for (LanguageDTO languageDTO :
+                languagesDB) {
+            languages.add(TransformerToEntity.toLanguage(languageDTO));
+        }
+        return TransformerToEntity.toPlanet(planetDTO, languages, countries);
+    }
     //TODO task progress
     public class Loader extends Task<List<Planet>>{
         @Override
@@ -29,25 +52,7 @@ public class PlanetManager {
             List<Planet> planets = new ArrayList<>();
             for (PlanetDTO planetDTO :
                     connection.getAllPlanets()) {
-                List<CountryDTO> countriesDB = connection.getPlanetCountries(planetDTO.getId());
-                List<Country> countries = new ArrayList<>();
-                for (CountryDTO countryDTO :
-                        countriesDB) {
-                    List<RaceDTO> racesDB = connection.getCountryRaces(countryDTO.getId());
-                    List<Race> races = new ArrayList<>();
-                    for (RaceDTO raceDTO :
-                            racesDB) {
-                        races.add(TransformerToEntity.toRace(raceDTO));
-                    }
-                    countries.add(TransformerToEntity.toCountry(countryDTO, races));
-                }
-                List<LanguageDTO> languagesDB = connection.getPlanetLanguages(planetDTO.getId());
-                List<Language> languages = new ArrayList<>();
-                for (LanguageDTO languageDTO :
-                        languagesDB) {
-                    languages.add(TransformerToEntity.toLanguage(languageDTO));
-                }
-                planets.add(TransformerToEntity.toPlanet(planetDTO, languages, countries)); //mappers work
+                planets.add(buildPlanet(planetDTO.getId())); //mappers work
             }
             return Collections.unmodifiableList(planets);
         }
@@ -80,26 +85,7 @@ public class PlanetManager {
 //    }
 
     public Planet get(int idPlanet) throws ExceptionDAO {
-        PlanetDTO planetDTO = connection.getPlanet(idPlanet);
-        List<CountryDTO> countriesDB = connection.getPlanetCountries(planetDTO.getId());
-        List<Country> countries = new ArrayList<>();
-        for (CountryDTO countryDTO :
-                countriesDB) {
-            List<RaceDTO> racesDB = connection.getCountryRaces(countryDTO.getId());
-            List<Race> races = new ArrayList<>();
-            for (RaceDTO raceDTO :
-                    racesDB) {
-                races.add(TransformerToEntity.toRace(raceDTO));
-            }
-            countries.add(TransformerToEntity.toCountry(countryDTO, races));
-        }
-        List<LanguageDTO> languagesDB = connection.getPlanetLanguages(planetDTO.getId());
-        List<Language> languages = new ArrayList<>();
-        for (LanguageDTO languageDTO :
-                languagesDB) {
-            languages.add(TransformerToEntity.toLanguage(languageDTO));
-        }
-        return TransformerToEntity.toPlanet(planetDTO, languages, countries);
+        return buildPlanet(idPlanet);
     }
 
     public void add(Planet planet) throws ExceptionDAO {

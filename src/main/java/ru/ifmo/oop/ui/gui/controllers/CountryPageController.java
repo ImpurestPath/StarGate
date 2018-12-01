@@ -5,7 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import ru.ifmo.oop.domain.Country;
-import ru.ifmo.oop.ui.gui.UIPlanetManager;
+import ru.ifmo.oop.ui.gui.UIPlanetRepository;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -17,14 +17,14 @@ public class CountryPageController implements Initializable {
     public TextField txtArea;
     private Country country;
     private int idPlanet;
-    private UIPlanetManager planetManager;
+    private UIPlanetRepository planetManager;
     public enum Mode{
         UPDATE,
         CREATE
     }
     private Mode mode;
 
-    public void setPlanetManager(UIPlanetManager planetManager) {
+    public void setPlanetManager(UIPlanetRepository planetManager) {
         this.planetManager = planetManager;
     }
 
