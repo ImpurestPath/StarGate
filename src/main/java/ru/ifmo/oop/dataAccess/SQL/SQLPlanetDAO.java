@@ -1,7 +1,7 @@
 package ru.ifmo.oop.dataAccess.SQL;
 
 import ru.ifmo.oop.dataAccess.DTO.PlanetDTO;
-import ru.ifmo.oop.dataAccess.exception.ExceptionDAO;
+import ru.ifmo.oop.dataAccess.exception.DatabaseError;
 import ru.ifmo.oop.dataAccess.PlanetDAO;
 
 import java.sql.*;
@@ -36,7 +36,7 @@ public class SQLPlanetDAO implements PlanetDAO {
     }
 
     @Override
-    public PlanetDTO get(int idPlanet) throws ExceptionDAO {
+    public PlanetDTO get(int idPlanet) throws DatabaseError {
         try (PreparedStatement preparedStatement =
                      connection.prepareStatement(
                              "SELECT idPlanet, name, temperature, pressure FROM Planet " +
@@ -52,11 +52,11 @@ public class SQLPlanetDAO implements PlanetDAO {
             }
             else return null;
         } catch (SQLException e) {
-            throw new ExceptionDAO(e);
+            throw new DatabaseError(e);
         }
     }
 
-    public int add(PlanetDTO planet) throws ExceptionDAO {
+    public int add(PlanetDTO planet) throws DatabaseError {
         try (Statement statement = this.connection.createStatement()) {
             PreparedStatement preparedStatementPlanet = this.connection.prepareStatement(
                     "INSERT INTO Planet(`name`, `temperature`, `pressure`) " +
@@ -71,22 +71,22 @@ public class SQLPlanetDAO implements PlanetDAO {
             return id;
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new ExceptionDAO(e);
+            throw new DatabaseError(e);
         }
     }
 
-    public void delete(int idPlanet) throws ExceptionDAO {
+    public void delete(int idPlanet) throws DatabaseError {
         try (PreparedStatement statement = this.connection.prepareStatement(
                 "DELETE FROM Planet WHERE idPlanet = ?")) {
             statement.setObject(1, idPlanet);
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new ExceptionDAO(e);
+            throw new DatabaseError(e);
         }
     }
 
-    public void update(PlanetDTO planet) throws ExceptionDAO {
+    public void update(PlanetDTO planet) throws DatabaseError {
         try (PreparedStatement preparedStatement =
                      connection.prepareStatement("UPDATE Planet " +
                              "SET name = ?, temperature = ?, pressure = ? " +
@@ -97,7 +97,7 @@ public class SQLPlanetDAO implements PlanetDAO {
             preparedStatement.setInt(4, planet.getId());
             preparedStatement.execute();
         } catch (SQLException e) {
-            throw new ExceptionDAO(e);
+            throw new DatabaseError(e);
         }
     }
 

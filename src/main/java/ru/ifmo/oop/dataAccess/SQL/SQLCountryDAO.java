@@ -2,7 +2,7 @@ package ru.ifmo.oop.dataAccess.SQL;
 
 import ru.ifmo.oop.dataAccess.CountryDAO;
 import ru.ifmo.oop.dataAccess.DTO.CountryDTO;
-import ru.ifmo.oop.dataAccess.exception.ExceptionDAO;
+import ru.ifmo.oop.dataAccess.exception.DatabaseError;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,7 +18,7 @@ public class SQLCountryDAO implements CountryDAO {
         this.connection = connection;
     }
 
-    public int add(int idPlanet, CountryDTO country) throws ExceptionDAO {
+    public int add(int idPlanet, CountryDTO country) throws DatabaseError {
         try {
             PreparedStatement preparedStatementCountry = connection.prepareStatement("INSERT INTO" +
                     " Country('idPlanet','name','area') VALUES (?,?,?)");
@@ -31,10 +31,10 @@ public class SQLCountryDAO implements CountryDAO {
             country.setId(countryID);
             return countryID;
         } catch (SQLException e) {
-            throw new ExceptionDAO(e);
+            throw new DatabaseError(e);
         }
     }
-    public void delete(int idCountry) throws ExceptionDAO {
+    public void delete(int idCountry) throws DatabaseError {
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "DELETE FROM Country WHERE idCountry = ?");
@@ -42,7 +42,7 @@ public class SQLCountryDAO implements CountryDAO {
             preparedStatement.execute();
         }
         catch (SQLException e){
-            throw new ExceptionDAO(e);
+            throw new DatabaseError(e);
         }
     }
 
@@ -52,7 +52,7 @@ public class SQLCountryDAO implements CountryDAO {
     }
 
     @Override
-    public int add(CountryDTO obj) throws ExceptionDAO {
+    public int add(CountryDTO obj) throws DatabaseError {
         try {
             PreparedStatement preparedStatementCountry = connection.prepareStatement("INSERT INTO" +
                     " Country('idPlanet','name','area') VALUES (?,?,?)");
@@ -65,11 +65,11 @@ public class SQLCountryDAO implements CountryDAO {
             obj.setId(countryID);
             return countryID;
         } catch (SQLException e) {
-            throw new ExceptionDAO(e);
+            throw new DatabaseError(e);
         }
     }
 
-    public void update(CountryDTO country) throws ExceptionDAO {
+    public void update(CountryDTO country) throws DatabaseError {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "UPDATE Country SET name = ?, area = ? WHERE idCountry = ?");
@@ -79,11 +79,11 @@ public class SQLCountryDAO implements CountryDAO {
             preparedStatement.execute();
         }
         catch (SQLException e) {
-            throw new ExceptionDAO(e);
+            throw new DatabaseError(e);
         }
     }
     @Override
-    public List<CountryDTO> getPlanetCountries(int idPlanet) throws ExceptionDAO {
+    public List<CountryDTO> getPlanetCountries(int idPlanet) throws DatabaseError {
         try (PreparedStatement preparedStatement = connection.prepareStatement(
                 "SELECT idCountry,name,area FROM Country WHERE idPlanet = ?")) {
             List<CountryDTO> countries = new ArrayList<>();
@@ -98,7 +98,7 @@ public class SQLCountryDAO implements CountryDAO {
             }
             return countries;
         } catch (SQLException e) {
-            throw new ExceptionDAO(e);
+            throw new DatabaseError(e);
         }
     }
 }

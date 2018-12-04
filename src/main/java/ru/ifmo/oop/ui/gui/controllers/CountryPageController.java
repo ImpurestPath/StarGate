@@ -18,11 +18,13 @@ public class CountryPageController implements Initializable {
     private Country country;
     private int idPlanet;
     private UIPlanetRepository planetManager;
-    public enum Mode{
+
+    public enum Mode {
         UPDATE,
         CREATE
     }
-    private Mode mode;
+
+    private Mode mode = Mode.CREATE;
 
     public void setPlanetManager(UIPlanetRepository planetManager) {
         this.planetManager = planetManager;
@@ -37,12 +39,12 @@ public class CountryPageController implements Initializable {
             if (mode == Mode.UPDATE) {
                 planetManager.changeCountryOfPlanet(idPlanet,
                         country.getId(),
-                        new Country(country.getId(),txtName.getText(), Long.parseLong(txtArea.getText()), new ArrayList<>(), idPlanet));
+                        new Country(country.getId(), txtName.getText(), Long.parseLong(txtArea.getText()), new ArrayList<>(), idPlanet));
             } else {
                 planetManager.addCountryToPlanet(idPlanet,
                         new Country(txtName.getText(), Long.parseLong(txtArea.getText()), new ArrayList<>(), idPlanet));
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         ((Stage) txtName.getScene().getWindow()).close();
@@ -52,7 +54,8 @@ public class CountryPageController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
     }
-    public void setCountry(Country country){
+
+    public void setCountry(Country country) {
         this.country = country;
         this.txtName.setText(country.getName());
         this.txtArea.setText(Long.toString(country.getArea()));

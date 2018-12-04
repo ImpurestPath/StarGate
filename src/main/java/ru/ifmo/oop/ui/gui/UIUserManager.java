@@ -1,6 +1,6 @@
 package ru.ifmo.oop.ui.gui;
 
-import ru.ifmo.oop.dataAccess.exception.ExceptionDAO;
+import ru.ifmo.oop.dataAccess.exception.DatabaseError;
 import ru.ifmo.oop.domain.User;
 import ru.ifmo.oop.domain.UserManager;
 
@@ -15,7 +15,7 @@ public class UIUserManager {
         this.mode = UserMode.USER;
     }
 
-    public User get(String name) throws ExceptionDAO {
+    public User get(String name) throws DatabaseError {
         return userManager.get(name);
     }
 
@@ -23,19 +23,19 @@ public class UIUserManager {
         return permissions.contains("a") ? UserMode.ADMIN : UserMode.USER;
     }
 
-    public void add(User user) throws ExceptionDAO {
+    public void add(User user) throws DatabaseError {
         userManager.add(user);
         this.currentUser = user;
         this.mode = getMode(user.getPermission());
     }
 
-    public void update(User user) throws ExceptionDAO {
+    public void update(User user) throws DatabaseError {
         userManager.update(user);
         this.currentUser = userManager.get(user.getName());
         this.mode = getMode(user.getPermission());
     }
 
-    public void delete(int idUser) throws ExceptionDAO {
+    public void delete(int idUser) throws DatabaseError {
         userManager.delete(idUser);
     }
 

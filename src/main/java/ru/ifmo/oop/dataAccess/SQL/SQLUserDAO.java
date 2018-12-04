@@ -1,6 +1,6 @@
 package ru.ifmo.oop.dataAccess.SQL;
 
-import ru.ifmo.oop.dataAccess.exception.ExceptionDAO;
+import ru.ifmo.oop.dataAccess.exception.DatabaseError;
 import ru.ifmo.oop.dataAccess.UserDAO;
 import ru.ifmo.oop.dataAccess.DTO.UserDTO;
 
@@ -19,7 +19,7 @@ public class SQLUserDAO implements UserDAO {
 
 
     @Override
-    public UserDTO get(String name) throws ExceptionDAO {
+    public UserDTO get(String name) throws DatabaseError {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT idUser,Name,Permission,idCurrentPlanet,Password FROM User WHERE Name = ?");
@@ -34,12 +34,12 @@ public class SQLUserDAO implements UserDAO {
                     resultSet.getString(5));
             else return null;
         } catch (SQLException e) {
-            throw new ExceptionDAO(e);
+            throw new DatabaseError(e);
         }
     }
 
     @Override
-    public int add(UserDTO user) throws ExceptionDAO {
+    public int add(UserDTO user) throws DatabaseError {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO" +
                     " User('Name','idCurrentPlanet','Permission','Password') VALUES (?,?,?,?)");
@@ -54,25 +54,25 @@ public class SQLUserDAO implements UserDAO {
             user.setId(raceID);
             return raceID;
         } catch (SQLException e) {
-            throw new ExceptionDAO(e);
+            throw new DatabaseError(e);
         }
     }
 
     @Override
-    public void delete(int idUser) throws ExceptionDAO {
+    public void delete(int idUser) throws DatabaseError {
         try{
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM User WHERE idUser = ?");
             preparedStatement.setInt(1,idUser);
             preparedStatement.execute();
         }
         catch (SQLException e) {
-            throw new ExceptionDAO(e);
+            throw new DatabaseError(e);
         }
 
     }
 
     @Override
-    public UserDTO get(int id) throws ExceptionDAO {
+    public UserDTO get(int id) throws DatabaseError {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT idUser,Name,Permission,idCurrentPlanet,Password FROM User WHERE idUser = ?");
@@ -87,12 +87,12 @@ public class SQLUserDAO implements UserDAO {
                         resultSet.getString(5));
             else return null;
         } catch (SQLException e) {
-            throw new ExceptionDAO(e);
+            throw new DatabaseError(e);
         }
     }
 
     @Override
-    public void update(UserDTO user) throws ExceptionDAO {
+    public void update(UserDTO user) throws DatabaseError {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "UPDATE User SET name = ?, idCurrentPlanet = ?,Permission = ?, Password = ? WHERE idUser = ?");
@@ -104,7 +104,7 @@ public class SQLUserDAO implements UserDAO {
             preparedStatement.execute();
         }
         catch (SQLException e) {
-            throw new ExceptionDAO(e);
+            throw new DatabaseError(e);
         }
     }
 }

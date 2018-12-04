@@ -8,7 +8,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="234.0" prefWidth="305.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.ifmo.oop.ui.gui.controllers.FindUserController">
    <top>
-      <Label text="Find currentUser" BorderPane.alignment="CENTER">
+      <Label text="Find user" BorderPane.alignment="CENTER">
          <font>
             <Font size="20.0" />
          </font>

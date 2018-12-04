@@ -22,7 +22,11 @@ public class AuthController implements Initializable {
     public void setUserManager(UIUserManager userManager) {
         this.userManager = userManager;
     }
-
+    private void cleanScene(){
+        txtUsername.setText("");
+        txtPassword.setText("");
+        lblAttention.setText("");
+    }
     public void btnSignInClicked(ActionEvent actionEvent) {
         try {
             // TODO Change to hash
@@ -30,9 +34,7 @@ public class AuthController implements Initializable {
             if (potentialUser != null && potentialUser.getPassword().equals(txtPassword.getText())){
                 userManager.setCurrentUser(potentialUser);
                 Platform.runLater(MainGUI::loadNext);
-                txtUsername.setText("");
-                txtPassword.setText("");
-                lblAttention.setText("");
+                cleanScene();
             }
             else {
                 lblAttention.setText("No such user or wrong password");
@@ -44,16 +46,13 @@ public class AuthController implements Initializable {
 
     public void btnSignUpClicked(ActionEvent actionEvent) {
         try {
-            userManager.add(
+            userManager.add( //Sign up new user
                     new User(
                             txtUsername.getText(),
                             "",
                             userManager.getIdGatePlanet(),
                             txtPassword.getText()));
-            Platform.runLater(MainGUI::loadNext);
-            txtUsername.setText("");
-            txtPassword.setText("");
-            lblAttention.setText("");
+            lblAttention.setText("Successful. Please log in.");
         } catch (Exception e){
             e.printStackTrace();
         }

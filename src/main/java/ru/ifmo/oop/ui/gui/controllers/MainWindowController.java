@@ -51,7 +51,7 @@ public class MainWindowController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        listView1.setCellFactory(param -> {
+        listView1.setCellFactory(param -> { //Set list cells for planets, handle mouse primary button click
                     PlanetListCell listCell = new PlanetListCell();
                     listCell.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
                         if (event.getButton() == MouseButton.PRIMARY && (!listCell.isEmpty())) {
@@ -79,10 +79,10 @@ public class MainWindowController implements Initializable {
     public void setPlanetManager(UIPlanetRepository planetManager) {
         this.planetManager = planetManager;
         ObservableList<PlanetGUI> observableList = FXCollections.observableArrayList(planetManager.getPlanetUIList());
-        listView1.setItems(observableList);
+        listView1.setItems(observableList); // Update list view
     }
 
-    public void updateMode() {
+    public void updateMode() {    //Needs after changing user
         if (userManager.getMode() == UIUserManager.UserMode.USER) {
             planetManagementPanel.setVisible(false);
             userManagementPanel.setVisible(false);
@@ -96,7 +96,7 @@ public class MainWindowController implements Initializable {
         }
     }
 
-    private boolean warningWithAgree(String type, String question) {
+    private boolean warningWithAgreeButton(String type, String question) { //Create warning window with choose
         Stage info = new Stage();
         info.initOwner(mainPane.getScene().getWindow());
         info.initModality(Modality.APPLICATION_MODAL);
@@ -139,8 +139,8 @@ public class MainWindowController implements Initializable {
     public void btnOpenGateClicked(ActionEvent actionEvent) {
         PlanetGUI item = listView1.getSelectionModel().getSelectedItem();
         if (item == null) return;
-        if (item.getBehavior() == RaceDTO.Behavior.ANGRY) {
-            if (!warningWithAgree("Angry planet", "Are you sure?")) return;
+        if (item.getBehavior() == RaceDTO.Behavior.ANGRY) { //Warning if angry
+            if (!warningWithAgreeButton("Angry planet", "Are you sure?")) return;
         }
         Stage stage = new Stage();
         stage.initOwner(mainPane.getScene().getWindow());
@@ -201,7 +201,7 @@ public class MainWindowController implements Initializable {
     public void btnDeletePlanetClicked(ActionEvent actionEvent) {
         PlanetGUI item = listView1.getSelectionModel().getSelectedItem();
         if (item == null) return;
-        if (!warningWithAgree("Deleting confirm", "Are you sure?")) return;
+        if (!warningWithAgreeButton("Deleting confirm", "Are you sure?")) return;
         try {
             planetManager.deletePlanet(TransformerToEntity.toPlanet(item));
             this.listView1.setItems(FXCollections.observableArrayList(planetManager.getPlanetUIList()));
@@ -296,7 +296,7 @@ public class MainWindowController implements Initializable {
     public void btnDeleteUserClicked(ActionEvent actionEvent) {
         User user = findUser();
         if (user == null) return;
-        if (!warningWithAgree("Deleting confirm", "Are you sure?")) return;
+        if (!warningWithAgreeButton("Deleting confirm", "Are you sure?")) return;
         try {
             userManager.delete(user.getId());
         } catch (Exception e) {

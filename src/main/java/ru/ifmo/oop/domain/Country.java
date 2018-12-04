@@ -20,7 +20,7 @@ public class Country implements Comparable {
         this.name = name;
         this.area = area;
         this.races = races;
-        amountAlive = calculateAmountAlive();
+        this.amountAlive = calculateAmountAlive();
         this.behavior = calculateBehavior();
         this.idPlanet = idPlanet;
     }
@@ -29,7 +29,7 @@ public class Country implements Comparable {
         this.name = name;
         this.area = area;
         this.races = races;
-        amountAlive = calculateAmountAlive();
+        this.amountAlive = calculateAmountAlive();
         this.behavior = calculateBehavior();
         this.idPlanet = idPlanet;
     }

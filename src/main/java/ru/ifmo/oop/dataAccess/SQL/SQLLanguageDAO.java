@@ -1,6 +1,6 @@
 package ru.ifmo.oop.dataAccess.SQL;
 
-import ru.ifmo.oop.dataAccess.exception.ExceptionDAO;
+import ru.ifmo.oop.dataAccess.exception.DatabaseError;
 import ru.ifmo.oop.dataAccess.LanguageDAO;
 import ru.ifmo.oop.dataAccess.DTO.LanguageDTO;
 
@@ -32,7 +32,7 @@ public class SQLLanguageDAO implements LanguageDAO {
     }
 
     @Override
-    public List<LanguageDTO> getPlanetLanguages(int id) throws ExceptionDAO {
+    public List<LanguageDTO> getPlanetLanguages(int id) throws DatabaseError {
         try (PreparedStatement preparedStatement =
                      connection.prepareStatement(
                              "SELECT idLanguage,Language.name,availableDictionary,TL.name " +
@@ -52,12 +52,12 @@ public class SQLLanguageDAO implements LanguageDAO {
             }
             return languages;
         } catch (SQLException e) {
-            throw new ExceptionDAO(e);
+            throw new DatabaseError(e);
         }
     }
 
     @Override
-    public int add(int idPlanet, LanguageDTO languageDTO) throws ExceptionDAO {
+    public int add(int idPlanet, LanguageDTO languageDTO) throws DatabaseError {
         try {
             PreparedStatement preparedStatementCountry = connection.prepareStatement("INSERT INTO" +
                     " Language('idPlanet','name','idType','availableDictionary') VALUES (?,?,?,?)");
@@ -71,19 +71,19 @@ public class SQLLanguageDAO implements LanguageDAO {
             languageDTO.setId(languageID);
             return languageID;
         } catch (SQLException e) {
-            throw new ExceptionDAO(e);
+            throw new DatabaseError(e);
         }
     }
 
     @Override
-    public void delete(int idLanguage) throws ExceptionDAO {
+    public void delete(int idLanguage) throws DatabaseError {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "DELETE FROM Language WHERE idLanguage = ?");
             preparedStatement.setInt(1, idLanguage);
             preparedStatement.execute();
         } catch (SQLException e) {
-            throw new ExceptionDAO(e);
+            throw new DatabaseError(e);
         }
     }
 
@@ -93,7 +93,7 @@ public class SQLLanguageDAO implements LanguageDAO {
     }
 
     @Override
-    public int add(LanguageDTO obj) throws ExceptionDAO {
+    public int add(LanguageDTO obj) throws DatabaseError {
         try {
             PreparedStatement preparedStatementCountry = connection.prepareStatement("INSERT INTO" +
                     " Language('idPlanet','name','idType','availableDictionary') VALUES (?,?,?,?)");
@@ -107,12 +107,12 @@ public class SQLLanguageDAO implements LanguageDAO {
             obj.setId(languageID);
             return languageID;
         } catch (SQLException e) {
-            throw new ExceptionDAO(e);
+            throw new DatabaseError(e);
         }
     }
 
     @Override
-    public void update(LanguageDTO language) throws ExceptionDAO {
+    public void update(LanguageDTO language) throws DatabaseError {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "UPDATE Language SET name = ?, idType = ?, availableDictionary = ? WHERE idLanguage = ?");
@@ -122,7 +122,7 @@ public class SQLLanguageDAO implements LanguageDAO {
             preparedStatement.setInt(4, language.getId());
             preparedStatement.execute();
         } catch (SQLException e) {
-            throw new ExceptionDAO(e);
+            throw new DatabaseError(e);
         }
     }
 }

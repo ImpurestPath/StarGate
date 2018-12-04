@@ -6,7 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import ru.ifmo.oop.dataAccess.exception.ExceptionDAO;
+import ru.ifmo.oop.dataAccess.exception.DatabaseError;
 import ru.ifmo.oop.domain.PlanetManager;
 import ru.ifmo.oop.domain.UserManager;
 import ru.ifmo.oop.ui.gui.UIPlanetRepository;
@@ -38,17 +38,17 @@ public class MainGUI extends Application {
             stage.setMinWidth(1080);
             stage.setScene(scene);
             stage.show();
-            Task load = planetManager.new Loader();
+            Task load = planetManager.new Loader(); // Loading planets process
             LoadingController loadingController = loader.getController();
-            loadingController.getProgressBar().progressProperty().bind(load.progressProperty());
+            loadingController.getProgressBar().progressProperty().bind(load.progressProperty()); // Sync with loading
             Thread t = new Thread(load);
             t.start();
             scenes = new ArrayList<>();
             next = 0;
-            FXMLLoader auth = new FXMLLoader(MainGUI.class.getResource("/fxml/auth.fxml"));
+            FXMLLoader auth = new FXMLLoader(MainGUI.class.getResource("/fxml/auth.fxml")); // Auth scene
             scenes.add(new Scene(auth.load()));
             ((AuthController)auth.getController()).setUserManager(userManager);
-            FXMLLoader main = new FXMLLoader(MainGUI.class.getResource("/fxml/mainwindow.fxml"));
+            FXMLLoader main = new FXMLLoader(MainGUI.class.getResource("/fxml/mainwindow.fxml")); // Main scene
             scenes.add(new Scene(main.load()));
             mainWindowController = main.getController();
             mainWindowController.setPlanetManager(planetManager);
@@ -57,7 +57,7 @@ public class MainGUI extends Application {
             e.printStackTrace();
         }
     }
-    public static void loadNext(){
+    public static void loadNext(){ // Change scenes in order (auth->main->)
         try {
             mainWindowController.updateMode();
             stage.setScene(scenes.get(next));
@@ -69,8 +69,7 @@ public class MainGUI extends Application {
         }
     }
 
-    public static void main(String[] args) throws ExceptionDAO {
+    public static void main(String[] args) throws DatabaseError {
         launch(args);
-
     }
 }

@@ -3,7 +3,7 @@ package ru.ifmo.oop.ui.gui;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import ru.ifmo.oop.MainGUI;
-import ru.ifmo.oop.dataAccess.exception.ExceptionDAO;
+import ru.ifmo.oop.dataAccess.exception.DatabaseError;
 import ru.ifmo.oop.domain.*;
 import ru.ifmo.oop.domain.mappers.TransformerToEntity;
 import ru.ifmo.oop.domain.mappers.TransformerToGUI;
@@ -52,7 +52,7 @@ public class UIPlanetRepository {
         }
     }
 
-    public void updatePlanet(int idPlanet) throws ExceptionDAO {
+    public void updatePlanet(int idPlanet) throws DatabaseError {
         int item = -1;
         int count = 0;
         for (PlanetGUI planetGUI : planetUIList) {
@@ -67,25 +67,25 @@ public class UIPlanetRepository {
         }
     }
 
-    public void changeLanguageOfPlanet(int idPlanet, int idLanguage, Language language) throws ExceptionDAO {
+    public void changeLanguageOfPlanet(int idPlanet, int idLanguage, Language language) throws DatabaseError {
         PlanetGUI item = getPlanet(idPlanet);
         item.getLanguages().set(PlanetManager.findIndex(item.getLanguages(), idLanguage), language);
         planetManager.update(TransformerToEntity.toPlanet(item));
     }
 
-    public void addLanguageToPlanet(int idPlanet, Language language) throws ExceptionDAO {
+    public void addLanguageToPlanet(int idPlanet, Language language) throws DatabaseError {
         PlanetGUI item = getPlanet(idPlanet);
         item.getLanguages().add(language);
         planetManager.update(TransformerToEntity.toPlanet(item));
     }
 
-    public void deleteLanguageFromPlanet(int idPlanet, int idLanguage) throws ExceptionDAO {
+    public void deleteLanguageFromPlanet(int idPlanet, int idLanguage) throws DatabaseError {
         PlanetGUI item = getPlanet(idPlanet);
         item.getLanguages().remove(PlanetManager.findIndex(item.getLanguages(), idLanguage));
         planetManager.update(TransformerToEntity.toPlanet(item));
     }
 
-    public void changeRaceOfCountry(int idPlanet, int idCountry, int idRace, Race race) throws ExceptionDAO {
+    public void changeRaceOfCountry(int idPlanet, int idCountry, int idRace, Race race) throws DatabaseError {
         PlanetGUI item = getPlanet(idPlanet);
         int indexOfCountry = PlanetManager.findIndex(item.getCountries(), idCountry);
         if (indexOfCountry != -1) {
@@ -104,7 +104,7 @@ public class UIPlanetRepository {
         }
     }
 
-    public void addRaceToCountry(int idPlanet, int idCountry, Race race) throws ExceptionDAO {
+    public void addRaceToCountry(int idPlanet, int idCountry, Race race) throws DatabaseError {
         PlanetGUI item = getPlanet(idPlanet);
         int indexOfCountry = PlanetManager.findIndex(item.getCountries(), idCountry);
         if (indexOfCountry != -1) {
@@ -123,7 +123,7 @@ public class UIPlanetRepository {
         }
     }
 
-    public void deleteRaceFromCountry(int idPlanet, int idCountry, int idRace) throws ExceptionDAO {
+    public void deleteRaceFromCountry(int idPlanet, int idCountry, int idRace) throws DatabaseError {
         PlanetGUI item = getPlanet(idPlanet);
         int indexOfCountry = PlanetManager.findIndex(item.getCountries(), idCountry);
         if (indexOfCountry != -1) {
@@ -142,37 +142,37 @@ public class UIPlanetRepository {
         }
     }
 
-    public void addCountryToPlanet(int idPlanet, Country country) throws ExceptionDAO {
+    public void addCountryToPlanet(int idPlanet, Country country) throws DatabaseError {
         PlanetGUI item = getPlanet(idPlanet);
         item.getCountries().add(country);
         planetManager.update(TransformerToEntity.toPlanet(item));
     }
 
-    public void changeCountryOfPlanet(int idPlanet, int idCountry, Country country) throws ExceptionDAO {
+    public void changeCountryOfPlanet(int idPlanet, int idCountry, Country country) throws DatabaseError {
         PlanetGUI item = getPlanet(idPlanet);
         item.getCountries().set(PlanetManager.findIndex(item.getCountries(), idCountry), country);
         planetManager.update(TransformerToEntity.toPlanet(item));
     }
 
-    public void deleteCountryFromPlanet(int idPlanet, int idCountry) throws ExceptionDAO {
+    public void deleteCountryFromPlanet(int idPlanet, int idCountry) throws DatabaseError {
         PlanetGUI item = getPlanet(idPlanet);
         item.getCountries().remove(PlanetManager.findIndex(item.getCountries(), idCountry));
         planetManager.update(TransformerToEntity.toPlanet(item));
     }
 
-    public void addPlanet(Planet planet) throws ExceptionDAO {
+    public void addPlanet(Planet planet) throws DatabaseError {
         planetManager.add(planet);
         planetUIList.add(TransformerToGUI.toPlanet(planetManager.get(planet.getId())));
     }
 
-    public void changePlanet(int idPlanet, Planet planet) throws ExceptionDAO {
+    public void changePlanet(int idPlanet, Planet planet) throws DatabaseError {
         planetManager.update(planet);
         planetUIList.set(
                 PlanetManager.findIndex(planetUIList, idPlanet),
                 TransformerToGUI.toPlanet(planetManager.get(idPlanet)));
     }
 
-    public void deletePlanet(Planet planet) throws ExceptionDAO {
+    public void deletePlanet(Planet planet) throws DatabaseError {
         planetManager.delete(planet);
         planetUIList.remove(PlanetManager.find(planetUIList, planet.getId()));
     }

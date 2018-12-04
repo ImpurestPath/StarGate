@@ -1,6 +1,6 @@
 package ru.ifmo.oop.dataAccess.SQL;
 
-import ru.ifmo.oop.dataAccess.exception.ExceptionDAO;
+import ru.ifmo.oop.dataAccess.exception.DatabaseError;
 import ru.ifmo.oop.dataAccess.RaceDAO;
 import ru.ifmo.oop.dataAccess.DTO.RaceDTO;
 
@@ -28,7 +28,7 @@ public class SQLRaceDAO implements RaceDAO {
     }
 
     @Override
-    public List<RaceDTO> getCountryRaces(int idCountry) throws ExceptionDAO {
+    public List<RaceDTO> getCountryRaces(int idCountry) throws DatabaseError {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT Race.name,amount,B.name,Race.idRace " +
@@ -47,12 +47,12 @@ public class SQLRaceDAO implements RaceDAO {
             }
             return races;
         } catch (SQLException e) {
-            throw new ExceptionDAO(e);
+            throw new DatabaseError(e);
         }
     }
 
     @Override
-    public int add(int idCountry, RaceDTO race) throws ExceptionDAO {
+    public int add(int idCountry, RaceDTO race) throws DatabaseError {
         try {
             PreparedStatement preparedStatementRace = connection.prepareStatement("INSERT INTO" +
                     " Race('idCountry','name','amount','idBehavior') VALUES (?,?,?,?)");
@@ -67,12 +67,12 @@ public class SQLRaceDAO implements RaceDAO {
             race.setId(raceID);
             return raceID;
         } catch (SQLException e) {
-            throw new ExceptionDAO(e);
+            throw new DatabaseError(e);
         }
     }
 
     @Override
-    public void delete(int idRace) throws ExceptionDAO {
+    public void delete(int idRace) throws DatabaseError {
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "DELETE FROM Race WHERE idRace = ?");
@@ -80,7 +80,7 @@ public class SQLRaceDAO implements RaceDAO {
             preparedStatement.execute();
         }
         catch (SQLException e){
-            throw new ExceptionDAO(e);
+            throw new DatabaseError(e);
         }
     }
 
@@ -90,7 +90,7 @@ public class SQLRaceDAO implements RaceDAO {
     }
 
     @Override
-    public int add(RaceDTO obj) throws ExceptionDAO {
+    public int add(RaceDTO obj) throws DatabaseError {
         try {
             PreparedStatement preparedStatementRace = connection.prepareStatement("INSERT INTO" +
                     " Race('idCountry','name','amount','idBehavior') VALUES (?,?,?,?)");
@@ -105,12 +105,12 @@ public class SQLRaceDAO implements RaceDAO {
             obj.setId(raceID);
             return raceID;
         } catch (SQLException e) {
-            throw new ExceptionDAO(e);
+            throw new DatabaseError(e);
         }
     }
 
     @Override
-    public void update(RaceDTO race) throws ExceptionDAO {
+    public void update(RaceDTO race) throws DatabaseError {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "UPDATE Race SET name = ?, amount = ?, idBehavior = ? WHERE idRace = ?");
@@ -121,7 +121,7 @@ public class SQLRaceDAO implements RaceDAO {
             preparedStatement.execute();
         }
         catch (SQLException e) {
-            throw new ExceptionDAO(e);
+            throw new DatabaseError(e);
         }
     }
 }

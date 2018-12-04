@@ -7,7 +7,8 @@ import ru.ifmo.oop.dataAccess.DTO.CountryDTO;
 import ru.ifmo.oop.dataAccess.DTO.LanguageDTO;
 import ru.ifmo.oop.dataAccess.DTO.PlanetDTO;
 import ru.ifmo.oop.dataAccess.DTO.RaceDTO;
-import ru.ifmo.oop.dataAccess.exception.ExceptionDAO;
+import ru.ifmo.oop.dataAccess.exception.ConnectionError;
+import ru.ifmo.oop.dataAccess.exception.DatabaseError;
 import ru.ifmo.oop.dataAccess.SQL.SQLConnection;
 import ru.ifmo.oop.domain.mappers.TransformerToDTO;
 import ru.ifmo.oop.domain.mappers.TransformerToEntity;
@@ -19,11 +20,11 @@ import java.util.List;
 public class PlanetManager {
     private final ConnectionDAO connection;
 
-    public PlanetManager(String filename) throws ExceptionDAO {
+    public PlanetManager(String filename) throws ConnectionError {
         this.connection = SQLConnection.getInstance(filename);
     }
 
-    private Planet buildPlanet(int idPlanet) throws ExceptionDAO {
+    private Planet buildPlanet(int idPlanet) throws DatabaseError {
         PlanetDTO planetDTO = connection.getPlanet(idPlanet);
         List<CountryDTO> countriesDB = connection.getPlanetCountries(planetDTO.getId());
         List<Country> countries = new ArrayList<>();
@@ -48,7 +49,7 @@ public class PlanetManager {
     //TODO task progress
     public class Loader extends Task<List<Planet>>{
         @Override
-        protected List<Planet> call() throws ExceptionDAO {
+        protected List<Planet> call() throws DatabaseError {
             List<Planet> planets = new ArrayList<>();
             for (PlanetDTO planetDTO :
                     connection.getAllPlanets()) {
@@ -84,11 +85,11 @@ public class PlanetManager {
 //        return Collections.unmodifiableList(planets);
 //    }
 
-    public Planet get(int idPlanet) throws ExceptionDAO {
+    public Planet get(int idPlanet) throws DatabaseError {
         return buildPlanet(idPlanet);
     }
 
-    public void add(Planet planet) throws ExceptionDAO {
+    public void add(Planet planet) throws DatabaseError {
         planet.setId(connection.addPlanet(TransformerToDTO.toPlanet(planet)));
         int planetID = planet.getId();
         for (Language language :
@@ -107,7 +108,7 @@ public class PlanetManager {
 
     }
 
-    public void delete(Planet planet) throws ExceptionDAO {
+    public void delete(Planet planet) throws DatabaseError {
         connection.deletePlanet(planet.getId());
         for (Language language : planet.getLanguages()) {
             connection.deleteLanguage(language.getId());
@@ -121,7 +122,7 @@ public class PlanetManager {
         connection.commit(); //How place it?
     }
 
-    public void update(Planet planet) throws ExceptionDAO {
+    public void update(Planet planet) throws DatabaseError {
         Planet original = this.get(planet.getId());
         connection.updatePlanet(TransformerToDTO.toPlanet(planet));
         //planet.setId(id);
