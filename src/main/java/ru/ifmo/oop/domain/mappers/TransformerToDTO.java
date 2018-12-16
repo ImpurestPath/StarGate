@@ -3,7 +3,7 @@ package ru.ifmo.oop.domain.mappers;
 
 import ru.ifmo.oop.dataAccess.DTO.*;
 import ru.ifmo.oop.domain.*;
-
+//TODO move to new layer
 public class TransformerToDTO {
     public static PlanetDTO toPlanet(Planet planet) {
         return new PlanetDTO(planet.getId(), planet.getName(), planet.getTemperature(), planet.getPressure());

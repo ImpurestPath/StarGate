@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class PlanetManager {
+    //TODO make interface
     private final ConnectionDAO connection;
 
     public PlanetManager(String filename) throws ConnectionError {

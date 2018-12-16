@@ -8,7 +8,7 @@ import ru.ifmo.oop.domain.mappers.TransformerToDTO;
 import ru.ifmo.oop.domain.mappers.TransformerToEntity;
 
 public class UserManager {
-
+//TODO make interface
     private final SQLConnection connection;
 
     public UserManager(String file) throws ConnectionError {

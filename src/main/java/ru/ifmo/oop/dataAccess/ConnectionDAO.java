@@ -5,7 +5,7 @@ import ru.ifmo.oop.dataAccess.exception.DatabaseError;
 
 import java.util.List;
 
-//TODO: ask about facade
+//TODO: delete all except commit
 public interface ConnectionDAO {
     void commit() throws DatabaseError;
     List<PlanetDTO> getAllPlanets() throws DatabaseError;

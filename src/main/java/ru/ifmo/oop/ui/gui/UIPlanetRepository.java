@@ -41,7 +41,7 @@ public class UIPlanetRepository {
                     planetUIList.add(TransformerToGUI.toPlanet(planet));
                     i++;
                     this.updateProgress(i, amount);
-                    //Thread.sleep(1);
+                    //Thread.sleep(1000);
                 }
                 Platform.runLater(MainGUI::loadNext);
             } catch (Exception e) {
