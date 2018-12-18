@@ -9,5 +9,6 @@ public interface PlanetDAO extends DAO<PlanetDTO> {
     // Repository
 
     List<PlanetDTO> getAll() throws DatabaseError;
+    List<Integer> getAllId() throws DatabaseError;
 
 }

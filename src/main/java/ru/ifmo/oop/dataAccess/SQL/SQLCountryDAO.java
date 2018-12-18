@@ -14,7 +14,7 @@ import java.util.List;
 public class SQLCountryDAO implements CountryDAO {
     private Connection connection;
 
-    SQLCountryDAO(Connection connection) {
+    public SQLCountryDAO(Connection connection) {
         this.connection = connection;
     }
 

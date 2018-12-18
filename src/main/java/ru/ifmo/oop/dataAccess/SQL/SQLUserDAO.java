@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public class SQLUserDAO implements UserDAO {
     private Connection connection;
 
-    SQLUserDAO(Connection connection) {
+    public SQLUserDAO(Connection connection) {
         this.connection = connection;
     }
 

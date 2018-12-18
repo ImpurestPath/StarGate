@@ -60,9 +60,4 @@ public class FindUserController {
     public User getCurrentUser() {
         return currentUser;
     }
-
-
-
-
-    //TODO finish
 }

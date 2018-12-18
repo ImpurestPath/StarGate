@@ -14,7 +14,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import ru.ifmo.oop.MainGUI;
-import ru.ifmo.oop.domain.StarGate;
+import ru.ifmo.oop.domain.IStarGate;
 import ru.ifmo.oop.domain.User;
 
 import java.net.URL;
@@ -26,6 +26,7 @@ public class GateController implements Initializable {
     public Label lblName;
     private User user;
     private int idDestination;
+    private IStarGate starGate;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -38,9 +39,14 @@ public class GateController implements Initializable {
         timeline.play();
     }
 
+
     public void setPlanet(String name, int id) {
         lblName.setText(name);
         this.idDestination = id;
+    }
+
+    public void setStarGate(IStarGate starGate) {
+        this.starGate = starGate;
     }
 
     public void setUser(User user) {
@@ -53,7 +59,7 @@ public class GateController implements Initializable {
 
     public void keyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.M) {
-            StarGate.moveUser(idDestination, user);
+            starGate.moveUser(idDestination, user);
             Platform.runLater(MainGUI::loadNext);
             ((Stage) lblName.getScene().getWindow()).close();
         }

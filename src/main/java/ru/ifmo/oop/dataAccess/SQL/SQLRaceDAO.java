@@ -23,7 +23,7 @@ public class SQLRaceDAO implements RaceDAO {
                     return 1;
         }
     }
-    SQLRaceDAO(Connection connection) {
+    public SQLRaceDAO(Connection connection) {
         this.connection = connection;
     }
 

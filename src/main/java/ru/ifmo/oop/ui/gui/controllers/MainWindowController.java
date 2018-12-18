@@ -20,8 +20,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.ifmo.oop.MainGUI;
 import ru.ifmo.oop.dataAccess.DTO.RaceDTO;
+import ru.ifmo.oop.domain.IStarGate;
 import ru.ifmo.oop.domain.User;
-import ru.ifmo.oop.domain.mappers.TransformerToEntity;
+import ru.ifmo.oop.mappers.TransformerToEntity;
 import ru.ifmo.oop.ui.gui.UIPlanetRepository;
 import ru.ifmo.oop.ui.gui.PlanetGUI;
 import ru.ifmo.oop.ui.gui.UIUserManager;
@@ -48,6 +49,7 @@ public class MainWindowController implements Initializable {
     public ToolBar userManagementPanel;
     private UIUserManager userManager;
     private UIPlanetRepository planetManager;
+    private IStarGate starGate;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -73,7 +75,14 @@ public class MainWindowController implements Initializable {
 
     public void setUserManager(UIUserManager userManager) {
         this.userManager = userManager;
+    }
 
+    public void setStarGate(IStarGate starGate) {
+        this.starGate = starGate;
+    }
+
+    public void updatePlanets() {
+        this.listView1.setItems(FXCollections.observableArrayList(planetManager.getPlanetUIList()));
     }
 
     public void setPlanetManager(UIPlanetRepository planetManager) {
@@ -130,7 +139,7 @@ public class MainWindowController implements Initializable {
             planetInfoController.setPlanetManager(planetManager);
             planetInfoController.setPlanet(item);
             info.showAndWait();
-            this.listView1.setItems(FXCollections.observableArrayList(planetManager.getPlanetUIList()));
+            updatePlanets();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -150,7 +159,8 @@ public class MainWindowController implements Initializable {
             Parent parent = loader.load();
             stage.setScene(new Scene(parent));
             GateController gateController = loader.getController();
-            gateController.setPlanet(item.getName(),item.getId());
+            gateController.setStarGate(starGate);
+            gateController.setPlanet(item.getName(), item.getId());
             gateController.setUser(userManager.getCurrentUser());
             stage.showAndWait();
             userManager.update(userManager.getCurrentUser());
@@ -171,7 +181,7 @@ public class MainWindowController implements Initializable {
             planetPageController.setMode(PlanetPageController.Mode.CREATE);
             planetPageController.setPlanetManager(planetManager);
             info.showAndWait();
-            this.listView1.setItems(FXCollections.observableArrayList(planetManager.getPlanetUIList()));
+            updatePlanets();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -192,7 +202,7 @@ public class MainWindowController implements Initializable {
             planetPageController.setPlanet(item);
             planetPageController.setPlanetManager(planetManager);
             info.showAndWait();
-            this.listView1.setItems(FXCollections.observableArrayList(planetManager.getPlanetUIList()));
+            updatePlanets();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -204,7 +214,7 @@ public class MainWindowController implements Initializable {
         if (!warningWithAgreeButton("Deleting confirm", "Are you sure?")) return;
         try {
             planetManager.deletePlanet(TransformerToEntity.toPlanet(item));
-            this.listView1.setItems(FXCollections.observableArrayList(planetManager.getPlanetUIList()));
+            updatePlanets();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -225,7 +235,7 @@ public class MainWindowController implements Initializable {
             planetInfoController.setPlanet(item);
             planetInfoController.setPlanetManager(planetManager);
             info.showAndWait();
-            this.listView1.setItems(FXCollections.observableArrayList(planetManager.getPlanetUIList()));
+            updatePlanets();
         } catch (IOException e) {
             e.printStackTrace();
         }

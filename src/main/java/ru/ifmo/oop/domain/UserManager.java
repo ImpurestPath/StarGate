@@ -1,34 +1,52 @@
 package ru.ifmo.oop.domain;
 
 
+import ru.ifmo.oop.dataAccess.ConnectionDAO;
+import ru.ifmo.oop.dataAccess.SQL.SQLUserDAO;
+import ru.ifmo.oop.dataAccess.UserDAO;
 import ru.ifmo.oop.dataAccess.exception.ConnectionError;
 import ru.ifmo.oop.dataAccess.exception.DatabaseError;
-import ru.ifmo.oop.dataAccess.SQL.SQLConnection;
-import ru.ifmo.oop.domain.mappers.TransformerToDTO;
-import ru.ifmo.oop.domain.mappers.TransformerToEntity;
+import ru.ifmo.oop.mappers.TransformerToDTO;
+import ru.ifmo.oop.mappers.TransformerToEntity;
 
-public class UserManager {
-//TODO make interface
-    private final SQLConnection connection;
+import java.sql.Connection;
 
-    public UserManager(String file) throws ConnectionError {
-        this.connection = SQLConnection.getInstance(file);
+public class UserManager implements Manager<User> {
+    private final ConnectionDAO connection;
+    private final UserDAO userDAO;
+
+    public UserManager(ConnectionDAO<Connection> connection) throws ConnectionError {
+        this.connection = connection;
+        this.userDAO = new SQLUserDAO(connection.getConnection());
     }
 
     public User get(String name) throws DatabaseError {
-        return TransformerToEntity.toUser(connection.getUser(name));
+        return TransformerToEntity.toUser(userDAO.get(name));
     }
 
     public void update(User user) throws DatabaseError {
-        connection.updateUser(TransformerToDTO.toUser(user));
+        userDAO.update(TransformerToDTO.toUser(user));
         connection.commit();
     }
+
+    @Override
+    public User get(int id) throws DatabaseError {
+        return null; //No
+    }
+
     public void add(User user) throws DatabaseError {
-        user.setId(connection.addUser(TransformerToDTO.toUser(user)));
+        user.setId(userDAO.add(TransformerToDTO.toUser(user)));
         connection.commit();
     }
+
+    @Override
+    public void delete(User obj) throws DatabaseError {
+        userDAO.delete(obj.getId());
+        connection.commit();
+    }
+
     public void delete(int idUser) throws DatabaseError {
-        connection.deleteUser(idUser);
+        userDAO.delete(idUser);
         connection.commit();
     }
 }

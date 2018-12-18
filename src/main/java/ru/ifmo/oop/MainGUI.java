@@ -1,20 +1,22 @@
 package ru.ifmo.oop;
 
 import javafx.application.Application;
-import javafx.concurrent.Task;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import ru.ifmo.oop.dataAccess.ConnectionDAO;
+import ru.ifmo.oop.dataAccess.SQL.SQLConnection;
 import ru.ifmo.oop.dataAccess.exception.DatabaseError;
-import ru.ifmo.oop.domain.PlanetManager;
-import ru.ifmo.oop.domain.UserManager;
+import ru.ifmo.oop.domain.*;
 import ru.ifmo.oop.ui.gui.UIPlanetRepository;
 import ru.ifmo.oop.ui.gui.UIUserManager;
 import ru.ifmo.oop.ui.gui.controllers.AuthController;
 import ru.ifmo.oop.ui.gui.controllers.LoadingController;
 import ru.ifmo.oop.ui.gui.controllers.MainWindowController;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +28,10 @@ public class MainGUI extends Application {
     private static MainWindowController mainWindowController;
     @Override
     public void start(Stage stage) throws Exception {
+        ConnectionDAO<Connection> connection = new SQLConnection("PlanetRepository.db");
         UIPlanetRepository planetManager = new UIPlanetRepository(2,
-                new PlanetManager("PlanetRepository.db"));
-        UIUserManager userManager = new UIUserManager(2, new UserManager("PlanetRepository.db"));
+                new PlanetManager(connection));
+        UIUserManager userManager = new UIUserManager(2, new UserManager(connection));
         MainGUI.stage = stage;
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/loading.fxml"));
@@ -38,11 +41,7 @@ public class MainGUI extends Application {
             stage.setMinWidth(1080);
             stage.setScene(scene);
             stage.show();
-            Task load = planetManager.new Loader(); // Loading planets process
-            LoadingController loadingController = loader.getController();
-            loadingController.getProgressBar().progressProperty().bind(load.progressProperty()); // Sync with loading
-            Thread t = new Thread(load);
-            t.start();
+            //loadingController.getProgressBar().progressProperty().bind(load.progressProperty()); // Sync with loading
             scenes = new ArrayList<>();
             next = 0;
             FXMLLoader auth = new FXMLLoader(MainGUI.class.getResource("/fxml/auth.fxml")); // Auth scene
@@ -53,6 +52,33 @@ public class MainGUI extends Application {
             mainWindowController = main.getController();
             mainWindowController.setPlanetManager(planetManager);
             mainWindowController.setUserManager(userManager);
+            mainWindowController.setStarGate(new StarGateController());
+            //loadNext();
+            Observable observable = planetManager.load(); // Loading planets process
+            LoadingController loadingController = loader.getController();
+            observable.addListener(new Listener() {
+                @Override
+                public void handle(double progress) {
+                    loadingController.getProgressBar().setProgress(progress);
+                }
+
+                @Override
+                public void onFinish() {
+                    mainWindowController.updatePlanets();
+                    Platform.runLater(MainGUI::loadNext);
+                }
+            });
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        observable.call();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

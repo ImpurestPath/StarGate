@@ -12,7 +12,7 @@ import java.util.List;
 public class SQLPlanetDAO implements PlanetDAO {
     private Connection connection;
 
-    SQLPlanetDAO(Connection connection) {
+    public SQLPlanetDAO(Connection connection) {
         this.connection = connection;
     }
 
@@ -20,13 +20,28 @@ public class SQLPlanetDAO implements PlanetDAO {
         try (Statement statement = this.connection.createStatement()) {
             List<PlanetDTO> planets = new ArrayList<>();
             ResultSet resultSet = statement.executeQuery("SELECT idPlanet, name, temperature, pressure FROM Planet");
-            connection.commit();
+            //connection.commit();
             while (resultSet.next()) {
                 planets.add(new PlanetDTO(
                         resultSet.getInt(1),
                         resultSet.getString(2),
                         resultSet.getInt(3),
                         resultSet.getLong(4)));
+            }
+            return planets;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public List<Integer> getAllId() throws DatabaseError {
+        try (Statement statement = this.connection.createStatement()) {
+            List<Integer> planets = new ArrayList<>();
+            ResultSet resultSet = statement.executeQuery("SELECT idPlanet FROM Planet");
+            while (resultSet.next()) {
+                planets.add(resultSet.getInt(1));
             }
             return planets;
         } catch (SQLException e) {

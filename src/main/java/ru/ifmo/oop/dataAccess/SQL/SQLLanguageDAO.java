@@ -14,7 +14,7 @@ import java.util.List;
 public class SQLLanguageDAO implements LanguageDAO {
     private Connection connection;
 
-    SQLLanguageDAO(Connection connection) {
+    public SQLLanguageDAO(Connection connection) {
         this.connection = connection;
     }
 

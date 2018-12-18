@@ -1,21 +1,15 @@
 package ru.ifmo.oop.ui.gui;
 
-import javafx.application.Platform;
-import javafx.concurrent.Task;
-import ru.ifmo.oop.MainGUI;
 import ru.ifmo.oop.dataAccess.exception.DatabaseError;
 import ru.ifmo.oop.domain.*;
-import ru.ifmo.oop.domain.mappers.TransformerToEntity;
-import ru.ifmo.oop.domain.mappers.TransformerToGUI;
+import ru.ifmo.oop.mappers.TransformerToEntity;
+import ru.ifmo.oop.mappers.TransformerToGUI;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UIPlanetRepository {
-    //TODO split functions
     private final PlanetManager planetManager;
-
-
     private final int idGatePlanet;
     private List<PlanetGUI> planetUIList;
 
@@ -24,8 +18,61 @@ public class UIPlanetRepository {
         this.planetUIList = new ArrayList<>();
         this.planetManager = planetManager;
     }
+    public Observable<List<PlanetGUI>> load(){
+        Observable<List<PlanetGUI>> observable = new Observable<List<PlanetGUI>>() {
+            List<Listener> listeners = new ArrayList<>();
+            @Override
+            public void addListener(Listener listener) {
+                listeners.add(listener);
+            }
 
-    public class Loader extends Task<Void> {
+            @Override
+            public void deleteListener(Listener listener) {
+                listeners.remove(listener);
+            }
+
+            @Override
+            public void notifyListeners(double value) {
+                for (Listener listener : listeners){
+                    listener.handle(value);
+                }
+            }
+
+            @Override
+            public void finishListeners() {
+                for (Listener listener : listeners){
+                    listener.onFinish();
+                }
+            }
+
+            @Override
+            public List<PlanetGUI> call() throws Exception {
+                Observable<List<Planet>> fromDB = planetManager.getAll();
+                fromDB.addListener(new Listener() {
+                    @Override
+                    public void handle(double progress) {
+                        notifyListeners(progress/2);
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                });
+                List<Planet> planets = fromDB.call();
+                int amount = planets.size();
+                for (Planet planet :
+                        planets) {
+                    planetUIList.add(TransformerToGUI.toPlanet(planet));
+                    notifyListeners((double) planetUIList.size() / amount);
+                }
+                finishListeners();
+                return planetUIList;
+            }
+        };
+        return observable;
+    }
+    /*public class Loader extends Task<Void> {
         @Override
         protected Void call() {
             try {
@@ -50,7 +97,7 @@ public class UIPlanetRepository {
             }
             return null;
         }
-    }
+    }*/
 
     public void updatePlanet(int idPlanet) throws DatabaseError {
         int item = -1;
