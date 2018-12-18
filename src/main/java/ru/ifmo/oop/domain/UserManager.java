@@ -11,7 +11,7 @@ import ru.ifmo.oop.mappers.TransformerToEntity;
 
 import java.sql.Connection;
 
-public class UserManager implements Manager<User> {
+public class UserManager implements IUserManager {
     private final ConnectionDAO connection;
     private final UserDAO userDAO;
 
@@ -45,8 +45,8 @@ public class UserManager implements Manager<User> {
         connection.commit();
     }
 
-    public void delete(int idUser) throws DatabaseError {
+    /*public void delete(int idUser) throws DatabaseError {
         userDAO.delete(idUser);
         connection.commit();
-    }
+    }*/
 }

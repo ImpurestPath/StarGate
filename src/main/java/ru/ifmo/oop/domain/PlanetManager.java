@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PlanetManager implements Manager<Planet> {
+public class PlanetManager implements IPlanetManager {
     private final ConnectionDAO connection;
     private final CountryDAO countryDAO;
     private final LanguageDAO languageDAO;
