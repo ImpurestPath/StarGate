@@ -2,6 +2,7 @@ package ru.ifmo.oop.ui.gui;
 
 import ru.ifmo.oop.dataAccess.exception.DatabaseError;
 import ru.ifmo.oop.domain.*;
+import ru.ifmo.oop.domain.interfaces.Listener;
 import ru.ifmo.oop.mappers.TransformerToEntity;
 import ru.ifmo.oop.mappers.TransformerToGUI;
 
@@ -18,40 +19,17 @@ public class UIPlanetRepository {
         this.planetUIList = new ArrayList<>();
         this.planetManager = planetManager;
     }
-    public Observable<List<PlanetGUI>> load(){
-        Observable<List<PlanetGUI>> observable = new Observable<List<PlanetGUI>>() {
-            List<Listener> listeners = new ArrayList<>();
-            @Override
-            public void addListener(Listener listener) {
-                listeners.add(listener);
-            }
 
+    public Observable<List<PlanetGUI>> load() {
+        Observable<List<PlanetGUI>> observable = new Observable<>() {
             @Override
-            public void deleteListener(Listener listener) {
-                listeners.remove(listener);
-            }
-
-            @Override
-            public void notifyListeners(double value) {
-                for (Listener listener : listeners){
-                    listener.handle(value);
-                }
-            }
-
-            @Override
-            public void finishListeners() {
-                for (Listener listener : listeners){
-                    listener.onFinish();
-                }
-            }
-
-            @Override
-            public List<PlanetGUI> call() throws Exception {
+            public List<PlanetGUI> mainActivity() throws Exception {
+                planetUIList = new ArrayList<>();
                 Observable<List<Planet>> fromDB = planetManager.getAll();
                 fromDB.addListener(new Listener() {
                     @Override
                     public void handle(double progress) {
-                        notifyListeners(progress/2);
+                        notifyListeners(progress / 2);
                     }
 
                     @Override
@@ -59,45 +37,22 @@ public class UIPlanetRepository {
 
                     }
                 });
-                List<Planet> planets = fromDB.call();
+                fromDB.call();
+                List<Planet> planets = fromDB.getResult();
                 int amount = planets.size();
                 for (Planet planet :
                         planets) {
                     planetUIList.add(TransformerToGUI.toPlanet(planet));
-                    notifyListeners((double) planetUIList.size() / amount);
+                    notifyListeners((double) planetUIList.size() / amount / 2 + 0.5);
+                    Thread.sleep(1000);
                 }
                 finishListeners();
                 return planetUIList;
             }
+
         };
         return observable;
     }
-    /*public class Loader extends Task<Void> {
-        @Override
-        protected Void call() {
-            try {
-                Task load = planetManager.new Loader();
-                Thread t = new Thread(load);
-                t.start();
-                t.join();
-                List<Planet> planets = (List<Planet>) load.get();
-                int amount = planets.size();
-                int i = 0;
-                for (Planet planet :
-                        planets) {
-                    planetUIList.add(TransformerToGUI.toPlanet(planet));
-                    i++;
-                    this.updateProgress(i, amount);
-                    //Thread.sleep(1000);
-                }
-                Platform.runLater(MainGUI::loadNext);
-            } catch (Exception e) {
-                System.out.println("Failure of loading");
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }*/
 
     public void updatePlanet(int idPlanet) throws DatabaseError {
         int item = -1;

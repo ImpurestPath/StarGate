@@ -3,10 +3,9 @@ package ru.ifmo.oop.ui.gui;
 
 import javafx.scene.image.Image;
 import ru.ifmo.oop.dataAccess.DTO.RaceDTO;
-import ru.ifmo.oop.domain.Comparable;
+import ru.ifmo.oop.domain.interfaces.Comparable;
 import ru.ifmo.oop.domain.Country;
 import ru.ifmo.oop.domain.Language;
-import ru.ifmo.oop.domain.Planet;
 
 
 import java.util.List;

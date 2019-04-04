@@ -6,6 +6,7 @@ import ru.ifmo.oop.dataAccess.SQL.SQLUserDAO;
 import ru.ifmo.oop.dataAccess.UserDAO;
 import ru.ifmo.oop.dataAccess.exception.ConnectionError;
 import ru.ifmo.oop.dataAccess.exception.DatabaseError;
+import ru.ifmo.oop.domain.interfaces.IUserManager;
 import ru.ifmo.oop.mappers.TransformerToDTO;
 import ru.ifmo.oop.mappers.TransformerToEntity;
 

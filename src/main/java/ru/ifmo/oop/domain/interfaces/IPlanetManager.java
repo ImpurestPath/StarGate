@@ -1,4 +1,7 @@
-package ru.ifmo.oop.domain;
+package ru.ifmo.oop.domain.interfaces;
+
+import ru.ifmo.oop.domain.Observable;
+import ru.ifmo.oop.domain.Planet;
 
 import java.util.List;
 

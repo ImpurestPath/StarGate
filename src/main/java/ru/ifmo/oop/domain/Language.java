@@ -1,6 +1,7 @@
 package ru.ifmo.oop.domain;
 
 import ru.ifmo.oop.dataAccess.DTO.LanguageDTO.Type;
+import ru.ifmo.oop.domain.interfaces.Comparable;
 
 public class Language implements Comparable {
 

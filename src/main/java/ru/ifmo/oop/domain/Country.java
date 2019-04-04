@@ -2,6 +2,7 @@ package ru.ifmo.oop.domain;
 
 
 import ru.ifmo.oop.dataAccess.DTO.RaceDTO.Behavior;
+import ru.ifmo.oop.domain.interfaces.Comparable;
 
 import java.util.List;
 

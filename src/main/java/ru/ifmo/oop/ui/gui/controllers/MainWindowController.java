@@ -20,7 +20,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.ifmo.oop.MainGUI;
 import ru.ifmo.oop.dataAccess.DTO.RaceDTO;
-import ru.ifmo.oop.domain.IStarGate;
+import ru.ifmo.oop.domain.interfaces.IStarGate;
 import ru.ifmo.oop.domain.User;
 import ru.ifmo.oop.mappers.TransformerToEntity;
 import ru.ifmo.oop.ui.gui.UIPlanetRepository;
@@ -308,7 +308,7 @@ public class MainWindowController implements Initializable {
         if (user == null) return;
         if (!warningWithAgreeButton("Deleting confirm", "Are you sure?")) return;
         try {
-            userManager.delete(user.getId());
+            userManager.delete(user);
         } catch (Exception e) {
             e.printStackTrace();
         }

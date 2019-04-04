@@ -14,7 +14,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import ru.ifmo.oop.MainGUI;
-import ru.ifmo.oop.domain.IStarGate;
+import ru.ifmo.oop.domain.interfaces.IStarGate;
 import ru.ifmo.oop.domain.User;
 
 import java.net.URL;

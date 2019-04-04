@@ -1,4 +1,4 @@
-package ru.ifmo.oop.domain;
+package ru.ifmo.oop.domain.interfaces;
 
 import ru.ifmo.oop.dataAccess.exception.DatabaseError;
 

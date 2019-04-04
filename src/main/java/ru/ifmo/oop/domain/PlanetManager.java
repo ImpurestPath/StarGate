@@ -11,6 +11,8 @@ import ru.ifmo.oop.dataAccess.SQL.SQLLanguageDAO;
 import ru.ifmo.oop.dataAccess.SQL.SQLPlanetDAO;
 import ru.ifmo.oop.dataAccess.SQL.SQLRaceDAO;
 import ru.ifmo.oop.dataAccess.exception.DatabaseError;
+import ru.ifmo.oop.domain.interfaces.Comparable;
+import ru.ifmo.oop.domain.interfaces.IPlanetManager;
 import ru.ifmo.oop.mappers.TransformerToDTO;
 import ru.ifmo.oop.mappers.TransformerToEntity;
 
@@ -58,75 +60,22 @@ public class PlanetManager implements IPlanetManager {
     }
 
     public Observable<List<Planet>> getAll() {
-        Observable<List<Planet>> observable = new Observable<>() {
-            List<Listener> listeners = new ArrayList<>();
-
+        Observable<List<Planet>> observable = new Observable<List<Planet>>(){
             @Override
-            public void addListener(Listener listener) {
-                listeners.add(listener);
-            }
-
-            @Override
-            public void deleteListener(Listener listener) {
-                listeners.remove(listener);
-            }
-
-            @Override
-            public void notifyListeners(double value) {
-                for (Listener listener : listeners) {
-                    listener.handle(value);
-                }
-            }
-
-            @Override
-            public void finishListeners() {
-                for (Listener listener : listeners) {
-                    listener.onFinish();
-                }
-            }
-
-            @Override
-            public List<Planet> call() throws DatabaseError {
+            public List<Planet> mainActivity() throws Exception{
                 List<Planet> planets = new ArrayList<>();
                 List<Integer> id = planetDAO.getAllId();
                 for (int i :
                         id) {
                     planets.add(buildPlanet(i));
-                    notifyListeners((double) planets.size() / id.size());
+                    updateProgress((double) planets.size() / id.size());
                 }
-                finishListeners();
+                setFinished();
                 return Collections.unmodifiableList(planets);
             }
         };
         return observable;
     }
-
-//    public List<Planet> getAll() throws ExceptionDAO {
-//        List<Planet> planets = new ArrayList<>();
-//        for (PlanetDTO planetDTO :
-//                connection.getAllPlanets()) {
-//            List<CountryDTO> countriesDB = connection.getPlanetCountries(planetDTO.getId());
-//            List<Country> countries = new ArrayList<>();
-//            for (CountryDTO countryDTO :
-//                    countriesDB) {
-//                List<RaceDTO> racesDB = connection.getCountryRaces(countryDTO.getId());
-//                List<Race> races = new ArrayList<>();
-//                for (RaceDTO raceDTO :
-//                        racesDB) {
-//                    races.add(TransformerToEntity.toRace(raceDTO));
-//                }
-//                countries.add(TransformerToEntity.toCountry(countryDTO, races));
-//            }
-//            List<LanguageDTO> languagesDB = connection.getPlanetLanguages(planetDTO.getId());
-//            List<Language> languages = new ArrayList<>();
-//            for (LanguageDTO languageDTO :
-//                    languagesDB) {
-//                languages.add(TransformerToEntity.toLanguage(languageDTO));
-//            }
-//            planets.add(TransformerToEntity.toPlanet(planetDTO, languages, countries)); //mappers work
-//        }
-//        return Collections.unmodifiableList(planets);
-//    }
 
     @Override
     public Planet get(int idPlanet) throws DatabaseError {

@@ -1,5 +1,7 @@
 package ru.ifmo.oop.domain;
 
+import ru.ifmo.oop.domain.interfaces.Comparable;
+
 public class User implements Comparable {
     private int id;
     private final String name;

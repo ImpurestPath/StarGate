@@ -1,15 +1,15 @@
 package ru.ifmo.oop.ui.gui;
 
 import ru.ifmo.oop.dataAccess.exception.DatabaseError;
+import ru.ifmo.oop.domain.interfaces.IUserManager;
 import ru.ifmo.oop.domain.User;
-import ru.ifmo.oop.domain.UserManager;
 
 public class UIUserManager {
-    private final UserManager userManager;
+    private final IUserManager userManager;
     private final int idGatePlanet;
     private User currentUser;
     private UserMode mode;
-    public UIUserManager(int idGatePlanet, UserManager userManager) {
+    public UIUserManager(int idGatePlanet, IUserManager userManager) {
         this.idGatePlanet = idGatePlanet;
         this.userManager = userManager;
         this.mode = UserMode.USER;
@@ -35,8 +35,8 @@ public class UIUserManager {
         this.mode = getMode(user.getPermission());
     }
 
-    public void delete(int idUser) throws DatabaseError {
-        userManager.delete(idUser);
+    public void delete(User user) throws DatabaseError {
+        userManager.delete(user);
     }
 
     public UserMode getMode() {

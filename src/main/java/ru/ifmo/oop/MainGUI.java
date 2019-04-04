@@ -8,8 +8,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ru.ifmo.oop.dataAccess.ConnectionDAO;
 import ru.ifmo.oop.dataAccess.SQL.SQLConnection;
-import ru.ifmo.oop.dataAccess.exception.DatabaseError;
 import ru.ifmo.oop.domain.*;
+import ru.ifmo.oop.domain.interfaces.Listener;
+import ru.ifmo.oop.domain.interfaces.IObservable;
 import ru.ifmo.oop.ui.gui.UIPlanetRepository;
 import ru.ifmo.oop.ui.gui.UIUserManager;
 import ru.ifmo.oop.ui.gui.controllers.AuthController;
@@ -54,7 +55,7 @@ public class MainGUI extends Application {
             mainWindowController.setUserManager(userManager);
             mainWindowController.setStarGate(new StarGateController());
             //loadNext();
-            Observable observable = planetManager.load(); // Loading planets process
+            IObservable observable = planetManager.load(); // Loading planets process
             LoadingController loadingController = loader.getController();
             observable.addListener(new Listener() {
                 @Override
@@ -68,16 +69,7 @@ public class MainGUI extends Application {
                     Platform.runLater(MainGUI::loadNext);
                 }
             });
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        observable.call();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
+            observable.call();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -95,7 +87,7 @@ public class MainGUI extends Application {
         }
     }
 
-    public static void main(String[] args) throws DatabaseError {
+    public static void main(String[] args) {
         launch(args);
     }
 }

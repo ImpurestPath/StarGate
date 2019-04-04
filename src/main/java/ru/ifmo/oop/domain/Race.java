@@ -1,6 +1,7 @@
 package ru.ifmo.oop.domain;
 
 import ru.ifmo.oop.dataAccess.DTO.RaceDTO.Behavior;
+import ru.ifmo.oop.domain.interfaces.Comparable;
 
 public class Race implements Comparable {
     private int id;
